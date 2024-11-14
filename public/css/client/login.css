@@ -1,0 +1,77 @@
+.form-login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-login-container {
+    padding: 20px;
+    background-color: var(--color-1);
+    border-radius: 5px;
+    min-width: 450px;
+    text-align: center;
+}
+
+.form-login-container .logo {
+    text-align: center;
+}
+
+.form-login-container .logo img {
+    max-width: 100px;
+    max-width: 100px;
+    object-fit: cover;
+}
+
+.form-login-container .form-login .title {
+    font-size: var(--font-size-3);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-login-container .form-login .inputs {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+}
+
+.form-login-container .form-login .inputs label {
+    color: var(--color-6);
+    margin: 5px 0;
+    text-align: left;
+}
+
+.form-login-container .form-login .inputs input {
+    border: 1px solid var(--color-6);
+    outline: none;
+    padding: 15px 20px;
+    border-radius: 7px;
+    margin-bottom: 10px;
+}
+
+.form-login-container .form-login .forgot-password {
+    text-align: right;
+    padding-right: 20px;
+    margin-bottom: 20px;
+}
+
+.form-login-container .form-login .error-title {
+    text-align: left;
+    color: var(--color-5);
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.form-login-container button,
+.form-login-container button a {
+    text-decoration: none;
+    color: white;
+    outline: none;
+    border: none;
+    width: 90%;
+    cursor: pointer;
+    padding: 10px;
+    margin: 7px 0;
+    background-color: var(--color);
+    font-weight: bold;
+}

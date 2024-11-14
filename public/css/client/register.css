@@ -1,0 +1,77 @@
+.form-register-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-register-container {
+    padding: 20px;
+    background-color: var(--color-1);
+    border-radius: 5px;
+    min-width: 450px;
+    text-align: center;
+}
+
+.form-register-container .logo {
+    text-align: center;
+}
+
+.form-register-container .logo img {
+    max-width: 100px;
+    max-width: 100px;
+    object-fit: cover;
+}
+
+.form-register-container .form-register .title {
+    font-size: var(--font-size-3);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-register-container .form-register .inputs {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+}
+
+.form-register-container .form-register .inputs label {
+    color: var(--color-6);
+    margin: 5px 0;
+    text-align: left;
+}
+
+.form-register-container .form-register .inputs input {
+    border: 1px solid var(--color-6);
+    outline: none;
+    padding: 15px 20px;
+    border-radius: 7px;
+    margin-bottom: 10px;
+}
+
+.form-register-container .form-register .forgot-password {
+    text-align: right;
+    padding-right: 20px;
+    margin-bottom: 20px;
+}
+
+.form-register-container .form-register .error-title {
+    text-align: left;
+    color: var(--color-5);
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.form-register-container button,
+.form-register-container button a {
+    text-decoration: none;
+    color: white;
+    outline: none;
+    border: none;
+    width: 90%;
+    cursor: pointer;
+    padding: 10px;
+    margin: 7px 0;
+    background-color: var(--color);
+    font-weight: bold;
+}

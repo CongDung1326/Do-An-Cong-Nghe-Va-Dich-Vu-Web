@@ -1,0 +1,97 @@
+.shop-account-container {
+    margin-bottom: 50px;
+}
+
+.shop-account-container table.shop-account {
+    width: 100%;
+    background-color: var(--color-1);
+    border-collapse: collapse;
+    margin: 10px;
+}
+
+.shop-account-container table.shop-account td,
+.shop-account-container table.shop-account th {
+    padding: 15px;
+    border: 1px solid var(--color-6);
+    max-width: 100%;
+}
+
+.shop-account-container table.shop-account thead.top th {
+    background-color: var(--color-3);
+    color: var(--color-1);
+}
+
+.shop-account-container table.shop-account thead.top th:first-child {
+    text-align: left;
+}
+
+.shop-account-container table.shop-account tbody.bottom tr:nth-child(odd) {
+    background-color: var(--color-7);
+}
+
+.shop-account-container table.shop-account tbody.bottom td {
+    text-align: center;
+}
+
+.shop-account-container table.shop-account tbody.bottom td.title {
+    text-align: left;
+}
+
+.shop-account-container table.shop-account tbody.bottom td.title p {
+    font-weight: bold;
+}
+
+.shop-account-container table.shop-account tbody.bottom td.title .comment {
+    font-size: var(--font-size-0);
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.shop-account-container table.shop-account tbody.bottom td span {
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+table.shop-account tbody.bottom td.store span {
+    border: 1px solid var(--color-8);
+}
+
+table.shop-account tbody.bottom td.store span:hover {
+    border: 1px solid var(--color-8);
+    background-color: var(--color-8);
+    color: var(--color-1);
+}
+
+table.shop-account tbody.bottom td.sold span {
+    border: 1px solid var(--color-9);
+}
+
+table.shop-account tbody.bottom td.sold span:hover {
+    border: 1px solid var(--color-9);
+    background-color: var(--color-9);
+    color: var(--color-1);
+}
+
+table.shop-account tbody.bottom td.price span {
+    border: 1px solid var(--color-10);
+}
+
+table.shop-account tbody.bottom td.price span:hover {
+    border: 1px solid var(--color-10);
+    background-color: var(--color-10);
+    color: var(--color-1);
+}
+
+table.shop-account tbody.bottom td.tools.sold-out span {
+    background-color: var(--color-6);
+    color: var(--color-1);
+    pointer-events: none;
+    user-select: none;
+}
+
+table.shop-account tbody.bottom td.tools.have-item span {
+    background-color: var(--color-4);
+    color: var(--color-1);
+}

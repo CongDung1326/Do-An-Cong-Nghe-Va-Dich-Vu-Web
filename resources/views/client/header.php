@@ -1,0 +1,39 @@
+<?php
+// if (!defined(IN_SITE)) die("The Request Not Found");
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $body['title']; ?></title>
+    <meta name="description" content="<?= $body['desc']; ?>">
+    <meta name="keywords" content="<?= isset($body['keyword']) ? $body['keyword'] : $CMSNT->site('keyword'); ?>">
+    <meta name="author" content="<?= $body['author']; ?>">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="<?= base_url("public/css/client/index.css") ?>">
+    <?= loadFileCss("public/css/client/", $css); ?>
+    <?= $body['header'] ?>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <?php
+            if (
+                !is_page("login") &&
+                !is_page("register")
+            )
+                require_once __DIR__ . "/nav.php";
+
+            if (
+                !is_page("login") &&
+                !is_page("register")
+            )
+                require_once __DIR__ . "/sidebar.php";
+            ?>
+        </header>
