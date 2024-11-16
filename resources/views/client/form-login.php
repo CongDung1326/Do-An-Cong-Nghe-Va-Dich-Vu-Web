@@ -7,12 +7,12 @@ if (input_post("username") && input_post("password")) {
     $query = "SELECT * FROM user WHERE username='$username' AND password='$password'";
 
     if ($row = $call_db->get_row($query)) {
-        $_SESSION['information'] = [
+        session_set("information", [
             "id" => $row['id'],
             "name" => $row['name'],
-            "role" => $row['roleId'],
+            "role" => $row['role_id'],
             "avatar" => $row['avatar']
-        ];
+        ]);
 
         redirect(base_url());
     } else {

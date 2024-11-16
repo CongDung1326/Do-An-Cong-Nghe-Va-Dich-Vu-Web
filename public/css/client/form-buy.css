@@ -58,8 +58,6 @@
     border: none;
     padding: 10px;
     width: 90%;
-    color: var(--color-1);
-    background-color: var(--color-9);
     font-weight: bold;
     border-radius: 10px;
     cursor: pointer;
@@ -67,4 +65,13 @@
     bottom: 5%;
     left: 50%;
     transform: translateX(-50%);
+    user-select: none;
+    pointer-events: none;
+}
+
+.form-buy-container .form-buy button.buy {
+    color: var(--color-1);
+    background-color: var(--color-9);
+    user-select: text;
+    pointer-events: all;
 }

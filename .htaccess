@@ -5,10 +5,16 @@ RewriteEngine On
     Deny from all
 </Files>
 
-## Some pub lic
+## Some public
 RewriteRule ^php/([A-Za-z0-9-]+)$ "resources/php/$1.php"
 
 ## User
 RewriteRule ^client/login$ "index.php?module=client&action=login"
 RewriteRule ^client/logout$ "index.php?module=client&action=logout"
 RewriteRule ^client/register$ "index.php?module=client&action=register"
+RewriteRule ^client/deposit$ "index.php?module=client&action=deposit"
+
+## Set tạm thời khi không tìm thấy trang thì show 404 
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* "resources/views/common/404.php"

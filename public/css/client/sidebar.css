@@ -40,6 +40,12 @@
     font-size: var(--font-size-0);
 }
 
+.sidebar-container .side a {
+    color: var(--color-6);
+    font-size: var(--font-size-0);
+    text-decoration: none;
+}
+
 .sidebar-container .side .bottom {
     padding: 10px 0;
 }

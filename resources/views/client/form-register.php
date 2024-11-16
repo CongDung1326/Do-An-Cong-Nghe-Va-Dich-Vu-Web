@@ -25,7 +25,7 @@ if (input_post("username") && input_post("name") && input_post("password") && in
             "email" => $email,
             "name" => $name,
             "avatar" => "assets/storage/default_avatar.jpg",
-            "roleId" => 0
+            "role_id" => 0
         ]);
 
         redirect(base_url("client/login"));

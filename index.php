@@ -1,10 +1,7 @@
 <?php
 define("IN_SITE", true);
-session_start();
-include_once "library/db.php";
-include_once "library/helper.php";
-
-$call_db = new DB();
+ob_start();
+include_once "config.php";
 
 // Config is file exist
 $module = !empty($_GET['module']) ? check_string($_GET['module']) : "client";
@@ -22,3 +19,4 @@ if (file_exists($path)) {
     require_once __DIR__ . "/resources/views/common/404.php";
     exit();
 }
+ob_end_flush();

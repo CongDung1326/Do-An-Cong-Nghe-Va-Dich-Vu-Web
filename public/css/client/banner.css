@@ -26,6 +26,57 @@
 .banner-container .banner .order {
     display: flex;
     justify-content: space-between;
+    padding: 0 10px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.banner-container .banner .order tbody {
+    width: 100%;
+}
+
+.banner-container .banner .order td,
+.banner-container .banner .order tr {
+    border: 1px solid var(--color-6);
     padding: 10px;
+}
+
+.banner-container .banner .order td i {
+    margin-right: 5px;
+}
+
+.banner-container .banner .order .name-user {
+    color: var(--color-9);
     font-weight: bold;
+}
+
+.banner-container .banner .order .amount {
+    color: var(--color-10);
+    font-weight: bold;
+}
+
+.banner-container .banner .order .name-account {
+    font-weight: bold;
+}
+
+.banner-container .banner .order .money {
+    color: var(--color-4);
+    font-weight: bold;
+}
+
+.banner-container .banner .order .infor {
+    width: 80%;
+}
+
+.banner-container .banner .order .time {
+    width: 20%;
+}
+
+.banner-container .banner .order .time p {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: var(--color-1);
+    background-color: var(--color-4);
+    font-size: var(--font-size-0);
+    text-transform: capitalize;
 }

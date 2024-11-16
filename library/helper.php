@@ -20,6 +20,11 @@ function redirect($url)
     header("Location: $url");
     exit();
 }
+function reload($time)
+{
+    header("Refresh: $time");
+    exit();
+}
 function input_post($key)
 {
     return isset($_POST[$key]) ? trim($_POST[$key]) : false;
@@ -54,4 +59,62 @@ function is_page($namePage)
     if (end($url) == $namePage) return true;
 
     return false;
+}
+function json_encode_utf8($data)
+{
+    return json_encode($data, JSON_UNESCAPED_UNICODE);
+}
+function json_decode_utf8($json)
+{
+    return json_decode($json, false, 512, JSON_UNESCAPED_UNICODE);
+}
+function timeAgo($time_ago)
+{
+    $time_ago = empty($time_ago) ? 0 : $time_ago;
+    if ($time_ago == 0) {
+        return '--';
+    }
+    $time_ago   = date("Y-m-d H:i:s", $time_ago);
+    $time_ago   = strtotime($time_ago);
+    $cur_time   = time();
+    $time_elapsed   = $cur_time - $time_ago;
+    $seconds    = $time_elapsed;
+    $minutes    = round($time_elapsed / 60);
+    $hours      = round($time_elapsed / 3600);
+    $days       = round($time_elapsed / 86400);
+    $weeks      = round($time_elapsed / 604800);
+    $months     = round($time_elapsed / 2600640);
+    $years      = round($time_elapsed / 31207680);
+    // Seconds
+    if ($seconds <= 60) {
+        return "$seconds " . 'giây trước';
+    }
+    //Minutes
+    elseif ($minutes <= 60) {
+        return "$minutes " . 'phút trước';
+    }
+    //Hours
+    elseif ($hours <= 24) {
+        return "$hours " . 'tiếng trước';
+    }
+    //Days
+    elseif ($days <= 7) {
+        if ($days == 1) {
+            return 'Hôm qua';
+        } else {
+            return "$days " . 'ngày trước';
+        }
+    }
+    //Weeks
+    elseif ($weeks <= 4.3) {
+        return "$weeks " . 'tuần trước';
+    }
+    //Months
+    elseif ($months <= 12) {
+        return "$months " . 'tháng trước';
+    }
+    //Years
+    else {
+        return "$years " . 'năm trước';
+    }
 }
