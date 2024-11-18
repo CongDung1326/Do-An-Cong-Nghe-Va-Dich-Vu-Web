@@ -13,7 +13,7 @@ if (session_get("information")) {
     <div class="close-icon"><i class="fa-solid fa-x"></i></div>
     <div class="side-top">
         <div class="logo"><img src="https://marketplace.canva.com/EAFaFUz4aKo/2/0/1600w/canva-yellow-abstract-cooking-fire-free-logo-JmYWTjUsE-Q.jpg" alt=""></div>
-        <div class="shop-name"><?= $call_db->site("name_shop") ?></div>
+        <div class="shop-name"><?= $call_db->site("name_shop") ?> Panel</div>
     </div>
 
     <div class="side side-user">
@@ -58,9 +58,9 @@ if (session_get("information")) {
 
         <div class="bottom">
             <div class="item">
-                <a href="<?= base_url("client/deposit") ?>">
+                <a href="<?= base_url("admin/manage-deposit") ?>">
                     <i class="fa-solid fa-sd-card"></i>
-                    <div class="text">Nạp Thẻ</div>
+                    <div class="text">Quản Lý Nạp Thẻ</div>
                 </a>
             </div>
         </div>

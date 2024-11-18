@@ -2,10 +2,7 @@
     display: flex;
     justify-content: space-between;
     gap: 20px;
-}
-
-.banner-container .banner {
-    min-width: 450px;
+    padding: 10px;
 }
 
 .banner-container .banner .title {
@@ -17,9 +14,14 @@
     font-weight: bold;
 }
 
+.banner-container div.banner-left,
+.banner-container div.banner-right {
+    width: 50%;
+}
+
 .banner-container div.banner-left .product-recently,
 .banner-container div.banner-right .deposit-recently {
-    min-height: 500px;
+    min-height: 400px;
     background-color: var(--color-1);
 }
 

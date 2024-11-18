@@ -20,7 +20,7 @@ function redirect($url)
     header("Location: $url");
     exit();
 }
-function reload($time)
+function reload($time = 0)
 {
     header("Refresh: $time");
     exit();
@@ -117,4 +117,24 @@ function timeAgo($time_ago)
     else {
         return "$years " . 'năm trước';
     }
+}
+function array_map_length($data)
+{
+    $count = [];
+    for ($i = 1; $i <= count($data); $i++) {
+        array_push($count, $i);
+    }
+
+    return $count;
+}
+function discount($percent)
+{
+    return 1 - ($percent / 100);
+}
+function is_admin()
+{
+    if (!session_get("information")) return false;
+    if (session_get("information") != 2) return false;
+
+    return true;
 }

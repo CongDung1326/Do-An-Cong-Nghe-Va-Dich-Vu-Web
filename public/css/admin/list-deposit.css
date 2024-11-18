@@ -1,0 +1,47 @@
+.list-deposit-container {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: var(--color-1);
+}
+
+.list-deposit-container .title {
+    font-size: var(--font-size-2);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.list-deposit-container table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.list-deposit-container td {
+    padding: 10px;
+    border: 1px solid var(--color-6);
+    text-transform: capitalize;
+}
+
+.list-deposit-container th {
+    padding: 10px;
+    background-color: var(--color-3);
+    color: var(--color-1);
+}
+
+.list-deposit-container button {
+    outline: none;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.list-deposit-container button.success {
+    background-color: var(--color-9);
+    color: var(--color-1);
+}
+
+.list-deposit-container button.failed {
+    background-color: var(--color-10);
+    color: var(--color-1);
+}

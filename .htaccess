@@ -13,6 +13,11 @@ RewriteRule ^client/login$ "index.php?module=client&action=login"
 RewriteRule ^client/logout$ "index.php?module=client&action=logout"
 RewriteRule ^client/register$ "index.php?module=client&action=register"
 RewriteRule ^client/deposit$ "index.php?module=client&action=deposit"
+## Admin
+RewriteRule ^admin/home$ "index.php?module=admin&action=home"
+RewriteRule ^admin$ "index.php?module=admin&action=home"
+RewriteRule ^admin/manage-deposit$ "index.php?module=admin&action=manage-deposit"
+
 
 ## Set tạm thời khi không tìm thấy trang thì show 404 
 RewriteCond %{REQUEST_FILENAME} !-f

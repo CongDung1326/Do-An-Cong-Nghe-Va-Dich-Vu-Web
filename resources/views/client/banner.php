@@ -27,10 +27,16 @@
         <div class="title">Nạp tiền gần đây</div>
         <div class="deposit-recently">
             <table class="order">
-                <td class="infor"><i class="fa-solid fa-money-bill"></i> <span class="name-user">Công Tèo</span> vừa nạp <span class="money">12k</span></td>
-                <td class="time">
-                    <p>12 giờ trước</p>
-                </td>
+                <?php
+                $query = "SELECT b.amount, b.time_created as time, u.name FROM bank b, user u WHERE b.user_id = u.id AND b.status='S';";
+                $banks = $call_db->get_list($query);
+
+                array_map(function ($bank) { ?>
+                    <td class="infor"><i class="fa-solid fa-money-bill"></i> <span class="name-user"><?= $bank['name'] ?></span> vừa nạp <span class="money"><?= number_format($bank['amount']) ?>đ</span></td>
+                    <td class="time">
+                        <p><?= timeAgo($bank['time']); ?></p>
+                    </td>
+                <?php }, $banks); ?>
             </table>
         </div>
     </div>
