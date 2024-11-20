@@ -22,6 +22,7 @@ main {
 main.home {
     background-color: var(--color-2);
     min-height: 800px;
+    padding: 10px;
 }
 
 main.deposit {

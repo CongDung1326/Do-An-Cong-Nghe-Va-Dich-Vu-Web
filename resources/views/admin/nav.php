@@ -15,7 +15,7 @@ $showManageAdmin = session_get("information") ? session_get("information")['role
     <ul class="nav-left">
         <li class="shrink-nav" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></li>
         <li>Tiền: <?= number_format($money); ?>đ</li>
-        <?= $showManageAdmin ? "<li><a href='" . base_url_admin() . "'>Admin Panel</a></li>" : ""; ?>
+        <?= $showManageAdmin ? "<li><a href='" . base_url() . "'>Quay Lại</a></li>" : ""; ?>
         <li><a href="<?= session_get("information") ? base_url("client/logout") : base_url("client/login"); ?>"><?= session_get("information") ? "Đăng xuất" : "Đăng nhập"; ?></a></li>
     </ul>
     <ul class="nav-right">

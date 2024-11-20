@@ -27,25 +27,7 @@ if (session_get("information")) {
                 </a>
             </div>
             <div class="item">
-                <a href="">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <div class="text">Mua Tài Khoản</div>
-                </a>
-            </div>
-            <div class="item">
-                <a href="">
-                    <i class="fa-solid fa-book"></i>
-                    <div class="text">Mua Tài Liệu</div>
-                </a>
-            </div>
-            <div class="item">
-                <a href="">
-                    <i class="fa-brands fa-square-facebook"></i>
-                    <div class="text">Mua Fanpage/Group</div>
-                </a>
-            </div>
-            <div class="item">
-                <a href="">
+                <a href="<?= base_url("client/puchased") ?>">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <div class="text">Lịch Sử Mua Hàng</div>
                 </a>

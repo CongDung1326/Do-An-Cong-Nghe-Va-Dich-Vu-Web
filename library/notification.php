@@ -23,18 +23,18 @@ function show_notification($type = "success" | "error" | "warning", $text, $url 
             get_html("success", "fa-solid fa-check", $text);
             get_css();
             $url == "" ? reload("2") : redirect($url);
-            break;
+            return;
         case "error":
             get_html("error", "fa-solid fa-xmark", $text);
             get_css();
             $url == "" ? reload("2") : redirect($url);
-            break;
+            return;
         case "warning":
             get_html("warning", "fa-solid fa-exclamation", $text);
             get_css();
             $url == "" ? reload("2") : redirect($url);
-            break;
+            return;
         default:
-            break;
+            return;
     }
 }

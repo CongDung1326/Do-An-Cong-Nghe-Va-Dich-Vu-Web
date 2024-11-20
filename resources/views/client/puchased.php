@@ -2,7 +2,7 @@
 // if (!defined(IN_SITE)) die("The Request Not Found");
 
 $body = [
-    "title" => $call_db->site("title"),
+    "title" => "Sản Phẩm Đã Mua",
     "desc" => $call_db->site("description"),
     "keyword" => $call_db->site("keyword"),
     "author" => $call_db->site("author")
@@ -19,13 +19,18 @@ $css = [
     "nav.css",
     "index.css",
     "sidebar.css",
+    "history-puchased.css"
 ];
+
+if (!session_get("information")) {
+    redirect(base_url("client/login"));
+}
 
 require_once __DIR__ . "/header.php";
 ?>
 
 <main class="home">
-    <h1>This page admin panel</h1>
+    <?php require_once __DIR__ . "/history-puchased.php" ?>
 </main>
 
 <?php

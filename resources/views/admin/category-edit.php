@@ -2,7 +2,7 @@
 // if (!defined(IN_SITE)) die("The Request Not Found");
 
 $body = [
-    "title" => $call_db->site("title"),
+    "title" => "Sửa Danh Mục",
     "desc" => $call_db->site("description"),
     "keyword" => $call_db->site("keyword"),
     "author" => $call_db->site("author")
@@ -19,13 +19,18 @@ $css = [
     "nav.css",
     "index.css",
     "sidebar.css",
+    "category-add-form.css",
 ];
+
+if (!input_get("id") || !is_numeric(hash_decode(input_get("id")))) {
+    redirect(base_url());
+}
 
 require_once __DIR__ . "/header.php";
 ?>
 
 <main class="home">
-    <h1>This page admin panel</h1>
+    <?php require_once __DIR__ . "/category-edit-form.php"; ?>
 </main>
 
 <?php

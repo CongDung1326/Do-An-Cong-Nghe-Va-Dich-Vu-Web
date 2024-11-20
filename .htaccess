@@ -13,10 +13,22 @@ RewriteRule ^client/login$ "index.php?module=client&action=login"
 RewriteRule ^client/logout$ "index.php?module=client&action=logout"
 RewriteRule ^client/register$ "index.php?module=client&action=register"
 RewriteRule ^client/deposit$ "index.php?module=client&action=deposit"
+RewriteRule ^client/puchased$ "index.php?module=client&action=puchased"
+RewriteRule ^client/check-puchased$ "index.php?module=client&action=check-puchased"
 ## Admin
 RewriteRule ^admin/home$ "index.php?module=admin&action=home"
-RewriteRule ^admin$ "index.php?module=admin&action=home"
+RewriteRule ^admin/$ "index.php?module=admin&action=home"
 RewriteRule ^admin/manage-deposit$ "index.php?module=admin&action=manage-deposit"
+RewriteRule ^admin/manage-store$ "index.php?module=admin&action=manage-store"
+RewriteRule ^admin/category-add$ "index.php?module=admin&action=category-add"
+RewriteRule ^admin/product-add$ "index.php?module=admin&action=product-add"
+RewriteRule ^admin/category-edit/([A-Za-z0-9-]+)$ "index.php?module=admin&action=category-edit&id=$1"
+RewriteRule ^admin/product-edit/([A-Za-z0-9-]+)$ "index.php?module=admin&action=product-edit&id=$1"
+RewriteRule ^admin/category-remove/([A-Za-z0-9-]+)$ "index.php?module=admin&action=category-remove&id=$1"
+RewriteRule ^admin/product-remove/([A-Za-z0-9-]+)$ "index.php?module=admin&action=product-remove&id=$1"
+RewriteRule ^admin/manage-item$ "index.php?module=admin&action=manage-item"
+RewriteRule ^admin/item-add$ "index.php?module=admin&action=item-add"
+RewriteRule ^admin/item-edit/([A-Za-z0-9-]+)$ "index.php?module=admin&action=item-edit&id=$1"
 
 
 ## Set tạm thời khi không tìm thấy trang thì show 404 

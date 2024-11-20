@@ -13,7 +13,7 @@ function base_url_admin($url = '')
     if ($a == 'http://localhost') {
         $a = 'http://localhost/Do-An-Thuc-Hanh-Cong-Nghe-Va-Dich-Vu-Web';
     }
-    return $a . '/admin' . $url;
+    return $a . '/admin/' . $url;
 }
 function redirect($url)
 {
@@ -127,6 +127,15 @@ function array_map_length($data)
 
     return $count;
 }
+function array_map_length_array($data)
+{
+    $count = [];
+    for ($i = 0; $i < count($data); $i++) {
+        array_push($count, $i);
+    }
+
+    return $count;
+}
 function discount($percent)
 {
     return 1 - ($percent / 100);
@@ -134,7 +143,7 @@ function discount($percent)
 function is_admin()
 {
     if (!session_get("information")) return false;
-    if (session_get("information") != 2) return false;
+    if (session_get("information")['role'] != 2) return false;
 
     return true;
 }

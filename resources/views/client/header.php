@@ -37,8 +37,5 @@
                 !is_page("register")
             )
                 require_once __DIR__ . "/nav.php";
-            if (is_page("deposit") && !session_get("information")) {
-                redirect(base_url("client/login"));
-            }
             ?>
         </header>

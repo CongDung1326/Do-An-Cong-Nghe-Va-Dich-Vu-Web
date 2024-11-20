@@ -17,59 +17,37 @@ if (session_get("information")) {
     </div>
 
     <div class="side side-user">
-        <div class="top">SỐ DƯ <?= number_format($money); ?>đ</div>
-
         <div class="bottom">
             <div class="item">
-                <a href="<?= base_url(); ?>">
+                <a href="<?= base_url_admin(); ?>">
                     <i class="fa-solid fa-house"></i>
                     <div class="text">Bảng Điều Khiển</div>
                 </a>
             </div>
             <div class="item">
-                <a href="">
+                <a href="<?= base_url_admin("manage-store") ?>">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <div class="text">Mua Tài Khoản</div>
+                    <div class="text">Quản Lý Bán Hàng</div>
                 </a>
             </div>
             <div class="item">
-                <a href="">
-                    <i class="fa-solid fa-book"></i>
-                    <div class="text">Mua Tài Liệu</div>
+                <a href="<?= base_url_admin("manage-item") ?>">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    <div class="text">Thêm Hàng</div>
                 </a>
             </div>
             <div class="item">
-                <a href="">
-                    <i class="fa-brands fa-square-facebook"></i>
-                    <div class="text">Mua Fanpage/Group</div>
+                <a href="<?= base_url_admin("manage-item") ?>">
+                    <i class="fa-solid fa-user-group"></i>
+                    <div class="text">Quản Lý Người Dùng</div>
                 </a>
             </div>
-            <div class="item">
-                <a href="">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                    <div class="text">Lịch Sử Mua Hàng</div>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="side side-user">
-        <div class="top">NẠP TIỀN</div>
-
-        <div class="bottom">
             <div class="item">
                 <a href="<?= base_url("admin/manage-deposit") ?>">
                     <i class="fa-solid fa-sd-card"></i>
                     <div class="text">Quản Lý Nạp Thẻ</div>
                 </a>
             </div>
-        </div>
-    </div>
-
-    <div class="side side-user">
-        <div class="top">KHÁC</div>
-
-        <div class="bottom">
             <div class="item">
                 <a href="">
                     <i class="fa-brands fa-blogger"></i>

@@ -7,6 +7,7 @@ if (input_post("id") && input_post("amount")) {
     $table = "store_account_children";
     $tableUser = "user";
     $tableNotification = "notification_buy";
+    $tableAccount = "account";
     $idUser = session_get("information") ? session_get("information")['id'] : false;
 
     if (!$idUser) {
@@ -63,9 +64,13 @@ if (input_post("id") && input_post("amount")) {
     $call_db->insert($tableNotification, [
         "amount" => $amount,
         "user_id" => $idUser,
-        "account_id" => $id,
+        "store_account_children_id" => $id,
         "time" => time()
     ]);
+    $call_db->update($tableAccount, [
+        "is_sold" => "T",
+        "user_id" => $idUser
+    ], "store_account_children_id = $id AND is_sold='F' LIMIT $amount");
 
     die(json_encode_utf8([
         "status" => "success",
