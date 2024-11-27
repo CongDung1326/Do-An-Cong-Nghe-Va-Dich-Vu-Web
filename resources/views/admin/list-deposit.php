@@ -43,9 +43,9 @@
 
 <?php
 if (input_post("deposit_type") && input_post("deposit_type_id") && input_post("user_id")) {
-    $deposit_type = input_post("deposit_type");
-    $deposit_type_id = hash_decode(input_post("deposit_type_id"));
-    $user_id = hash_decode(input_post("user_id"));
+    $deposit_type = check_string(input_post("deposit_type"));
+    $deposit_type_id = hash_decode(check_string(input_post("deposit_type_id")));
+    $user_id = hash_decode(check_string(input_post("user_id")));
     $tableBank = "bank";
     $tableUser = "user";
 

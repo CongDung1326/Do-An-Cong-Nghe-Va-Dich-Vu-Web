@@ -15,10 +15,14 @@ function base_url_admin($url = '')
     }
     return $a . '/admin/' . $url;
 }
-function redirect($url)
+function redirect($url, $time = 0)
 {
-    header("Location: $url");
-    exit();
+    if ($time > 0)
+        header("Refresh: $time; Url=$url");
+    else {
+        header("Location: $url");
+        exit();
+    }
 }
 function reload($time = 0)
 {
@@ -127,15 +131,6 @@ function array_map_length($data)
 
     return $count;
 }
-function array_map_length_array($data)
-{
-    $count = [];
-    for ($i = 0; $i < count($data); $i++) {
-        array_push($count, $i);
-    }
-
-    return $count;
-}
 function discount($percent)
 {
     return 1 - ($percent / 100);
@@ -146,4 +141,50 @@ function is_admin()
     if (session_get("information")['role'] != 2) return false;
 
     return true;
+}
+function generate_string($input, $strength)
+{
+    $input_length = strlen($input);
+    $random_string = '';
+    for ($i = 0; $i < $strength; $i++) {
+        $random_character = $input[mt_rand(0, $input_length - 1)];
+        $random_string .= $random_character;
+    }
+    return $random_string;
+}
+function random_string($length = 20)
+{
+    $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    return generate_string($permitted_chars, $length);
+}
+function first_separator(string $data)
+{
+    return explode(",", $data)[0];
+}
+function list_separator(string $data)
+{
+    return explode(",", $data);
+}
+function check_image($data)
+{
+    $data = explode(".", $data);
+    $extension = end($data);
+    if (!check_types($extension)) {
+        return false;
+    }
+
+    return true;
+}
+function check_types($type)
+{
+    switch ($type) {
+        case "png":
+        case "jpg":
+        case "gif":
+        case "jpeg":
+            return "image";
+        default:
+            return false;
+    }
 }

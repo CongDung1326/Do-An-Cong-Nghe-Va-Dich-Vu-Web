@@ -1,0 +1,99 @@
+.list-account-container .title {
+    font-size: var(--font-size-2);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.list-account-container .wrapper {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    gap: 20px;
+    justify-content: center;
+}
+
+.list-account-container .top {
+    position: relative;
+    width: 250px;
+    min-height: 150px;
+}
+
+.list-account-container .top .image {
+    width: 100%;
+    height: 100%;
+}
+
+.list-account-container .top img {
+    width: 100%;
+    height: 100%;
+}
+
+.list-account-container .bottom img {
+    width: 50px;
+}
+
+.list-account-container .show {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+    color: var(--color-1);
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.25s;
+    opacity: 0;
+}
+
+.list-account-container .image:hover .show {
+    height: 100%;
+    opacity: 1;
+}
+
+.list-account-container .center {
+    color: var(--color-10);
+    font-weight: bold;
+}
+
+.list-account-container .list-account {
+    background-color: var(--color-1);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.list-account-container .list-account .bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-account-container .list-account .bottom .left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+.list-account-container .list-account .bottom .right .price {
+    color: var(--color-10);
+    font-weight: bold;
+}
+
+.list-account-container .list-account button {
+    outline: none;
+    border: none;
+    padding: 10px;
+    color: var(--color-1);
+    background-color: var(--color-12);
+    font-weight: bold;
+    cursor: pointer;
+}

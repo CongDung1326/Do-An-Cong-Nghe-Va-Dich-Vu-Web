@@ -1,0 +1,126 @@
+.user-edit-container {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: var(--color-1);
+}
+
+.user-edit-container .title {
+    font-size: var(--font-size-2);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.user-edit-container form.form-user-edit button[type="submit"] {
+    padding: 10px 15px;
+    outline: none;
+    border: none;
+    background-color: var(--color-9);
+    border-radius: 10px;
+    color: var(--color-1);
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.user-edit-container form.form-user-edit .user {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-edit-container .user-flex {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.user-edit-container form.form-user-edit .user label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.user-edit-container form.form-user-edit .user input,
+.user-edit-container form.form-user-edit .user select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid var(--color-6);
+}
+
+.user-edit-container.flex {
+    display: flex;
+    gap: 10px;
+}
+
+.user-edit-container form.deposit {
+    width: 50%;
+}
+
+.user-edit-container form.deposit button[type="submit"] {
+    padding: 10px 15px;
+    outline: none;
+    border: none;
+    background-color: var(--color-9);
+    border-radius: 10px;
+    color: var(--color-1);
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.user-edit-container form.deposit .user {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-edit-container form.deposit .user label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.user-edit-container form.deposit .user input,
+.user-edit-container form.deposit .user select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid var(--color-6);
+}
+
+.user-edit-container form.deduct-money {
+    width: 50%;
+}
+
+.user-edit-container form.deduct-money button[type="submit"] {
+    padding: 10px 15px;
+    outline: none;
+    border: none;
+    background-color: var(--color-9);
+    border-radius: 10px;
+    color: var(--color-1);
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.user-edit-container form.deduct-money .user {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-edit-container form.deduct-money .user label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.user-edit-container form.deduct-money .user input,
+.user-edit-container form.deduct-money .user select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid var(--color-6);
+}

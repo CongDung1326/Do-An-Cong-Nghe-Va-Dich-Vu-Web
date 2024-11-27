@@ -100,3 +100,13 @@ table.shop-account tbody.bottom td.tools.have-item span {
     background-color: var(--color-4);
     color: var(--color-1);
 }
+
+@media screen and (max-width: 740px) {
+    .shop-account-container .wapper-table {
+        overflow: scroll;
+    }
+
+    .shop-account-container table.shop-account {
+        width: 1000px;
+    }
+}

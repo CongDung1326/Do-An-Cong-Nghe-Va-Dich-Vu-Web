@@ -1,8 +1,10 @@
 <?php
-$id = hash_decode(input_get("id"));
+$id = check_string(hash_decode(input_get("id")));
 
 $query = "SELECT * FROM store_account_parent WHERE id=$id";
 $category = $call_db->get_row($query);
+
+if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
 ?>
 
 <div class="category-add-container">
@@ -18,7 +20,7 @@ $category = $call_db->get_row($query);
 
 <?php
 if (input_post("category_name")) {
-    $category_name = input_post("category_name");
+    $category_name = check_string(input_post("category_name"));
     $table = "store_account_parent";
 
     $call_db->update($table, [

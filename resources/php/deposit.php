@@ -8,11 +8,11 @@ if (
     && input_post("pin")
     && input_post("id")
 ) {
-    $card_type = input_post("card_type");
-    $money_type = input_post("money_type");
-    $serial = input_post("serial");
-    $pin = input_post("pin");
-    $id = hash_decode(input_post("id"));
+    $card_type = check_string(input_post("card_type"));
+    $money_type = check_string(input_post("money_type"));
+    $serial = check_string(input_post("serial"));
+    $pin = check_string(input_post("pin"));
+    $id = hash_decode(check_string(input_post("id")));
 
     if (!$id) {
         die(json_encode_utf8([

@@ -26,9 +26,9 @@ if (!session_get("information")) {
 }
 
 if (input_post("puchased_method") && input_post("puchased_method_id")) {
-    $puchased_method = input_post("puchased_method");
-    $puchased_method_id = hash_decode(input_post("puchased_method_id"));
-    $num_of_times = input_post("num_of_times");
+    $puchased_method = check_string(input_post("puchased_method"));
+    $puchased_method_id = check_string(hash_decode(input_post("puchased_method_id")));
+    // $num_of_times = check_string(input_post("num_of_times"));
     $table = "notification_buy";
 
     if (!$puchased_method_id) {

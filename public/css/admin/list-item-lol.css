@@ -1,0 +1,67 @@
+.list-item-container {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: var(--color-1);
+}
+
+.list-item-container .title {
+    font-size: var(--font-size-2);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.list-item-container table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.list-item-container td {
+    padding: 10px;
+    border: 1px solid var(--color-6);
+}
+
+.list-item-container th {
+    padding: 10px;
+    background-color: var(--color-3);
+    color: var(--color-1);
+}
+
+.list-item-container button {
+    outline: none;
+    border: none;
+}
+
+.list-item-container button a {
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    text-decoration: none;
+}
+
+.list-item-container button.success a {
+    background-color: var(--color-4);
+    color: var(--color-1);
+}
+
+.list-item-container button.failed a {
+    background-color: var(--color-10);
+    color: var(--color-1);
+}
+
+
+.list-item-container .tools {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.list-item-container .tools .add a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: var(--color-9);
+    color: var(--color-1);
+}

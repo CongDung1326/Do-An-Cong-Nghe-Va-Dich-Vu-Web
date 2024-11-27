@@ -22,17 +22,17 @@ function show_notification($type = "success" | "error" | "warning", $text, $url 
         case "success":
             get_html("success", "fa-solid fa-check", $text);
             get_css();
-            $url == "" ? reload("2") : redirect($url);
+            $url == "" ? reload("2") : redirect($url, 2);
             return;
         case "error":
             get_html("error", "fa-solid fa-xmark", $text);
             get_css();
-            $url == "" ? reload("2") : redirect($url);
+            $url == "" ? reload("2") : redirect($url, 2);
             return;
         case "warning":
             get_html("warning", "fa-solid fa-exclamation", $text);
             get_css();
-            $url == "" ? reload("2") : redirect($url);
+            $url == "" ? reload("2") : redirect($url, 2);
             return;
         default:
             return;

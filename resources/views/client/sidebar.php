@@ -27,10 +27,31 @@ if (session_get("information")) {
                 </a>
             </div>
             <div class="item">
-                <a href="<?= base_url("client/puchased") ?>">
+                <a href="<?= base_url("client/shop"); ?>">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <div class="text">Mua Sản Phẩm</div>
+                </a>
+            </div>
+            <div class="item">
+                <div class="drop-down" href="<?= base_url("client/puchased") ?>">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <div class="text">Lịch Sử Mua Hàng</div>
-                </a>
+                    <i class="fa-solid fa-chevron-up right"></i>
+                </div>
+                <ul>
+                    <li>
+                        <a href="<?= base_url("client/puchased") ?>">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <div class="text">Tài Khoản Clone</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= base_url("client/puchased-lol") ?>">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <div class="text">Tài Khoản Liên Minh</div>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -80,5 +101,21 @@ if (session_get("information")) {
 
     btnClose.addEventListener("click", () => {
         containerBanner.classList.add("hidden");
+    })
+
+    let dropDownSidebar = document.querySelector(".sidebar-container .drop-down");
+    let iconDropDownSidebar = document.querySelector('.sidebar-container .drop-down .right');
+    let listDropDownSidebar = document.querySelector('.sidebar-container .item ul');
+
+    dropDownSidebar.addEventListener('click', () => {
+        if (iconDropDownSidebar.classList.contains("fa-chevron-down")) {
+            iconDropDownSidebar.classList.remove("fa-chevron-down");
+            iconDropDownSidebar.classList.add("fa-chevron-up");
+            listDropDownSidebar.style.display = "none";
+        } else {
+            iconDropDownSidebar.classList.remove("fa-chevron-up");
+            iconDropDownSidebar.classList.add("fa-chevron-down");
+            listDropDownSidebar.style.display = "block";
+        }
     })
 </script>

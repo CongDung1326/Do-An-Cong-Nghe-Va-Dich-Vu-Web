@@ -1,8 +1,10 @@
 <?php
-$id = hash_decode(input_get("id"));
+$id = check_string(hash_decode(input_get("id")));
 
 $query = "SELECT a.id, a.username, a.password, s.title FROM account a, store_account_children s WHERE a.store_account_children_id = s.id AND a.id=$id";
 $item = $call_db->get_row($query);
+
+if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
 ?>
 
 <div class="category-add-container">
@@ -37,8 +39,8 @@ $item = $call_db->get_row($query);
 
 <?php
 if (input_post("item_username") && input_post("item_password")) {
-    $item_username = input_post("item_username");
-    $item_password = input_post("item_password");
+    $item_username = check_string(input_post("item_username"));
+    $item_password = check_string(input_post("item_password"));
     $table = "account";
 
     $call_db->update($table, [

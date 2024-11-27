@@ -1,6 +1,6 @@
 <div class="list-item-container">
     <div class="tools">
-        <div class="title">Thêm Hàng</div>
+        <div class="title">Thêm Hàng Clone</div>
         <div class="add"><a href="<?= base_url_admin("item-add") ?>">Thêm</a></div>
     </div>
     <table>
@@ -16,7 +16,7 @@
             <?php
             $query = "SELECT a.id, a.username, a.password, s.title, a.is_sold 
             FROM account a, store_account_children s 
-            WHERE (a.store_account_children_id = s.id) AND a.is_sold = 'F';";
+            WHERE (a.store_account_children_id = s.id) AND a.is_sold = 'F' AND a.type = 'random';";
             $accounts = $call_db->get_list($query);
 
             array_map(function ($account, $count) { ?>
@@ -28,7 +28,7 @@
                     <td><?= $account['is_sold'] == "T" ? "Đã Bán" : "Chưa Bán"; ?></td>
                     <td>
                         <button class="success"><a href="<?= base_url_admin("item-edit/" . hash_encode($account['id'])) ?>">Chỉnh Sửa</a></button>
-                        <button class="failed"><a href="">Xoá</a></button>
+                        <button class="failed"><a href="<?= base_url_admin("item-remove/" . hash_encode($account['id'])) ?>">Xoá</a></button>
                     </td>
                 </tr>
             <?php }, $accounts, array_map_length($accounts)); ?>

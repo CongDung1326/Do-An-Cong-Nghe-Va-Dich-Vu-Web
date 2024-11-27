@@ -64,3 +64,24 @@
     background-color: var(--color-9);
     color: var(--color-1);
 }
+
+.form-product-container .change-page {
+    display: flex;
+    justify-content: right;
+    padding: 10px;
+    gap: 1px;
+}
+
+.form-product-container .change-page input {
+    width: 30px;
+    text-align: center;
+    background-color: var(--color-4);
+    color: var(--color-1);
+}
+
+.form-product-container .change-page button {
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--color-1);
+    border: 1px solid var(--color-6);
+}

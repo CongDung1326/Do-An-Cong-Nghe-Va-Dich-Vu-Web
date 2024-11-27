@@ -1,0 +1,87 @@
+.banner-container {
+    padding: 10px;
+    background-color: var(--color-1);
+    margin: 20px 0;
+}
+
+.banner-container .title {
+    font-size: var(--font-size-2);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.banner-container .banner {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.banner-container .banner .banner-user,
+.banner-container .banner .banner-sold,
+.banner-container .banner .banner-account,
+.banner-container .banner .banner-money {
+    color: var(--color-1);
+    overflow: hidden;
+    display: grid;
+    grid-template-areas:
+        'left left right'
+        'bottom bottom bottom'
+    ;
+    border-radius: 10px;
+    gap: 10px;
+}
+
+.banner-container .banner .right {
+    grid-area: right;
+    font-size: var(--font-size-5);
+    color: rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-container .banner .left {
+    grid-area: left;
+    padding: 10px;
+}
+
+.banner-container .banner .move {
+    grid-area: bottom;
+}
+
+.banner-container .banner .left .amount {
+    font-size: var(--font-size-3);
+    font-weight: bold;
+}
+
+.banner-container .banner .left .title {
+    font-size: var(--font-size-0);
+    font-weight: unset;
+}
+
+.banner-container .banner .move a {
+    display: block;
+    padding: 5px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.15);
+    color: var(--color-1);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.banner-container .banner .banner-user {
+    background-color: var(--color-12);
+}
+
+.banner-container .banner .banner-sold {
+    background-color: var(--color-4);
+}
+
+.banner-container .banner .banner-account {
+    background-color: var(--color-9);
+}
+
+.banner-container .banner .banner-money {
+    background-color: var(--color-10);
+}

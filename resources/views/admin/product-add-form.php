@@ -30,10 +30,10 @@
 
 <?php
 if (input_post("product_title") && input_post("product_comment") && input_post("product_price") && input_post("product_category")) {
-    $product_title = input_post("product_title");
-    $product_comment = input_post("product_comment");
-    $product_price = input_post("product_price");
-    $product_category = hash_decode(input_post("product_category"));
+    $product_title = check_string(input_post("product_title"));
+    $product_comment = check_string(input_post("product_comment"));
+    $product_price = check_string(input_post("product_price"));
+    $product_category = check_string(hash_decode(input_post("product_category")));
     $table = "store_account_children";
 
     if (!is_numeric($product_category)) show_notification("warning", "Vui lòng không nghịch gì bậy bạ!");

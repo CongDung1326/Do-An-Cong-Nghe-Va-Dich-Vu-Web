@@ -1,0 +1,77 @@
+.user-list-container {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: var(--color-1);
+}
+
+.user-list-container .title {
+    font-size: var(--font-size-2);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.user-list-container table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.user-list-container td ul {
+    display: inline-flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.user-list-container td ul li {
+    flex: 1;
+}
+
+.user-list-container td {
+    padding: 10px;
+    border: 1px solid var(--color-6);
+}
+
+.user-list-container th {
+    padding: 10px;
+    background-color: var(--color-3);
+    color: var(--color-1);
+}
+
+.user-list-container button {
+    outline: none;
+    border: none;
+}
+
+.user-list-container button a {
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    text-decoration: none;
+}
+
+.user-list-container button.success a {
+    background-color: var(--color-4);
+    color: var(--color-1);
+}
+
+.user-list-container button.failed a {
+    background-color: var(--color-10);
+    color: var(--color-1);
+}
+
+
+.user-list-container .tools {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-list-container .tools .add a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: var(--color-9);
+    color: var(--color-1);
+}

@@ -33,6 +33,12 @@
     margin-top: 10px;
 }
 
+.category-add-container form.form-category-add .category label span {
+    font-size: var(--font-size-0);
+    font-weight: 400;
+    color: var(--color-10);
+}
+
 .category-add-container form.form-category-add .category input,
 .category-add-container form.form-category-add .category select {
     width: 100%;

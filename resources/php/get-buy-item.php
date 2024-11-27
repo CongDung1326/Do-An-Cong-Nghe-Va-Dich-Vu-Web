@@ -2,7 +2,7 @@
 include_once __DIR__ . "/../../config.php";
 
 if (input_get("id")) {
-    $id = hash_decode(input_get("id"));
+    $id = check_string(hash_decode(input_get("id")));
     $output = [];
 
     if (!is_numeric($id)) {

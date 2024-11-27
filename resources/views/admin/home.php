@@ -19,13 +19,14 @@ $css = [
     "nav.css",
     "index.css",
     "sidebar.css",
+    "banner.css",
 ];
 
 require_once __DIR__ . "/header.php";
 ?>
 
 <main class="home">
-    <h1>This page admin panel</h1>
+    <?php require_once __DIR__ . "/banner.php"; ?>
 </main>
 
 <?php
