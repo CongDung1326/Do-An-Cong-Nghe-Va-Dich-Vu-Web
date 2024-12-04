@@ -31,7 +31,6 @@ require_once __DIR__ . "/header.php";
     <?php require_once __DIR__ . "/shop-account.php" ?>
     <?php require_once __DIR__ . "/banner.php"; ?>
 </main>
-
 <?php
 require_once __DIR__ . "/footer.php";
 ?>

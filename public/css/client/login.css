@@ -75,3 +75,28 @@
     background-color: var(--color);
     font-weight: bold;
 }
+
+@media only screen and (max-width: 740px) {
+    .form-login-container {
+        min-width: 335px;
+    }
+
+    .form-login-container .form-login .title {
+        font-size: var(--font-size-2);
+    }
+
+    .form-login-container .form-login .inputs label {
+        font-size: 13px;
+    }
+
+    .forgot-password a {
+        font-size: 13.5px;
+    }
+}
+
+/* Tablet */
+@media only screen and (min-width:740px) and (max-width: 1024px) {
+    .form-login-container {
+        min-width: 450px;
+    }
+}

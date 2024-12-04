@@ -31,7 +31,7 @@ if (session_get("information")) {
                 </a>
             </div>
             <div class="item">
-                <div class="drop-down" href="<?= base_url("client/puchased") ?>">
+                <div class="drop-down" href="<?= base_url("client/purchased") ?>">
                     <i class="fa-solid fa-cart-plus"></i>
                     <div class="text">Thêm Hàng</div>
                     <i class="fa-solid fa-chevron-up right"></i>
@@ -63,7 +63,7 @@ if (session_get("information")) {
                     <div class="text">Quản Lý Nạp Thẻ</div>
                 </a>
             </div>
-            <div class="item">
+            <!-- <div class="item">
                 <a href="">
                     <i class="fa-brands fa-blogger"></i>
                     <div class="text">Bài Viết</div>
@@ -80,7 +80,7 @@ if (session_get("information")) {
                     <i class="fas fa-address-book"></i>
                     <div class="text">Liên Hệ</div>
                 </a>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

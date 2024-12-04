@@ -33,20 +33,20 @@ if (session_get("information")) {
                 </a>
             </div>
             <div class="item">
-                <div class="drop-down" href="<?= base_url("client/puchased") ?>">
+                <div class="drop-down" href="<?= base_url("client/purchased") ?>">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <div class="text">Lịch Sử Mua Hàng</div>
                     <i class="fa-solid fa-chevron-up right"></i>
                 </div>
                 <ul>
                     <li>
-                        <a href="<?= base_url("client/puchased") ?>">
+                        <a href="<?= base_url("client/purchased") ?>">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                             <div class="text">Tài Khoản Clone</div>
                         </a>
                     </li>
                     <li>
-                        <a href="<?= base_url("client/puchased-lol") ?>">
+                        <a href="<?= base_url("client/purchased-lol") ?>">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                             <div class="text">Tài Khoản Liên Minh</div>
                         </a>
@@ -69,7 +69,7 @@ if (session_get("information")) {
         </div>
     </div>
 
-    <div class="side side-user">
+    <!-- <div class="side side-user">
         <div class="top">KHÁC</div>
 
         <div class="bottom">
@@ -92,7 +92,7 @@ if (session_get("information")) {
                 </a>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <script>

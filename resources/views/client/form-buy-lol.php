@@ -5,6 +5,8 @@ $query = "SELECT l.number_char, l.number_skin, l.price, l.image, l.account_id
         FROM account_lol l, account a
         WHERE l.account_id = a.id AND a.is_sold = 'F' AND a.type = 'lol' AND l.id = $id";
 $account = $call_db->get_row($query);
+
+if ($call_db->num_rows($query) != 1) show_notification("error", "Tài khoản này đã được mua!", base_url());
 ?>
 
 <div class="form-buy-container">
@@ -49,7 +51,8 @@ if (input_post("buy_account")) {
         "user_id" => $id_user,
         "unique_code" => $random,
         "account_lol_id" => $id,
-        "time" => time()
+        "time" => time(),
+        "is_show" => 'T'
     ]);
     $call_db->update($table_user, [
         "money" => $money - $price,

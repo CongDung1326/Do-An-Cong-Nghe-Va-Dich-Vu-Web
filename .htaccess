@@ -13,10 +13,12 @@ RewriteRule ^client/login$ "index.php?module=client&action=login"
 RewriteRule ^client/logout$ "index.php?module=client&action=logout"
 RewriteRule ^client/register$ "index.php?module=client&action=register"
 RewriteRule ^client/deposit$ "index.php?module=client&action=deposit"
-RewriteRule ^client/puchased$ "index.php?module=client&action=puchased"
-RewriteRule ^client/puchased-lol$ "index.php?module=client&action=puchased-lol"
-RewriteRule ^client/check-puchased$ "index.php?module=client&action=check-puchased"
-RewriteRule ^client/check-puchased-lol$ "index.php?module=client&action=check-puchased-lol"
+RewriteRule ^client/purchased$ "index.php?module=client&action=purchased"
+RewriteRule ^client/check-purchased/([A-Za-z0-9-]+)$ "index.php?module=client&action=check-purchased&id=$1"
+RewriteRule ^client/remove-purchased/([A-Za-z0-9-]+)$ "index.php?module=client&action=remove-purchased&id=$1"
+RewriteRule ^client/purchased-lol$ "index.php?module=client&action=purchased-lol"
+RewriteRule ^client/check-purchased-lol/([A-Za-z0-9-]+)$ "index.php?module=client&action=check-purchased-lol&id=$1"
+RewriteRule ^client/remove-purchased-lol/([A-Za-z0-9-]+)$ "index.php?module=client&action=remove-purchased-lol&id=$1"
 RewriteRule ^client/shop$ "index.php?module=client&action=shop"
 RewriteRule ^client/buy/([A-Za-z0-9-]+)$ "index.php?module=client&action=buy&id=$1"
 ## Admin
@@ -42,6 +44,11 @@ RewriteRule ^admin/see-image-lol/([A-Za-z0-9-]+)$ "index.php?module=admin&action
 RewriteRule ^admin/lol-add$ "index.php?module=admin&action=lol-add"
 RewriteRule ^admin/lol-remove/([A-Za-z0-9-]+)$ "index.php?module=admin&action=lol-remove&id=$1"
 RewriteRule ^admin/lol-edit/([A-Za-z0-9-]+)$ "index.php?module=admin&action=lol-edit&id=$1"
+RewriteRule ^admin/manage-account-buyed$ "index.php?module=admin&action=manage-account-buyed"
+RewriteRule ^admin/edit-account-buyed/([A-Za-z0-9-]+)$ "index.php?module=admin&action=edit-account-buyed&id=$1"
+RewriteRule ^admin/remove-account-buyed/([A-Za-z0-9-]+)$ "index.php?module=admin&action=remove-account-buyed&id=$1"
+RewriteRule ^admin/manage-order-sold$ "index.php?module=admin&action=manage-order-sold"
+RewriteRule ^admin/order-remove/([A-Za-z0-9-]+)$ "index.php?module=admin&action=order-remove&id=$1"
 
 
 ## Set tạm thời khi không tìm thấy trang thì show 404 

@@ -47,3 +47,79 @@
 .notification-container .notification.warning {
     background-color: var(--color-11);
 }
+
+.notification-container.yes-no {
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    right: unset;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification-container.yes-no.hidden {
+    display: none;
+}
+
+.notification-container.yes-no .notification {
+    flex-direction: column;
+    width: 200px;
+    height: 200px;
+    background-color: var(--color-1);
+    border-radius: 10px;
+    color: var(--color-0);
+}
+
+.notification-container.yes-no .notification .title {
+    font-weight: 100;
+}
+
+.notification-container.yes-no .notification .icon {
+    padding: 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    color: var(--color-1);
+    margin: 0 auto;
+}
+
+.notification-container.yes-no .notification .icon.success {
+    background-color: var(--color-9);
+}
+
+.notification-container.yes-no .notification .icon.error {
+    background-color: var(--color-10);
+}
+
+.notification-container.yes-no .notification .icon.warning {
+    background-color: var(--color-11);
+}
+
+.notification-container.yes-no .notification .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.notification-container.yes-no .notification .buttons button {
+    outline: none;
+    border: none;
+    padding: 10px;
+    color: var(--color-1);
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.notification-container.yes-no .notification .buttons button:first-child {
+    background-color: var(--color-9);
+}
+
+.notification-container.yes-no .notification .buttons button:last-child {
+    background-color: var(--color-10);
+}

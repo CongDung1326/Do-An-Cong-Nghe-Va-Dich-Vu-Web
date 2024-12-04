@@ -27,3 +27,13 @@
     background-color: var(--color-3);
     color: var(--color-1);
 }
+
+@media only screen and (min-width:740px) and (max-width:1024px) {
+    .deposit-history-container {
+        overflow: scroll;
+    }
+
+    .deposit-history table {
+        width: 1000px;
+    }
+}

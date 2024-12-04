@@ -1,34 +1,34 @@
-.account-puchased-container {
+.account-purchased-container {
     margin: 20px 0;
     padding: 10px;
     background-color: var(--color-1);
 }
 
-.account-puchased-container .title {
+.account-purchased-container .title {
     font-size: var(--font-size-2);
     font-weight: bold;
     margin-bottom: 20px;
 }
 
-.account-puchased-container table {
+.account-purchased-container table {
     width: 100%;
     text-align: center;
     border-collapse: collapse;
 }
 
-.account-puchased-container td {
+.account-purchased-container td {
     padding: 10px;
     border: 1px solid var(--color-6);
     text-transform: capitalize;
 }
 
-.account-puchased-container th {
+.account-purchased-container th {
     padding: 10px;
     background-color: var(--color-3);
     color: var(--color-1);
 }
 
-.account-puchased-container button {
+.account-purchased-container button {
     outline: none;
     border: none;
     padding: 10px;
@@ -36,12 +36,12 @@
     cursor: pointer;
 }
 
-.account-puchased-container button.account {
+.account-purchased-container button.account {
     background-color: var(--color-4);
     color: var(--color-1);
 }
 
-.account-puchased-container button.delete {
+.account-purchased-container button.delete {
     background-color: var(--color-10);
     color: var(--color-1);
 }

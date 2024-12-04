@@ -22,6 +22,7 @@
     font-size: var(--font-size-2);
     font-weight: bold;
     margin-bottom: 20px;
+    color: var(--color-10);
 }
 
 .deposit-banner-container .deposit {
@@ -67,4 +68,14 @@
     color: var(--color-10);
     font-weight: bold;
     margin: 10px 0;
+}
+
+@media only screen and (min-width:740px) and (max-width:1024px) {
+    .deposit-history-container {
+        overflow: scroll;
+    }
+
+    .deposit-history table {
+        width: 1000px;
+    }
 }

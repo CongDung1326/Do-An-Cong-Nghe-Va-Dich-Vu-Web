@@ -1,5 +1,9 @@
 <div class="list-deposit-container">
-    <div class="title">Quản Lý Nạp Thẻ</div>
+    <div class="flex">
+        <div class="title">Quản Lý Nạp Thẻ</div>
+        <div class="find"><span>Tìm Kiếm: </span><input type="text" value=""></div>
+    </div>
+    <div class="limit"><span>Hiển Thị (Thấp Nhất 2): </span><input type="number" min="1" value="5"></div>
     <table>
         <thead>
             <th>STT</th>
@@ -14,7 +18,7 @@
         </thead>
         <tbody>
             <?php
-            $query = "SELECT b.id, b.type, b.amount, b.serial, b.pin, b.user_id, u.name, u.username, b.time_created as time FROM bank b, user u WHERE b.user_id = u.id AND b.status = 'W'";
+            $query = "SELECT b.id, b.type, b.amount, b.serial, b.pin, b.user_id, u.name, u.username, b.time_created as time FROM bank b, user u WHERE b.user_id = u.id AND b.status = 'W' LIMIT 5";
             $banks = $call_db->get_list($query);
 
             array_map(function ($bank, $count) { ?>
@@ -39,7 +43,74 @@
             <?php }, $banks, array_map_length($banks)); ?>
         </tbody>
     </table>
+    <div class="change-page">
+        <div class="prev" onclick="prevPage()"><button>Sau</button></div>
+        <input type="number" disabled value="1">
+        <div class="next" onclick="nextPage()"><button>Trước</button></div>
+    </div>
 </div>
+
+<script>
+    let input_find = document.querySelector(".flex .find input[type='text']");
+    let table_users = document.querySelector('.list-deposit-container table tbody');
+    let input_page = document.querySelector(".change-page input[type='number']");
+    let limit = document.querySelector(".limit input[type='number']");
+
+    input_find.addEventListener("input", () => {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "<?= base_url("php/find-deposit?" . hash_encode("search") . "=") ?>" + input_find.value, true);
+        xhr.onload = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    let data = xhr.response;
+
+                    table_users.innerHTML = data;
+                    input_page.value = 1;
+                    limit.value = "";
+                }
+            }
+        }
+
+        xhr.send();
+    });
+
+    limit.addEventListener('input', () => {
+        limitUser();
+    })
+
+    const limitUser = () => {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "<?= base_url("php/limit-deposit?" . hash_encode("limit-deposit")) ?>" + "=" + input_page.value + "&" + "<?= hash_encode("limit") ?>" + "=" +
+            limit.value, true);
+        xhr.onload = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const data = xhr.response;
+
+                    if (limit.value >= 2) {
+                        table_users.innerHTML = data;
+                    }
+                    input_find.value = "";
+                }
+            }
+        }
+
+        xhr.send();
+    }
+
+
+    const nextPage = () => {
+        input_page.value++;
+        limitUser();
+    }
+    const prevPage = () => {
+        input_page.value--;
+        if (input_page.value <= 0) {
+            input_page.value = 1;
+        }
+        limitUser();
+    }
+</script>
 
 <?php
 if (input_post("deposit_type") && input_post("deposit_type_id") && input_post("user_id")) {

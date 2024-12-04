@@ -54,11 +54,13 @@
     color: var(--color-1);
 }
 
-.user-list-container button.failed a {
+.user-list-container button.failed {
     background-color: var(--color-10);
     color: var(--color-1);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
-
 
 .user-list-container .tools {
     display: flex;

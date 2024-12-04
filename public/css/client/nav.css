@@ -57,3 +57,17 @@
     border-radius: 50%;
     object-fit: cover;
 }
+
+/* Moblie */
+@media only screen and (max-width: 740px) {
+    .nav-container .nav-right li:last-child {
+        display: none;
+    }
+
+    .nav-container ul.nav-left li:nth-child(2) {
+        display: none;
+    }
+}
+
+/* Tablet */
+@media only screen and (min-width:740px) and (max-width:1024px) {}

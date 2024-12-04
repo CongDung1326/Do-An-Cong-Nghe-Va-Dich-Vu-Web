@@ -44,9 +44,12 @@
     color: var(--color-1);
 }
 
-.list-item-container button.failed a {
+.list-item-container button.failed {
     background-color: var(--color-10);
     color: var(--color-1);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 
@@ -55,6 +58,12 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+}
+
+.list-item-container .tools .add {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .list-item-container .tools .add a {

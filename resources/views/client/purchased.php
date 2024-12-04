@@ -19,7 +19,7 @@ $css = [
     "nav.css",
     "index.css",
     "sidebar.css",
-    "history-puchased.css"
+    "history-purchased.css"
 ];
 
 if (!session_get("information")) {
@@ -30,7 +30,7 @@ require_once __DIR__ . "/header.php";
 ?>
 
 <main class="home">
-    <?php require_once __DIR__ . "/history-puchased-lol.php" ?>
+    <?php require_once __DIR__ . "/history-purchased.php" ?>
 </main>
 
 <?php

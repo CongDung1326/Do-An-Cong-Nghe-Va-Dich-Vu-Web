@@ -37,15 +37,4 @@
             <?php }, $products, array_map_length($products)); ?>
         </tbody>
     </table>
-    <div class="change-page">
-        <div class="prev"><button>Sau</button></div>
-        <input type="text" disabled value="1">
-        <div class="next"><button>Trước</button></div>
-    </div>
 </div>
-
-<script>
-    let prev = document.querySelector(".change-page .prev");
-    let next = document.querySelector(".change-page .next");
-    let input_page = document.querySelector(".change-page input");
-</script>

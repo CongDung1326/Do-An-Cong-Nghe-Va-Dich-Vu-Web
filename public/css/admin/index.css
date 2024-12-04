@@ -34,3 +34,56 @@ main.deposit {
     user-select: none;
     pointer-events: none;
 }
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex .find input {
+    padding: 5px;
+}
+
+.change-page {
+    display: flex;
+    justify-content: right;
+    padding: 10px;
+    gap: 1px;
+}
+
+.change-page input {
+    width: 30px;
+    text-align: center;
+    background-color: var(--color-4);
+    color: var(--color-1);
+}
+
+.change-page input::-webkit-outer-spin-button,
+.change-page input::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+.change-page div button {
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--color-1);
+    border: 1px solid var(--color-6);
+    border-radius: unset;
+}
+
+.limit {
+    margin-bottom: 10px;
+}
+
+.limit input::-webkit-outer-spin-button,
+.limit input::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+.limit input {
+    padding: 5px;
+    width: 30px;
+    text-align: center;
+}

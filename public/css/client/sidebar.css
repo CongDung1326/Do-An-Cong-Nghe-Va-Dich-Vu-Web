@@ -102,15 +102,15 @@
         display: none;
     }
 
+    .sidebar-container.hidden .side .bottom .item i.right {
+        display: none;
+    }
+
     .sidebar-container.hidden .side .top {
         display: none;
     }
 
     .sidebar-container.hidden .side .bottom .item .text {
-        display: none;
-    }
-
-    .sidebar-container.hidden .side .bottom .item i.right {
         display: none;
     }
 

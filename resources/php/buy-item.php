@@ -68,7 +68,8 @@ if (input_post("id") && input_post("amount")) {
         "store_account_children_id" => $id,
         "money" => $resultPrice,
         "unique_code" => $random,
-        "time" => time()
+        "time" => time(),
+        "is_show" => "T"
     ]);
     $call_db->update($tableAccount, [
         "is_sold" => "T",
