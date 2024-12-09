@@ -3,9 +3,9 @@
 
 $body = [
     "title" => "Mua Acc Liên Minh",
-    "desc" => $call_db->site("description"),
-    "keyword" => $call_db->site("keyword"),
-    "author" => $call_db->site("author")
+    "desc" => site("description"),
+    "keyword" => site("keyword"),
+    "author" => site("author")
 ];
 
 $body['header'] = '';
@@ -22,6 +22,7 @@ $css = [
     "form-buy-lol.css",
 ];
 
+if (!session_get("information")) redirect(base_url("client/login"));
 if (!input_get("id") || !is_numeric(hash_decode(input_get("id")))) {
     redirect(base_url());
 }

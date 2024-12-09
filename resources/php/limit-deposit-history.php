@@ -2,16 +2,12 @@
 include_once __DIR__ . "/../../config.php";
 
 if (input_get(hash_encode("limit-deposit")) && input_get(hash_encode("limit"))) {
-    $limit_user = input_get(hash_encode("limit-deposit"));
+    $limit_deposit = input_get(hash_encode("limit-deposit"));
     $limit_max = input_get(hash_encode("limit"));
-    $limit = $limit_max == 1 ? 0 : $limit_max * ($limit_user - 1);
+    $limit = $limit_deposit == 1 ? "limit_start=$limit_max" : "limit_start=" . $limit_max * ($limit_deposit - 1) . "&limit=$limit_max";
     $id = session_get("information")['id'];
 
-    $query = "SELECT b.id, b.type, b.amount, b.serial, b.pin, b.status, b.time_created, b.comment 
-                FROM bank b, user u 
-                WHERE b.user_id = u.id AND b.user_id = $id
-                ORDER BY FIELD(b.status, 'W','S','F') LIMIT $limit,$limit_max";
-    $banks = $call_db->get_list($query);
+    $banks = post_api(base_url("api\bank\GetAllBankByIdUser.php?$limit"), api_verify(["id_user" => $id]))['banks'];
     $result = "";
     $not_found = "<tr>
         <td colspan='8'>Không tìm thấy nhà mạng nào cả!</td>
@@ -21,7 +17,7 @@ if (input_get(hash_encode("limit-deposit")) && input_get(hash_encode("limit"))) 
         global $result;
 
         $status = "";
-        switch (strtolower($bank['status'])) {
+        switch (strtolower($bank->status)) {
             case "s":
                 $status = "thành công";
                 break;
@@ -35,13 +31,13 @@ if (input_get(hash_encode("limit-deposit")) && input_get(hash_encode("limit"))) 
         $result .= "
             <tr>
                 <td>$count</td>
-                <td>{$bank['type']}</td>
-                <td>" . number_format($bank['amount']) . "đ</td>
-                <td>{$bank['serial']}</td>
-                <td>{$bank['pin']}</td>
+                <td>{$bank->type}</td>
+                <td>" . number_format($bank->amount) . "đ</td>
+                <td>{$bank->serial}</td>
+                <td>{$bank->pin}</td>
                 <td>$status</td>
-                <td>" . timeAgo($bank['time_created']) . "</td>
-                <td>{$bank['comment']}</td>
+                <td>" . timeAgo($bank->time_created) . "</td>
+                <td>{$bank->comment}</td>
             </tr>
         ";
     }, $banks, array_map_length($banks));

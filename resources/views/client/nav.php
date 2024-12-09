@@ -3,9 +3,8 @@ $money = 0;
 if (session_get("information")) {
     $id = session_get("information")['id'];
 
-    $query = "SELECT money FROM user WHERE id=$id";
-    $result = $call_db->get_row($query);
-    $money = $result['money'];
+    $result = post_api(base_url("api\user\GetUserById.php?id_user=$id"), api_verify())['user'];
+    $money = $result->money;
 }
 
 $showManageAdmin = session_get("information") ? session_get("information")['role'] == 2 : false;

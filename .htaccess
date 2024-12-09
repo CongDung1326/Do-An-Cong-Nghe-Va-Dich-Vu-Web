@@ -49,7 +49,7 @@ RewriteRule ^admin/edit-account-buyed/([A-Za-z0-9-]+)$ "index.php?module=admin&a
 RewriteRule ^admin/remove-account-buyed/([A-Za-z0-9-]+)$ "index.php?module=admin&action=remove-account-buyed&id=$1"
 RewriteRule ^admin/manage-order-sold$ "index.php?module=admin&action=manage-order-sold"
 RewriteRule ^admin/order-remove/([A-Za-z0-9-]+)$ "index.php?module=admin&action=order-remove&id=$1"
-
+RewriteRule ^admin/manage-settings$ "index.php?module=admin&action=manage-settings"
 
 ## Set tạm thời khi không tìm thấy trang thì show 404 
 RewriteCond %{REQUEST_FILENAME} !-f

@@ -4,19 +4,24 @@ if (input_post("username") && input_post("password")) {
     $username = check_string(input_post("username"));
     $password = check_string(input_post("password"));
 
-    $query = "SELECT * FROM user WHERE username='$username' AND password='$password'";
+    $data = [
+        "username" => $username,
+        "password" => $password
+    ];
+    $login = post_api(base_url("api/user/Login.php"), $data);
 
-    if ($row = $call_db->get_row($query)) {
+    if ($login['status'] == "success") {
+        $row = $login['user'];
         session_set("information", [
-            "id" => $row['id'],
-            "name" => $row['name'],
-            "role" => $row['role_id'],
-            "avatar" => $row['avatar']
+            "id" => $row->id,
+            "name" => $row->name,
+            "role" => $row->role_id,
+            "avatar" => $row->avatar
         ]);
 
         redirect(base_url());
     } else {
-        $title = "Tài khoản hoặc mật khẩu sai!";
+        $title = $login['message'];
     }
 }
 ?>

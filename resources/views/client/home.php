@@ -2,12 +2,11 @@
 // if (!defined(IN_SITE)) die("The Request Not Found");
 
 $body = [
-    "title" => $call_db->site("title"),
-    "desc" => $call_db->site("description"),
-    "keyword" => $call_db->site("keyword"),
-    "author" => $call_db->site("author")
+    "title" => site("title"),
+    "desc" => site("description"),
+    "keyword" => site("keyword"),
+    "author" => site("author")
 ];
-
 $body['header'] = '';
 $body['footer'] = '';
 

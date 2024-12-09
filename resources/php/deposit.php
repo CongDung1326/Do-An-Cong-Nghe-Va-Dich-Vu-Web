@@ -24,7 +24,7 @@ if (
     $call_db->insert("bank", [
         "type" => $card_type,
         "serial" => $serial,
-        "amount" => $money_type * discount($call_db->site("discount")),
+        "amount" => $money_type * discount(site("discount")),
         "pin" => $pin,
         "status" => "W",
         "user_id" => $id,

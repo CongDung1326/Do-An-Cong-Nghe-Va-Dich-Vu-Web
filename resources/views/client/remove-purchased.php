@@ -8,7 +8,12 @@ if (!session_get("information")) {
 
 $id = check_string(hash_decode(input_get("id")));
 $id_user = session_get("information")['id'];
-$table = "notification_buy";
-$call_db->update($table, ["is_show" => "F"], "id=$id AND user_id=$id_user");
+
+$respon = post_api(base_url("api/notification/RemoveNotificationByIdUser.php"), api_verify([
+    "id_user" => $id_user,
+    "id_notification" => $id
+]));
+if ($respon['status'] == "error")
+    redirect(base_url());
 
 redirect(base_url("client/purchased"));

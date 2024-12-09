@@ -1,10 +1,9 @@
 <?php
 $id = check_string(hash_decode(input_get("id")));
+$respon = get_api(base_url("api/account/GetAccountRandomById.php?id=$id"));
+if ($respon['status'] == "error") redirect(base_url_admin());
 
-$query = "SELECT a.id, a.username, a.password, s.title FROM account a, store_account_children s WHERE a.store_account_children_id = s.id AND a.is_sold = 'F' AND a.id=$id";
-$item = $call_db->get_row($query);
-
-if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
+$item = $respon['account'];
 ?>
 
 <div class="category-add-container">
@@ -12,23 +11,22 @@ if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
     <form method="post" class="form-category-add">
         <div class="category">
             <label for="">Tên Tài Khoản</label>
-            <input type="text" name="item_username" value="<?= $item['username'] ?>">
+            <input type="text" name="item_username" value="<?= $item->username ?>">
         </div>
         <div class="category">
             <label for="">Mật Khẩu</label>
-            <input type="text" name="item_password" value="<?= $item['password'] ?>">
+            <input type="text" name="item_password" value="<?= $item->password ?>">
         </div>
         <div class="category">
             <label for="">Chuyên Mục</label>
             <select name="item_product" id="">
                 <?php
-                $queryProduct = "SELECT * FROM store_account_children";
-                $products = $call_db->get_list($queryProduct);
+                $products = get_api(base_url("api/product/GetAllProduct.php"))['products'];
                 array_map(function ($product) {
                     global $item;
-                    $isSelect = ($product['title'] == $item['title']) ? "selected" : "";
+                    $isSelect = ($product->title == $item->title) ? "selected" : "";
                 ?>
-                    <option <?= $isSelect; ?> value="<?= hash_encode($product['id']) ?>"><?= $product['title'] ?></option>
+                    <option <?= $isSelect; ?> value="<?= hash_encode($product->id) ?>"><?= $product->title ?></option>
                 <?php }, $products);
                 ?>
             </select>
@@ -42,15 +40,17 @@ if (input_post("item_username") && input_post("item_password") && input_post("it
     $item_username = check_string(input_post("item_username"));
     $item_password = check_string(input_post("item_password"));
     $item_product = check_string(hash_decode(input_post("item_product")));
-
-    if (!is_numeric($item_product)) show_notification("warning", "Vui lòng không nghịch bậy bạ!");
-    $table = "account";
-
-    $call_db->update($table, [
+    $data = [
         "username" => $item_username,
         "password" => $item_password,
-        "store_account_children_id" => $item_product
-    ], "id = $id");
+        "id_product" => $item_product,
+        "id_account" => $id
+    ];
+
+    if (!is_numeric($item_product)) show_notification("warning", "Vui lòng không nghịch bậy bạ!");
+    $respon = post_api(base_url("api/account/EditAccountRandom.php"), $data);
+    if ($respon['status'] == "error") show_notification("warning", $respon['message']);
+
     redirect(base_url_admin("manage-item"));
 }
 ?>

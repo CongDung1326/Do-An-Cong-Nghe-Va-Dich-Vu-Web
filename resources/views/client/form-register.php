@@ -6,30 +6,18 @@ if (input_post("username") && input_post("name") && input_post("password") && in
     $password = check_string(input_post("password"));
     $password_verify = check_string(input_post("password_verify"));
     $email = check_string(input_post("email"));
-    $isError = false;
 
-    if ($password != $password_verify) {
-        $title = "Mật khẩu không trùng khớp!";
-        $isError = true;
-    }
-    $query = "SELECT * FROM user WHERE username='$username'";
-    if ($call_db->num_rows($query) > 0) {
-        $title = "Tài khoản đã được sử dụng";
-        $isError = true;
-    }
-
-    if (!$isError) {
-        $call_db->insert("user", [
-            "username" => $username,
-            "password" => $password,
-            "email" => $email,
-            "name" => $name,
-            "avatar" => "assets/storage/default_avatar.jpg",
-            "role_id" => 0
-        ]);
-
+    $data = [
+        "username" => $username,
+        "password" => $password,
+        "password_verify" => $password_verify,
+        "email" => $email,
+        "name" => $name,
+    ];
+    $respon = post_api(base_url("api/user/Register.php"), $data);
+    if ($respon['status'] == "error") $title = $respon['message'];
+    else
         redirect(base_url("client/login"));
-    }
 }
 ?>
 

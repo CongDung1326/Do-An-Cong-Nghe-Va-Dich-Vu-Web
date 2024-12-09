@@ -21,24 +21,20 @@
             <tbody>
                 <?php
                 $id = session_get("information")['id'];
-                $query = "SELECT b.id, b.type, b.amount, b.serial, b.pin, b.status, b.time_created, b.comment 
-                FROM bank b, user u 
-                WHERE b.user_id = u.id AND b.user_id = $id
-                ORDER BY FIELD(b.status, 'W','S','F') LIMIT 5";
 
-                $banks = $call_db->get_list($query);
+                $banks = post_api(base_url("api\bank\GetAllBankByIdUser.php?limit_start=5"), api_verify(["id_user" => $id]))['banks'];
 
                 array_map(function ($bank, $count) {
 
                 ?>
                     <tr>
                         <td><?= $count ?></td>
-                        <td><?= $bank['type'] ?></td>
-                        <td><?= number_format($bank['amount']) ?>đ</td>
-                        <td><?= $bank['serial'] ?></td>
-                        <td><?= $bank['pin'] ?></td>
+                        <td><?= $bank->type ?></td>
+                        <td><?= number_format($bank->amount) ?>đ</td>
+                        <td><?= $bank->serial ?></td>
+                        <td><?= $bank->pin ?></td>
                         <td><?php
-                            switch (strtolower($bank['status'])) {
+                            switch (strtolower($bank->status)) {
                                 case "s":
                                     echo "thành công";
                                     break;
@@ -50,8 +46,8 @@
                                     break;
                             }
                             ?></td>
-                        <td><?= timeAgo($bank['time_created']) ?></td>
-                        <td><?= $bank['comment'] ?></td>
+                        <td><?= timeAgo($bank->time_created) ?></td>
+                        <td><?= $bank->comment ?></td>
                     </tr>
                 <?php }, $banks, array_map_length($banks)); ?>
             </tbody>

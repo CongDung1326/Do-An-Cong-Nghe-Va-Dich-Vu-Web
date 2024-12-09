@@ -188,3 +188,31 @@ function check_types($type)
             return false;
     }
 }
+function convert_object_to_array($data)
+{
+    return get_object_vars(json_decode_utf8($data));
+}
+function api_verify($data = [])
+{
+    $result = [
+        "username" => API_USERNAME,
+        "password" => API_PASSWORD,
+    ];
+    if (isset($data)) {
+        foreach ($data as $key => $value) {
+            $result[$key] = $value;
+        }
+    }
+    return $result;
+}
+function site($key)
+{
+    $settings = post_api(base_url("api\settings\GetAllSettings.php"), api_verify())['settings'];
+
+    foreach ($settings as $setting) {
+        if ($setting->name == $key) {
+            return $setting->value;
+        }
+    }
+    return null;
+}

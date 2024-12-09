@@ -65,7 +65,7 @@
     const formatter = new Intl.NumberFormat('en');
     typeMoneyDeposit.addEventListener("change", () => {
         moneyReceivedDeposit.innerHTML = typeMoneyDeposit != "" ?
-            "Số tiền thực nhận: " + formatter.format(typeMoneyDeposit.value * <?= discount($call_db->site("discount")) ?>) + "đ" :
+            "Số tiền thực nhận: " + formatter.format(typeMoneyDeposit.value * <?= discount(site("discount")) ?>) + "đ" :
             "Số tiền thực nhận: 0";
     })
 

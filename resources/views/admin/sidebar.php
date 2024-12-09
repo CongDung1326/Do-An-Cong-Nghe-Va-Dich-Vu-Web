@@ -12,8 +12,8 @@ if (session_get("information")) {
 <div class="sidebar-container hidden">
     <div class="close-icon"><i class="fa-solid fa-x"></i></div>
     <div class="side-top">
-        <div class="logo"><img src="https://marketplace.canva.com/EAFaFUz4aKo/2/0/1600w/canva-yellow-abstract-cooking-fire-free-logo-JmYWTjUsE-Q.jpg" alt=""></div>
-        <div class="shop-name"><?= $call_db->site("name_shop") ?> Panel</div>
+        <div class="logo"><img src="<?= base_url(site("logo")) ?>" alt=""></div>
+        <div class="shop-name"><?= site("name_shop") ?> Panel</div>
     </div>
 
     <div class="side side-user">
@@ -61,6 +61,12 @@ if (session_get("information")) {
                 <a href="<?= base_url("admin/manage-deposit") ?>">
                     <i class="fa-solid fa-sd-card"></i>
                     <div class="text">Quản Lý Nạp Thẻ</div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="<?= base_url("admin/manage-settings") ?>">
+                    <i class="fa-solid fa-gear"></i>
+                    <div class="text">Cài Đặt</div>
                 </a>
             </div>
             <!-- <div class="item">

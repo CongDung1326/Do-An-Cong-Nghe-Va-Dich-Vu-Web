@@ -3,17 +3,16 @@ $money = 0;
 if (session_get("information")) {
     $id = session_get("information")['id'];
 
-    $query = "SELECT money FROM user WHERE id=$id";
-    $result = $call_db->get_row($query);
-    $money = $result['money'];
+    $result = post_api(base_url("api\user\GetUserById.php?id_user=$id"), api_verify())['user'];
+    $money = $result->money;
 }
 ?>
 
 <div class="sidebar-container hidden">
     <div class="close-icon"><i class="fa-solid fa-x"></i></div>
     <div class="side-top">
-        <div class="logo"><img src="https://marketplace.canva.com/EAFaFUz4aKo/2/0/1600w/canva-yellow-abstract-cooking-fire-free-logo-JmYWTjUsE-Q.jpg" alt=""></div>
-        <div class="shop-name"><?= $call_db->site("name_shop") ?></div>
+        <div class="logo"><img src="<?= base_url(site("logo")) ?>" alt=""></div>
+        <div class="shop-name"><?= site("name_shop") ?></div>
     </div>
 
     <div class="side side-user">

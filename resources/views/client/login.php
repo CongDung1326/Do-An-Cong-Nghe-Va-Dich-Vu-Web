@@ -2,9 +2,9 @@
 // if (!defined(IN_SITE)) die("The Request Not Found");
 $body = [
     "title" => "Đăng Nhập",
-    "desc" => $call_db->site("description"),
-    "keyword" => $call_db->site("keyword"),
-    "author" => $call_db->site("author")
+    "desc" => site("description"),
+    "keyword" => site("keyword"),
+    "author" => site("author")
 ];
 
 $body['header'] = '';
