@@ -18,20 +18,19 @@
         </thead>
         <tbody>
             <?php
-            $query = "SELECT a.id, a.username, a.password, a.is_sold, u.username as user_username, a.unique_code FROM account a, user u WHERE a.user_id = u.id AND a.is_sold = 'T' LIMIT 5";
-            $accounts = $call_db->get_list($query);
+            $accounts = post_api(base_url("api\account\GetAllAccountBuyed.php?limit_start=5"), api_verify())['accounts'];
 
             array_map(function ($account, $count) { ?>
                 <tr>
                     <td><?= $count ?></td>
-                    <td><?= $account['username'] ?></td>
-                    <td><?= $account['password'] ?></td>
-                    <td><?= $account['user_username'] ?></td>
-                    <td><?= $account['unique_code'] ?></td>
-                    <td><?= $account['is_sold'] == "T" ? "Đã Bán" : "Chưa Bán"; ?></td>
+                    <td><?= $account->username ?></td>
+                    <td><?= $account->password ?></td>
+                    <td><?= $account->user_username ?></td>
+                    <td><?= $account->unique_code ?></td>
+                    <td><?= $account->is_sold == "T" ? "Đã Bán" : "Chưa Bán"; ?></td>
                     <td>
-                        <button class="success"><a href="<?= base_url_admin("edit-account-buyed/" . hash_encode($account['id'])) ?>">Chỉnh Sửa</a></button>
-                        <button class="failed"><a href="<?= base_url_admin("remove-account-buyed/" . hash_encode($account['id'])) ?>">Xoá</a></button>
+                        <button class="success"><a href="<?= base_url_admin("edit-account-buyed/" . hash_encode($account->id)) ?>">Chỉnh Sửa</a></button>
+                        <button class="failed"><a href="<?= base_url_admin("remove-account-buyed/" . hash_encode($account->id)) ?>">Xoá</a></button>
                     </td>
                 </tr>
             <?php }, $accounts, array_map_length($accounts)); ?>

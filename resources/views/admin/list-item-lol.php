@@ -23,7 +23,7 @@
         </thead>
         <tbody>
             <?php
-            $accounts = get_api(base_url("api/account/GetAllAccountLOL.php?limit_start=5"))['accounts'];
+            $accounts = post_api(base_url("api/account/GetAllAccountLOL.php?is_sold=F&limit_start=5"), api_verify())['accounts'];
 
             array_map(function ($account, $count) { ?>
                 <tr>
@@ -35,7 +35,7 @@
                     <td><?= $account->number_skin ?></td>
                     <td><?= $account->rank ?></td>
                     <td><?= number_format($account->price) ?>đ</td>
-                    <td><a href="<?= base_url_admin("see-image-lol/" . $account->name) ?>">See Image..</a></td>
+                    <td><a href="<?= base_url_admin("see-image-lol/" . $account->id) ?>">See Image..</a></td>
                     <td><?= $account->is_sold == "T" ? "Đã Bán" : "Chưa Bán"; ?></td>
                     <td>
                         <button class="success"><a href="<?= base_url_admin("lol-edit/" . hash_encode($account->id)) ?>">Chỉnh Sửa</a></button>

@@ -16,33 +16,27 @@
         </thead>
         <tbody>
             <?php
-            $queryUser = "SELECT u.id, u.username, u.email, u.number_phone, u.money, u.role_id FROM user u LIMIT 5";
-            $users = $call_db->get_list($queryUser);
-            array_map(function ($user, $count) {
-                global $call_db;
-            ?>
+            $users = post_api(base_url("api/user/GetAllUser.php?limit_start=5"), api_verify())['users'];
+            array_map(function ($user, $count) { ?>
                 <tr>
                     <td><?= $count ?></td>
                     <td>
                         <ul>
-                            <li><b>Tên đăng nhập:</b> <?= $user['username'] ?></li>
-                            <li><b>Địa chỉ Email:</b> <?= $user['email'] ?></li>
-                            <li><b>Số điện thoại:</b> <?= $user['number_phone'] ?></li>
+                            <li><b>Tên đăng nhập:</b> <?= $user->username ?></li>
+                            <li><b>Địa chỉ Email:</b> <?= $user->email ?></li>
+                            <li><b>Số điện thoại:</b> <?= $user->number_phone ?></li>
                         </ul>
                     </td>
                     <td>
                         <ul>
-                            <li><b>Số dư khả dụng:</b> <?= number_format($user['money']) ?>đ</li>
-                            <?php
-                            $sum = $call_db->get_row("SELECT SUM(amount) as money_sum FROM bank WHERE user_id = " . $user['id'] . " AND status='S'");
-                            ?>
-                            <li><b>Tổng số tiền nạp:</b> <?= number_format($sum['money_sum']) ?>đ</li>
+                            <li><b>Số dư khả dụng:</b> <?= number_format($user->money) ?>đ</li>
+                            <li><b>Tổng số tiền nạp:</b> <?= number_format($user->total_money) ?>đ</li>
                         </ul>
                     </td>
-                    <td><?= $user['role_id'] == '2' ? "Có" : "Không"; ?></td>
+                    <td><?= $user->role_id == '2' ? "Có" : "Không"; ?></td>
                     <td>
-                        <button class="success"><a href="<?= base_url_admin("user-edit/" . hash_encode($user['id'])) ?>">Sửa</a></button>
-                        <button class="failed" value="<?= hash_encode($user['id']) ?>">Xoá</button>
+                        <button class="success"><a href="<?= base_url_admin("user-edit/" . hash_encode($user->id)) ?>">Sửa</a></button>
+                        <button class="failed" value="<?= hash_encode($user->id) ?>">Xoá</button>
                     </td>
                 </tr>
             <?php }, $users, array_map_length($users)); ?>

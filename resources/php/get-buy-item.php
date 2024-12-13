@@ -8,13 +8,12 @@ if (input_get("id")) {
     if (!is_numeric($id)) {
         return;
     }
-    $query = "SELECT * FROM store_account_children WHERE id=$id";
-    $data = $call_db->get_row($query);
+    $data = post_api(base_url("api/product/GetProductById.php"), api_verify(["id_product" => $id]))['product'];
 
     $output = [
-        "title" => $data['title'],
-        "store" => $data['store'],
-        "price" => $data['price'],
+        "title" => $data->title,
+        "store" => $data->store,
+        "price" => $data->price,
     ];
 
     echo json_encode_utf8($output);

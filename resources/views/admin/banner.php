@@ -1,8 +1,5 @@
 <?php
-$buyed = $call_db->get_row("SELECT COUNT(*) as buyed FROM notification_buy")['buyed'];
-$account_sold = $call_db->get_row("SELECT COUNT(*) as sold FROM account WHERE is_sold = 'T'")['sold'];
-$count_user = $call_db->get_row("SELECT COUNT(*) as users FROM user")['users'];
-$sold = $call_db->get_row("SELECT SUM(money) as money FROM notification_buy")['money'];
+$banners = post_api(base_url("api\user\GetDataBanner.php"), api_verify())['data'];
 ?>
 
 <div class="banner-container">
@@ -10,7 +7,7 @@ $sold = $call_db->get_row("SELECT SUM(money) as money FROM notification_buy")['m
     <div class="banner">
         <div class="banner-sold">
             <div class="left">
-                <div class="amount"><?= number_format($buyed); ?></div>
+                <div class="amount"><?= number_format($banners->buyed); ?></div>
                 <div class="title">Đơn hàng đã bán</div>
             </div>
             <div class="right">
@@ -20,7 +17,7 @@ $sold = $call_db->get_row("SELECT SUM(money) as money FROM notification_buy")['m
         </div>
         <div class="banner-account">
             <div class="left">
-                <div class="amount"><?= number_format($account_sold); ?></div>
+                <div class="amount"><?= number_format($banners->account_sold); ?></div>
                 <div class="title">Tài khoản đã bán</div>
             </div>
             <div class="right">
@@ -30,7 +27,7 @@ $sold = $call_db->get_row("SELECT SUM(money) as money FROM notification_buy")['m
         </div>
         <div class="banner-user">
             <div class="left">
-                <div class="amount"><?= number_format($count_user); ?></div>
+                <div class="amount"><?= number_format($banners->count_user); ?></div>
                 <div class="title">Tổng thành viên</div>
             </div>
             <div class="right">
@@ -40,7 +37,7 @@ $sold = $call_db->get_row("SELECT SUM(money) as money FROM notification_buy")['m
         </div>
         <div class="banner-money">
             <div class="left">
-                <div class="amount"><?= number_format($sold); ?>đ</div>
+                <div class="amount"><?= number_format($banners->sold); ?>đ</div>
                 <div class="title">Doanh thu đơn hàng</div>
             </div>
             <div class="right">

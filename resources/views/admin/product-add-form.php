@@ -17,10 +17,9 @@
             <label for="">Chuyên Mục</label>
             <select name="product_category" id="">
                 <?php
-                $queryCategory = "SELECT * FROM store_account_parent";
-                $categorys = $call_db->get_list($queryCategory);
+                $categorys = get_api(base_url("api/category/GetAllCategory.php"))['categories'];
                 array_map(function ($category) { ?>
-                    <option value="<?= hash_encode($category['id']) ?>"><?= $category['name'] ?></option>
+                    <option value="<?= hash_encode($category->id) ?>"><?= $category->name ?></option>
                 <?php }, $categorys); ?>
             </select>
         </div>
@@ -34,19 +33,14 @@ if (input_post("product_title") && input_post("product_comment") && input_post("
     $product_comment = check_string(input_post("product_comment"));
     $product_price = check_string(input_post("product_price"));
     $product_category = check_string(hash_decode(input_post("product_category")));
-    $table = "store_account_children";
 
-    if (!is_numeric($product_category)) show_notification("warning", "Vui lòng không nghịch gì bậy bạ!");
-    if (!is_numeric($product_price)) show_notification("warning", "Giá tiền thì vui lòng nhập số thôi!");
-
-    $call_db->insert($table, [
+    $respon = post_api(base_url("api/product/AddProduct.php"), api_verify([
         "title" => $product_title,
         "comment" => $product_comment,
-        "sold" => 0,
-        "store" => 0,
         "price" => $product_price,
-        "store_account_parent_id" => $product_category,
-    ]);
+        "id_category" => $product_category
+    ]));
+    if ($respon['status'] == "error") show_notification("error", $respon['message']);
     redirect(base_url_admin("manage-store"));
 }
 ?>

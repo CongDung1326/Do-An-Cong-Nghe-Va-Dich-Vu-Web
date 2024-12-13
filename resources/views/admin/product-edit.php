@@ -2,7 +2,7 @@
 // if (!defined(IN_SITE)) die("The Request Not Found");
 
 $body = [
-    "title" => "Thêm Danh Mục",
+    "title" => "Sửa Sản Phẩm",
     "desc" => site("description"),
     "keyword" => site("keyword"),
     "author" => site("author")

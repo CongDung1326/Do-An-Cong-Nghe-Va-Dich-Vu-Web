@@ -1,10 +1,12 @@
 <?php
+if (!session_get("information") || session_get('information')['role'] != 2) {
+    redirect(base_url());
+}
 if (!input_get("id") || !is_numeric(hash_decode(input_get("id")))) {
     redirect(base_url());
 }
 
 $id = check_string(hash_decode(input_get("id")));
-$table = "user";
-$call_db->remove($table, "id=$id");
+post_api(base_url("api/user/RemoveUser.php"), api_verify(["id_user" => $id]));
 
 redirect(base_url_admin("manage-user"));

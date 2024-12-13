@@ -1,14 +1,3 @@
-<?php
-$money = 0;
-if (session_get("information")) {
-    $id = session_get("information")['id'];
-
-    $query = "SELECT money FROM user WHERE id=$id";
-    $result = $call_db->get_row($query);
-    $money = $result['money'];
-}
-?>
-
 <div class="sidebar-container hidden">
     <div class="close-icon"><i class="fa-solid fa-x"></i></div>
     <div class="side-top">

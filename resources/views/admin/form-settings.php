@@ -50,29 +50,24 @@ if (input_post("title") && input_post("description") && input_post("keyword") &&
         if (!move_uploaded_file($image['tmp_name'], $target_file)) {
             show_notification("error", "Có gì đó sai sai!");
         } else {
-            $old_images = $call_db->get_row("SELECT value FROM settings WHERE name='logo'")['value'];
+            $old_images = site("logo");
             $target_dir = __DIR__ . "/../../../";
             if (file_exists($target_dir . $old_images)) {
                 unlink($target_dir . $old_images);
             }
-
-            $call_db->update($table, [
-                "value" => $target_file
-            ], "name='logo'");
         }
     }
     $result = [
+        "id_user" => session_get("information")['id'],
         "title" => $title,
         "description" => $description,
         "keyword" => $keyword,
         "name_shop" => $name_shop,
         "discount" => $discount,
+        "logo" => $check_image_exist ? $target_file : ""
     ];
-    foreach ($result as $key => $value) {
-        $call_db->update($table, [
-            "value" => $value
-        ], "name = '$key'");
-    }
+    $respon = post_api(base_url("api/user/EditSettings.php"), api_verify($result));
+    if ($respon['status'] == "error") show_notification("error", $respon['message']);
     show_notification("success", "Cập nhật thành công!");
 }
 ?>

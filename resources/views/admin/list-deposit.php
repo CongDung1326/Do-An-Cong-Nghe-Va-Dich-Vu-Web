@@ -18,25 +18,24 @@
         </thead>
         <tbody>
             <?php
-            $query = "SELECT b.id, b.type, b.amount, b.serial, b.pin, b.user_id, u.name, u.username, b.time_created as time FROM bank b, user u WHERE b.user_id = u.id AND b.status = 'W' LIMIT 5";
-            $banks = $call_db->get_list($query);
+            $banks = post_api(base_url("api/bank/GetAllBank.php?limit_start=5&status=W"), api_verify())['banks'];
 
             array_map(function ($bank, $count) { ?>
                 <tr>
                     <td><?= $count ?></td>
-                    <td><?= $bank['username'] ?></td>
-                    <td><?= $bank['name'] ?></td>
-                    <td><?= $bank['type'] ?></td>
-                    <td><?= $bank['serial'] ?></td>
-                    <td><?= $bank['pin'] ?></td>
-                    <td><?= number_format($bank['amount']) ?>đ</td>
-                    <td><?= timeAgo($bank['time']) ?></td>
+                    <td><?= $bank->username ?></td>
+                    <td><?= $bank->name ?></td>
+                    <td><?= $bank->type ?></td>
+                    <td><?= $bank->serial ?></td>
+                    <td><?= $bank->pin ?></td>
+                    <td><?= number_format($bank->amount) ?>đ</td>
+                    <td><?= timeAgo($bank->time_created) ?></td>
                     <td>
                         <form action="" method="post">
                             <button class="success" name="deposit_type" type="submit" value="S">Thành Công</button>
                             <button class="failed" name="deposit_type" type="submit" value="F">Thất Bại</button>
-                            <input type="text" value="<?= hash_encode($bank['id']) ?>" name="deposit_type_id" hidden>
-                            <input type="text" value="<?= hash_encode($bank['user_id']) ?>" name="user_id" hidden>
+                            <input type="text" value="<?= hash_encode($bank->id) ?>" name="deposit_type_id" hidden>
+                            <input type="text" value="<?= hash_encode($bank->id_user) ?>" name="user_id" hidden>
                         </form>
                     </td>
                 </tr>
@@ -124,19 +123,12 @@ if (input_post("deposit_type") && input_post("deposit_type_id") && input_post("u
         show_notification("error", "Lỗi rồi bạn ơi!");
     }
 
-    $queryUpdateBank = $call_db->update($tableBank, [
+    $respon = post_api(base_url("api/bank/Deposit.php"), api_verify([
+        "id_bank" => $deposit_type_id,
+        "id_user" => $user_id,
         "status" => $deposit_type
-    ], "id=$deposit_type_id");
-
-    if ($deposit_type == "S") {
-        $queryGetMoney = "SELECT amount FROM $tableBank WHERE id=$deposit_type_id AND status='S'";
-        $queryGetMoneyUser = "SELECT money FROM $tableUser WHERE id=$user_id";
-        $bank = $call_db->get_row($queryGetMoney);
-        $user = $call_db->get_row($queryGetMoneyUser);
-        $queryUpdateUser = $call_db->update($tableUser, [
-            'money' => $user['money'] + $bank['amount']
-        ], "id=$user_id");
-    }
+    ]));
+    if ($respon['status'] == "error") show_notification("error", $respon['message']);
 
     reload();
 }

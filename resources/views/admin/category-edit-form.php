@@ -1,10 +1,10 @@
 <?php
 $id = check_string(hash_decode(input_get("id")));
 
-$query = "SELECT * FROM store_account_parent WHERE id=$id";
-$category = $call_db->get_row($query);
+$respon = post_api(base_url("api\category\GetCategoryById.php"), ["id_category" => $id]);
+$category = $respon['category'];
 
-if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
+if ($respon['status'] == "error") redirect(base_url_admin());
 ?>
 
 <div class="category-add-container">
@@ -12,7 +12,7 @@ if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
     <form method="post" class="form-category-add">
         <div class="category">
             <label for="">Tên Chuyên Mục</label>
-            <input type="text" name="category_name" value="<?= $category['name'] ?>">
+            <input type="text" name="category_name" value="<?= $category->name ?>">
         </div>
         <button type="submit">Sửa</button>
     </form>
@@ -21,11 +21,11 @@ if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
 <?php
 if (input_post("category_name")) {
     $category_name = check_string(input_post("category_name"));
-    $table = "store_account_parent";
 
-    $call_db->update($table, [
+    post_api(base_url("api\category\EditCategory.php"), [
+        "id_category" => $id,
         "name" => $category_name
-    ], "id=$id");
+    ]);
     redirect(base_url_admin("manage-store"));
 }
 ?>

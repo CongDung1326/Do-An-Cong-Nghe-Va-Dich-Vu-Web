@@ -21,16 +21,13 @@ if (
         ]));
     }
 
-    $call_db->insert("bank", [
-        "type" => $card_type,
+    post_api(base_url("api/bank/AddDeposit.php"), api_verify([
+        "id_user" => $id,
+        "card_type" => $card_type,
+        "money_type" => $money_type,
         "serial" => $serial,
-        "amount" => $money_type * discount(site("discount")),
-        "pin" => $pin,
-        "status" => "W",
-        "user_id" => $id,
-        "time_created" => time()
-    ]);
-
+        "pin" => $pin
+    ]));
 
     die(json_encode_utf8([
         "status" => "success",

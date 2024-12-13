@@ -1,24 +1,22 @@
 <?php
 $id = check_string(hash_decode(input_get("id")));
 
-$query = "SELECT u.username, u.name, u.age, u.email, u.number_phone, u.money, u.role_id
-FROM user u
-WHERE u.id = $id";
-$user = $call_db->get_row($query);
+$respon = post_api(base_url("api/user/GetUserById.php?id_user=$id"), api_verify());
+if ($respon['status'] == "error") redirect(base_url());
 
-if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
+$user = $respon['user'];
 ?>
 
 <div class="user-edit-container">
-    <div class="title">Sửa Người Dùng: <?= $user['username'] ?></div>
+    <div class="title">Sửa Người Dùng: <?= $user->username ?></div>
     <form method="post" class="form-user-edit">
         <div class="user">
             <label for="">Tên</label>
-            <input type="text" name="user_name" value="<?= $user['name']; ?>">
+            <input type="text" name="user_name" value="<?= $user->name; ?>">
         </div>
         <div class="user">
             <label for="">Email</label>
-            <input type="email" name="user_email" value="<?= $user['email']; ?>">
+            <input type="email" name="user_email" value="<?= $user->email; ?>">
         </div>
         <div class="user">
             <label for="">Mật Khẩu</label>
@@ -27,13 +25,13 @@ if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
         </div>
         <div class="user">
             <label for="">Số Điện Thoại</label>
-            <input type="text" name="user_number_phone" value="<?= $user['number_phone']; ?>">
+            <input type="text" name="user_number_phone" value="<?= $user->number_phone; ?>">
         </div>
         <div class="user">
             <label for="">Quyền Hạng</label>
             <select name="user_role_id" id="">
                 <?php
-                $is_admin = $user['role_id'] == "2" ? "selected" : "";
+                $is_admin = $user->role_id == "2" ? "selected" : "";
                 ?>
                 <option value="0">Người Dùng</option>
                 <option <?= $is_admin ?> value="2">Admin</option>
@@ -42,21 +40,15 @@ if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
         <div class="user-flex">
             <div class="user">
                 <label for="">Hiện Có</label>
-                <input type="text" value="<?= number_format($user['money']) ?>đ" disabled>
+                <input type="text" value="<?= number_format($user->money) ?>đ" disabled>
             </div>
             <div class="user">
                 <label for="">Đã Tiêu</label>
-                <?php
-                $used = $call_db->get_row("SELECT SUM(money) as result FROM notification_buy WHERE user_id = $id;")['result'];
-                ?>
-                <input type="text" value="<?= number_format($used) ?>Đ" disabled>
+                <input type="text" value="<?= number_format($user->spent) ?>Đ" disabled>
             </div>
             <div class="user">
                 <label for="">Tổng Đã Nạp</label>
-                <?php
-                $deposit = $call_db->get_row("SELECT SUM(amount) as result FROM bank WHERE user_id = $id AND status = 'S';")['result'];
-                ?>
-                <input type="text" value="<?= number_format($deposit) ?>đ" disabled>
+                <input type="text" value="<?= number_format($user->total_money) ?>đ" disabled>
             </div>
         </div>
         <button type="submit">Sửa</button>
@@ -88,30 +80,30 @@ if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
 <?php
 if (input_post("user_deposit")) {
     $user_deposit = check_string(input_post("user_deposit"));
-    $table = "user";
 
-    $call_db->update($table, [
-        'money' => $user['money'] + $user_deposit,
-    ], "id = $id");
+    post_api(base_url("api/user/EditUser.php"), api_verify([
+        'money' => $user->money + $user_deposit,
+        "id_user" => $id
+    ]));
     show_notification("success", "Buff tiền thành công!");
 }
 if (input_post("user_deduct_money")) {
     $user_deduct_money = check_string(input_post("user_deduct_money"));
-    $table = "user";
 
-    $call_db->update($table, [
-        'money' => $user['money'] - $user_deduct_money,
-    ], "id = $id");
+    post_api(base_url("api/user/EditUser.php"), api_verify([
+        'money' => $user->money - $user_deduct_money,
+        "id_user" => $id
+    ]));
     show_notification("success", "Trừ tiền thành công!");
 }
 
 if (input_post("user_password")) {
     $user_password = check_string(input_post("user_password"));
-    $table = "user";
 
-    $call_db->update($table, [
-        'password' => $user_password,
-    ], "id = $id");
+    post_api(base_url("api/user/EditUser.php"), api_verify([
+        "password_user" => $user_password,
+        "id_user" => $id
+    ]));
     redirect(base_url_admin("manage-user"));
 }
 
@@ -120,16 +112,16 @@ if (input_post("user_name") && input_post("user_email") && input_post("user_numb
     $user_email = check_string(input_post("user_email"));
     $user_number_phone = check_string(input_post("user_number_phone"));
     $user_role_id = check_string(input_post("user_role_id"));
-    $table = "user";
 
-    if (!is_numeric($user_number_phone)) show_notification("error", "Số điện thoại vui lòng nhập số!");
-
-    $call_db->update($table, [
+    $respon = post_api(base_url("api/user/EditUser.php"), api_verify([
+        "id_user" => $id,
         'name' => $user_name,
         'email' => $user_email,
         'number_phone' => $user_number_phone,
         'role_id' => $user_role_id
-    ], "id = $id");
+    ]));
+    if ($respon['status'] == "error") show_notification("error", $respon['message']);
+
     redirect(base_url_admin("manage-user"));
 }
 ?>

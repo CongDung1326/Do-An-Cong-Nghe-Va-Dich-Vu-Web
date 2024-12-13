@@ -12,9 +12,8 @@
 <?php
 if (input_post("category_name")) {
     $category_name = check_string(input_post("category_name"));
-    $table = "store_account_parent";
 
-    $call_db->insert($table, [
+    post_api(base_url("api\category\AddCategory.php"), [
         "name" => $category_name
     ]);
     redirect(base_url_admin("manage-store"));

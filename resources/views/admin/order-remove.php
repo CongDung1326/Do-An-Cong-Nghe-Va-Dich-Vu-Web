@@ -1,16 +1,14 @@
 <?php
+if (!session_get("information") || session_get("information")['role'] != 2) {
+    redirect(base_url(""));
+}
 if (!input_get("id") || !is_numeric(hash_decode(input_get("id")))) {
     redirect(base_url());
 }
 
 $id = check_string(hash_decode(input_get("id")));
-$table = "notification_buy";
-$table_account = "account";
-$unique_code = $call_db->get_row("SELECT unique_code FROM $table WHERE id = $id")['unique_code'];
 
-if (!empty($unique_code)) {
-    $call_db->remove($table_account, "unique_code='$unique_code'");
-    $call_db->remove($table, "id=$id");
-}
+$respon = post_api(base_url("api/notification/RemoveNotifiaction.php"), api_verify(["id_notification" => $id]));
+if ($respon['status'] == "error") redirect(base_url_admin());
 
 redirect(base_url_admin("manage-order-sold"));

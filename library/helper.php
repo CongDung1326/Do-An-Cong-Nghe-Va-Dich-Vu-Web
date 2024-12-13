@@ -184,6 +184,19 @@ function check_types($type)
         case "gif":
         case "jpeg":
             return "image";
+        case "viettel":
+        case "vinaphone":
+        case "mobifone":
+        case "vietnamobile":
+        case "zing":
+            return "card-type";
+        case "10000":
+        case "20000":
+        case "50000":
+        case "100000":
+        case "200000":
+        case "500000":
+            return "card-money";
         default:
             return false;
     }

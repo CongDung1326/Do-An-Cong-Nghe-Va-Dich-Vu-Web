@@ -2,7 +2,7 @@
     <div class="title">Bán Acc Liên Minh Huyền Thoại</div>
     <div class="wrapper">
         <?php
-        $respon = get_api(base_url("api/account/GetAllAccountLOL.php"));
+        $respon = post_api(base_url("api/account/GetAllAccountLOL.php?is_sold=F"), api_verify());
         $accounts = $respon['accounts'];
 
         array_map(function ($account) { ?>

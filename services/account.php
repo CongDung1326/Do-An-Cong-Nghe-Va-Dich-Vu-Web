@@ -12,21 +12,42 @@ class Account extends Api
     }
 
     // Random
-    public function GetAllAccountRandom($search = "", $limit_start = 0, $limit = 0)
+    public function GetAllAccountRandom($search = "", $limit_start = 0, $limit = 0, $id_user, $is_sold = "ALL", $id_notification, $data)
     {
-        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Limit vui lòng phải là số"]);
-        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
-        if ($limit < 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
-        if ($limit_start < 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
-        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
+        $table_user = "user";
+        $query_user =  "SELECT * FROM $table_user WHERE id = $id_user";
+        $query_notification = "SELECT * FROM notification_buy WHERE id = $id_notification";
+
+        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
+        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
+        if ((!empty($id_notification) && !is_numeric($id_notification))
+            || (!empty($id_user) && !is_numeric($id_user))
+        ) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "id vui lòng phải là số"]);
+        if (!empty($id_user) && $this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Không tìm thấy user"]);
+        if (!empty($id_notification) && $this->db->num_rows($query_notification) == 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Không tìm thấy đơn nào hàng nào cả"]);
+        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Limit vui lòng phải là số"]);
+        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
+        if ($limit < 0) return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
+        if ($limit_start < 0) return json_encode_utf8(["errCode" => 9, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
+        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 10, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
+        if ($is_sold != "ALL" && $is_sold != "T" && $is_sold != "F") return json_encode_utf8(["errCode" => 11, "status" => "error", "message" => "Đã bán chỉ nhận T hoặc F"]);
+
+        if (!empty($id_notification)) {
+            $unique_code = $this->db->get_row($query_notification)['unique_code'];
+            $query_account_has_unique = "SELECT * FROM account WHERE unique_code = '$unique_code'";
+            if ($this->db->num_rows($query_account_has_unique) == 0) return json_encode_utf8(["errCode" => 11, "status" => "error", "message" => "Tài khoản đã bị xoá hoặc bị lỗi"]);
+        }
 
         $limit = ($limit != 0) ? ",$limit" : "";
         $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
         $search = (!empty($search)) ? "AND a.username LIKE '%$search%'" : "";
+        $id_user = !empty($id_user) ? "AND a.user_id = $id_user" : "";
+        $is_sold = $is_sold != "ALL" ? "AND a.is_sold = '$is_sold'" : "";
+        $unique_code = !empty($unique_code) ? "AND a.unique_code = '$unique_code'" : "";
 
         $query = "SELECT a.id, a.username, a.password, s.title, a.is_sold 
             FROM account a, store_account_children s 
-            WHERE (a.store_account_children_id = s.id) AND a.is_sold = 'F' AND a.type = 'random' $search $limit_start$limit";
+            WHERE (a.store_account_children_id = s.id) $is_sold AND a.type = 'random' $id_user $unique_code $search $limit_start$limit";
         $accounts = $this->db->get_list($query);
         if ($this->db->num_rows($query) > 0) {
             return json_encode_utf8([
@@ -86,13 +107,22 @@ class Account extends Api
     public function RemoveAccountRandom($id_account)
     {
         $table = "account";
+        $table_product = "store_account_children";
         $query_account = "SELECT * FROM $table WHERE id=$id_account";
 
         if (empty($id_account)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
         if (!is_numeric($id_account)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Mã id vui lòng là số"]);
         if ($this->db->num_rows($query_account) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy account nào"]);
 
+        $account = $this->db->get_row($query_account);
+        $id_product = $account['store_account_children_id'];
+        $product = $this->db->get_row("SELECT * FROM $table_product WHERE id=$id_product");
+        $store = $product['store'];
+
         $this->db->remove($table, "id=$id_account");
+        $this->db->update($table_product, [
+            "store" => $store - 1
+        ], "id=$id_product");
         return json_encode_utf8(
             [
                 "errCode" => 0,
@@ -136,15 +166,19 @@ class Account extends Api
             return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Username đã được sử dụng"]);
         }
     }
-    public function GetAccountRandomById($id_account)
+    public function GetAccountRandomById($id_account, $is_sold = "F")
     {
-        $table = "account";
-        $table_product = "store_account_children";
-        $query_account = "SELECT a.id, a.username, a.password, s.title FROM $table a, $table_product s WHERE a.store_account_children_id = s.id AND a.is_sold = 'F' AND a.id=$id_account";
-
         if (empty($id_account)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
         if (!is_numeric($id_account)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Mã id vui lòng là số"]);
-        if ($this->db->num_rows($query_account) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy account nào"]);
+        if ($is_sold != "F" && $is_sold != "T") return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Trạng thái bán vui lòng phải là T|F"]);
+
+        $table = "account";
+        $table_product = "store_account_children";
+        $is_sold = "AND a.is_sold = '$is_sold'";
+        $query_account = "SELECT a.id, a.username, a.password, a.type, s.title FROM $table a, $table_product s WHERE a.store_account_children_id = s.id $is_sold AND a.id=$id_account";
+
+
+        if ($this->db->num_rows($query_account) == 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Không tìm thấy account nào"]);
 
         $account = $this->db->get_row($query_account);
         return json_encode_utf8([
@@ -155,21 +189,42 @@ class Account extends Api
         ]);
     }
     // LOL
-    public function GetAllAccountLOL($search = "", $limit_start = 0, $limit = 0)
+    public function GetAllAccountLOL($search = "", $limit_start = 0, $limit = 0, $id_user, $is_sold = "ALL", $id_notification, $data)
     {
-        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Limit vui lòng phải là số"]);
-        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
-        if ($limit < 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
-        if ($limit_start < 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
-        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
+        $table_user = "user";
+        $query_user =  "SELECT * FROM $table_user WHERE id = $id_user";
+        $query_notification = "SELECT * FROM notification_buy WHERE id = $id_notification";
+
+        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
+        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
+        if ((!empty($id_notification) && !is_numeric($id_notification))
+            || (!empty($id_user) && !is_numeric($id_user))
+        ) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "id vui lòng phải là số"]);
+        if (!empty($id_user) && $this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Không tìm thấy user"]);
+        if (!empty($id_notification) && $this->db->num_rows($query_notification) == 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Không tìm thấy đơn nào hàng nào cả"]);
+        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Limit vui lòng phải là số"]);
+        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
+        if ($limit < 0) return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
+        if ($limit_start < 0) return json_encode_utf8(["errCode" => 9, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
+        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 10, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
+        if ($is_sold != "ALL" && $is_sold != "T" && $is_sold != "F") return json_encode_utf8(["errCode" => 11, "status" => "error", "message" => "Đã bán chỉ nhận T hoặc F"]);
+
+        if (!empty($id_notification)) {
+            $unique_code = $this->db->get_row($query_notification)['unique_code'];
+            $query_account_has_unique = "SELECT * FROM account WHERE unique_code = '$unique_code'";
+            if ($this->db->num_rows($query_account_has_unique) == 0) return json_encode_utf8(["errCode" => 11, "status" => "error", "message" => "Tài khoản đã bị xoá hoặc bị lỗi"]);
+        }
 
         $limit = ($limit != 0) ? ",$limit" : "";
         $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
         $search = (!empty($search)) ? "AND a.username LIKE '%$search%'" : "";
+        $id_user = !empty($id_user) ? "AND a.user_id = $id_user" : "";
+        $is_sold = $is_sold != "ALL" ? "AND a.is_sold = '$is_sold'" : "";
+        $unique_code = !empty($unique_code) ? "AND a.unique_code = '$unique_code'" : "";
 
         $query = "SELECT a.id, a.username, a.password, l.id as name, a.is_sold, l.number_char, l.number_skin, i.name as rank, i.href, l.price, l.image
             FROM account a, account_lol l, images i
-            WHERE (a.id = l.account_id AND l.rank_lol_id = i.id) AND a.is_sold = 'F' AND a.type = 'lol' $search $limit_start$limit";
+            WHERE (a.id = l.account_id AND l.rank_lol_id = i.id) $is_sold $id_user $unique_code AND a.type = 'lol' $search $limit_start$limit";
         $accounts = $this->db->get_list($query);
         if ($this->db->num_rows($query) > 0) {
             return json_encode_utf8([
@@ -317,18 +372,21 @@ class Account extends Api
             return json_encode_utf8(["errCode" => 9, "status" => "error", "message" => "Username đã được sử dụng"]);
         }
     }
-    public function GetAccountLOLByIdAccount($id_account)
+    public function GetAccountLOLByIdAccount($id_account, $is_sold = "F")
     {
+        if (empty($id_account)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
+        if (!is_numeric($id_account)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Mã id vui lòng là số"]);
+        if ($is_sold != "F" && $is_sold != "T") return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Trạng thái bán vui lòng phải là T|F"]);
+
         $table = "account";
         $table_lol = "account_lol";
         $table_rank = "images";
-        $query_account = "SELECT a.id, a.username, a.password, l.id as name, l.rank_lol_id, a.is_sold, l.number_char, l.number_skin, i.name as rank, l.price, l.image
+        $is_sold = "AND a.is_sold = '$is_sold'";
+        $query_account = "SELECT a.id, a.username, a.password, l.id as name,a.type , l.rank_lol_id, a.is_sold, l.number_char, l.number_skin, i.name as rank, l.price, l.image
             FROM $table a, $table_lol l, $table_rank i
-            WHERE (a.id = l.account_id AND l.rank_lol_id = i.id) AND a.is_sold = 'F' AND a.type = 'lol' AND a.id = $id_account";
+            WHERE (a.id = l.account_id AND l.rank_lol_id = i.id) $is_sold AND a.type = 'lol' AND a.id = $id_account";
 
-        if (empty($id_account)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!is_numeric($id_account)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Mã id vui lòng là số"]);
-        if ($this->db->num_rows($query_account) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy account nào"]);
+        if ($this->db->num_rows($query_account) == 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Không tìm thấy account nào"]);
 
         $account = $this->db->get_row($query_account);
         return json_encode_utf8([
@@ -383,6 +441,106 @@ class Account extends Api
             "errCode" => 0,
             "status" => "success",
             "message" => "Mua thành công",
+        ]);
+    }
+    public function GetAllAccountBuyed($search = "", $limit_start = 0, $limit = 0, $id_account, $data)
+    {
+        $table = "account";
+        $table_user = "user";
+
+        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
+        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
+        if (!empty($id_account) && !is_numeric($id_account)) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "id vui lòng phải là số"]);
+        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Limit vui lòng phải là số"]);
+        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
+        if ($limit < 0) return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
+        if ($limit_start < 0) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
+        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
+
+        $limit = ($limit != 0) ? ",$limit" : "";
+        $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
+        $search = (!empty($search)) ? "AND (a.username LIKE '%$search%' OR a.unique_code LIKE '%$search%')" : "";
+        $id_account = !empty($id_account) ? "AND a.id = $id_account" : "";
+        $query = "SELECT a.id, a.username, a.password, a.is_sold, u.username as user_username, a.unique_code , a.type
+        FROM $table a, $table_user u 
+        WHERE a.user_id = u.id AND a.is_sold = 'T' $id_account $search $limit_start$limit";
+        $accounts = $this->db->get_list($query);
+        if ($this->db->num_rows($query) > 0) {
+            if (!empty($id_account)) {
+                $type = $accounts[0]['type'];
+                $id = $accounts[0]['id'];
+
+                switch ($type) {
+                    case "lol":
+                        $account_lol = $this->GetAccountLOLByIdAccount($id, "T");
+                        return $account_lol;
+                    case "random":
+                        $account_random = $this->GetAccountRandomById($id, "T");
+                        return $account_random;
+                    default:
+                        return json_encode_utf8([
+                            "errCode" => 9,
+                            "status" => "error",
+                            "message" => "Không tìm thấy kiểu của account",
+                        ]);
+                }
+            }
+            return json_encode_utf8([
+                "errCode" => 0,
+                "status" => "success",
+                "message" => "Lấy dữ liệu thành công",
+                "accounts" => $accounts
+            ]);
+        } else {
+            return json_encode_utf8([
+                "errCode" => 0,
+                "status" => "success",
+                "message" => "Danh sách tài khoản đang trống",
+                "accounts" => []
+            ]);
+        }
+    }
+    public function RemoveAccountBuyed($id_account, $data)
+    {
+        $table = "account";
+        $table_lol = "account_lol";
+        $table_notification = "notification_buy";
+
+        $query = "SELECT * FROM $table WHERE id=$id_account";
+
+        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
+        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
+        if (empty($id_account)) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
+        if (!is_numeric($id_account)) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Mã tài khoản vui lòng phải là số"]);
+        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Không tìm thấy account"]);
+
+        $account = $this->db->get_row($query);
+        $type = $account['type'];
+
+        switch ($type) {
+            case "lol":
+                $id_lol = $this->db->get_row("SELECT id FROM $table_lol WHERE account_id=$id_account")['id'];
+
+                $this->db->remove($table_notification, "account_lol_id=$id_lol");
+                $this->db->remove($table_lol, "account_id=$id_account");
+                $this->db->remove($table, "id=$id_account");
+                break;
+            case "random":
+                $this->db->remove($table, "id=$id_account");
+                break;
+
+            default:
+                return json_encode_utf8([
+                    "errCode" => 9,
+                    "status" => "error",
+                    "message" => "Không tìm thấy kiểu của account",
+                ]);
+        }
+
+        return json_encode_utf8([
+            "errCode" => 0,
+            "status" => "success",
+            "message" => "Xoá thành công",
         ]);
     }
 }

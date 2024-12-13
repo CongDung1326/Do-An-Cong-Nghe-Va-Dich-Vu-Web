@@ -1,10 +1,9 @@
 <?php
 $id = check_string(hash_decode(input_get("id")));
 
-$query = "SELECT sc.id, sc.title, sc.comment, sc.store, sc.sold, sc.price, sp.name FROM store_account_children sc, store_account_parent sp WHERE (sc.store_account_parent_id = sp.id) AND sc.id = $id";
-$product = $call_db->get_row($query);
-
-if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
+$respon = post_api(base_url("api/product/GetProductById.php"), api_verify(["id_product" => $id]));
+if ($respon['status'] == "error") redirect(base_url_admin());
+$product = $respon['product'];
 ?>
 
 <div class="product-add-container">
@@ -12,29 +11,28 @@ if ($call_db->num_rows($query) != 1) redirect(base_url_admin());
     <form method="post" class="form-product-add">
         <div class="product">
             <label for="">Tiêu Đề</label>
-            <input type="text" name="product_title" value="<?= $product['title']; ?>">
+            <input type="text" name="product_title" value="<?= $product->title; ?>">
         </div>
         <div class="product">
             <label for="">Bình Luận</label>
-            <input type="text" name="product_comment" value="<?= $product['comment']; ?>">
+            <input type="text" name="product_comment" value="<?= $product->comment; ?>">
         </div>
         <div class="product">
             <label for="">Giá</label>
-            <input type="text" name="product_price" value="<?= $product['price']; ?>">
+            <input type="text" name="product_price" value="<?= $product->price; ?>">
         </div>
         <div class="product">
             <label for="">Chuyên Mục</label>
             <select name="product_category" id="">
                 <?php
-                $queryCategory = "SELECT * FROM store_account_parent";
-                $categorys = $call_db->get_list($queryCategory);
+                $categorys = get_api(base_url("api/category/GetAllCategory.php"))['categories'];
 
                 array_map(function ($category) {
                     global $product;
 
-                    $isSelect = ($product['name'] == $category['name']) ? "selected" : "";
+                    $isSelect = ($product->store_account_parent_id == $category->id) ? "selected" : "";
                 ?>
-                    <option <?= $isSelect; ?> value="<?= hash_encode($category['id']) ?>"><?= $category['name'] ?></option>
+                    <option <?= $isSelect; ?> value="<?= hash_encode($category->id) ?>"><?= $category->name ?></option>
                 <?php }, $categorys); ?>
             </select>
         </div>
@@ -48,17 +46,15 @@ if (input_post("product_title") && input_post("product_comment") && input_post("
     $product_comment = check_string(input_post("product_comment"));
     $product_price = check_string(input_post("product_price"));
     $product_category = check_string(hash_decode(input_post("product_category")));
-    $table = "store_account_children";
 
-    if (!is_numeric($product_category)) show_notification("warning", "Vui lòng không nghịch gì bậy bạ!");
-    if (!is_numeric($product_price)) show_notification("warning", "Giá tiền thì vui lòng nhập số thôi!");
-
-    $call_db->update($table, [
+    $respon = post_api(base_url("api/product/EditProduct.php"), api_verify([
         "title" => $product_title,
         "comment" => $product_comment,
         "price" => $product_price,
-        "store_account_parent_id" => $product_category,
-    ], "id=$id");
+        "id_category" => $product_category,
+        "id_product" => $id
+    ]));
+    if ($respon['status'] == "error") show_notification("error", $respon['message']);
     redirect(base_url_admin("manage-store"));
 }
 ?>
