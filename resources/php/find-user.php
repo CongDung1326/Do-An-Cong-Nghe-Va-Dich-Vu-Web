@@ -3,7 +3,7 @@ include_once __DIR__ . "/../../config.php";
 
 if (input_get(hash_encode("search"))) {
     $search = input_get(hash_encode("search"));
-    $users = post_api(base_url("api/user/GetAllUser.php?search=$search"), api_verify())['users'];
+    $users = post_api(base_url("api/user/GetAllUser.php?search=$search"), api_verify())->users;
     $result = "";
     $not_found = "<tr>
         <td colspan='5'>Không tìm thấy người dùng nào cả!</td>
@@ -41,7 +41,7 @@ if (input_get(hash_encode("search"))) {
     echo !empty($result) ? $result : $not_found;
 } else {
     $query = "SELECT u.id, u.username, u.email, u.number_phone, u.money, u.role_id FROM user u";
-    $users = post_api(base_url("api/user/GetAllUser.php"), api_verify())['users'];
+    $users = post_api(base_url("api/user/GetAllUser.php"), api_verify())->users;
     $result = "";
     $not_found = "<tr>
         <td colspan='5'>Danh sách người dùng đang chống!</td>

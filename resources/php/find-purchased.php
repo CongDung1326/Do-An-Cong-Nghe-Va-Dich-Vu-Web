@@ -5,7 +5,7 @@ if (input_get(hash_encode("search"))) {
     $search = input_get(hash_encode("search"));
     $user_id = session_get("information")['id'];
 
-    $buys = post_api(base_url("api/notification/GetAllNotificationRandom.php?search=$search&is_show=T"), api_verify(["id_user" => $user_id]))['notifications'];
+    $buys = post_api(base_url("api/notification/GetAllNotificationRandom.php?search=$search&is_show=T"), api_verify(["id_user" => $user_id]))->notifications;
     $result = "";
     $not_found = "<tr>
         <td colspan='7'>Không tìm thấy tài khoản nào cả!</td>
@@ -33,7 +33,7 @@ if (input_get(hash_encode("search"))) {
     echo !empty($result) ? $result : $not_found;
 } else {
     $user_id = session_get("information")['id'];
-    $buys = post_api(base_url("api/notification/GetAllNotificationRandom.php?is_show=T"), api_verify(["id_user" => $user_id]))['notifications'];
+    $buys = post_api(base_url("api/notification/GetAllNotificationRandom.php?is_show=T"), api_verify(["id_user" => $user_id]))->notifications;
     $result = "";
     $not_found = "<tr>
         <td colspan='7'>Danh sách tài khoản đang chống!</td>

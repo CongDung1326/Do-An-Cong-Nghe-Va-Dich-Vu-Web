@@ -6,7 +6,7 @@ if (input_get(hash_encode("limit-order")) && input_get(hash_encode("limit"))) {
     $limit_max = input_get(hash_encode("limit"));
     $limit = $limit_order == 1 ? "limit_start=$limit_max" : "limit_start=" . $limit_max * ($limit_order - 1) . "&limit=$limit_max";
 
-    $notifications = get_api(base_url("api/notification/GetAllNotification.php?$limit"))['notifications'];
+    $notifications = get_api(base_url("api/notification/GetAllNotification.php?$limit"))->notifications;
     $result = "";
     $not_found = "<tr>
         <td colspan='7'>Không tìm thấy đơn hàng nào cả!</td>

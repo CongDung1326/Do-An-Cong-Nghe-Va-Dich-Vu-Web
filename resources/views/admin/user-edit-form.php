@@ -2,9 +2,9 @@
 $id = check_string(hash_decode(input_get("id")));
 
 $respon = post_api(base_url("api/user/GetUserById.php?id_user=$id"), api_verify());
-if ($respon['status'] == "error") redirect(base_url());
+if ($respon->status == "error") redirect(base_url());
 
-$user = $respon['user'];
+$user = $respon->user;
 ?>
 
 <div class="user-edit-container">
@@ -120,7 +120,7 @@ if (input_post("user_name") && input_post("user_email") && input_post("user_numb
         'number_phone' => $user_number_phone,
         'role_id' => $user_role_id
     ]));
-    if ($respon['status'] == "error") show_notification("error", $respon['message']);
+    if ($respon->status == "error") show_notification("error", $respon->message);
 
     redirect(base_url_admin("manage-user"));
 }

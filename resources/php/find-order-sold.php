@@ -3,7 +3,7 @@ include_once __DIR__ . "/../../config.php";
 
 if (input_get(hash_encode("search"))) {
     $search = input_get(hash_encode("search"));
-    $notifications = get_api(base_url("api/notification/GetAllNotification.php?search=$search"))['notifications'];
+    $notifications = get_api(base_url("api/notification/GetAllNotification.php?search=$search"))->notifications;
     $result = "";
     $not_found = "<tr>
         <td colspan='7'>Không tìm thấy đơn hàng nào cả!</td>
@@ -29,7 +29,7 @@ if (input_get(hash_encode("search"))) {
 
     echo !empty($result) ? $result : $not_found;
 } else {
-    $notifications = get_api(base_url("api/notification/GetAllNotification.php"))['notifications'];
+    $notifications = get_api(base_url("api/notification/GetAllNotification.php"))->notifications;
     $result = "";
     $not_found = "<tr>
         <td colspan='7'>Danh sách đơn hàng đang chống!</td>

@@ -13,7 +13,7 @@
             <label for="">Sản Phẩm</label>
             <select name="item_product" id="">
                 <?php
-                $products = get_api(base_url("api/product/GetAllProduct.php"))['products'];
+                $products = get_api(base_url("api/product/GetAllProduct.php"))->products;
 
                 array_map(function ($product) { ?>
                     <option value="<?= hash_encode($product->id) ?>"><?= $product->title ?></option>
@@ -36,8 +36,8 @@ if (input_post("item_username") && input_post("item_password") && input_post("it
     ];
 
     $add_random = post_api(base_url("api/account/AddAccountRandom.php"), $data);
-    if ($add_random['errCode'] == 4) {
-        show_notification("warning", $add_random['message']);
+    if ($add_random->errCode == 4) {
+        show_notification("warning", $add_random->message);
     }
 
     redirect(base_url_admin("manage-item"));

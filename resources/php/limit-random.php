@@ -5,7 +5,7 @@ if (input_get(hash_encode("limit-random")) && input_get(hash_encode("limit"))) {
     $limit_random = input_get(hash_encode("limit-random"));
     $limit_max = input_get(hash_encode("limit"));
     $limit = $limit_random == 1 ? "limit_start=$limit_max" : "limit_start=" . $limit_max * ($limit_random - 1) . "&limit=$limit_max";
-    $accounts = post_api(base_url("api/account/GetAllAccountRandom.php?is_sold=F&$limit"), api_verify())['accounts'];
+    $accounts = post_api(base_url("api/account/GetAllAccountRandom.php?is_sold=F&$limit"), api_verify())->accounts;
 
     $result = "";
     $not_found = "<tr>

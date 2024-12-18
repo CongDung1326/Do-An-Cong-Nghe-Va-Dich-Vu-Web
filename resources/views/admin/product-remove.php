@@ -7,6 +7,6 @@ if (!input_get("id") || !is_numeric(hash_decode(input_get("id")))) {
 }
 
 $id = check_string(hash_decode(input_get("id")));
-print_r(post_api(base_url("api/product/RemoveProduct.php"), api_verify(["id_product" => $id])));
+post_api(base_url("api/product/RemoveProduct.php"), api_verify(["id_product" => $id]));
 
 redirect(base_url_admin("manage-store"));

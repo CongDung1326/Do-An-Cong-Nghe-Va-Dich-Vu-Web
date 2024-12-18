@@ -3,7 +3,7 @@ $money = 0;
 if (session_get("information")) {
     $id = session_get("information")['id'];
 
-    $result = post_api(base_url("api\user\GetUserById.php?id_user=$id"), api_verify())['user'];
+    $result = post_api(base_url("api\user\GetUserById.php?id_user=$id"), api_verify())->user;
     $money = $result->money;
 }
 
@@ -19,7 +19,17 @@ $showManageAdmin = session_get("information") ? session_get("information")['role
     </ul>
     <ul class="nav-right">
         <li><i class="fa-solid fa-bell"></i></li>
-        <li><img src="<?= session_get("information") ? base_url(session_get("information")['avatar']) : "https://pbs.twimg.com/profile_images/1701878932176351232/AlNU3WTK_400x400.jpg"; ?>" alt=""></li>
+        <li class="drop-menu">
+            <img onclick="toggleDropMenu()" src="<?= session_get("information") ? base_url(session_get("information")['avatar']) : "https://pbs.twimg.com/profile_images/1701878932176351232/AlNU3WTK_400x400.jpg"; ?>" alt="">
+            <ul class="hidden">
+                <?php if (session_get("information")): ?>
+                    <li><a href="">Thông tin người dùng</a></li>
+                    <li><a href="<?= base_url("client/logout") ?>">Đăng xuất</a></li>
+                <?php else: ?>
+                    <li><a href="<?= base_url("client/login") ?>">Đăng Nhập</a></li>
+                <?php endif; ?>
+            </ul>
+        </li>
         <li><?= session_get("information") ? "Xin chào, " . session_get("information")['name'] : "Bạn chưa đăng nhập"; ?></li>
     </ul>
 </div>
@@ -27,5 +37,8 @@ $showManageAdmin = session_get("information") ? session_get("information")['role
 <script>
     const toggleSidebar = () => {
         document.querySelector('.sidebar-container').classList.toggle("hidden");
+    }
+    const toggleDropMenu = () => {
+        document.querySelector(".drop-menu ul").classList.toggle("hidden");
     }
 </script>

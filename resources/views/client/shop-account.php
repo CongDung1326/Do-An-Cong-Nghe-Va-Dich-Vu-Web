@@ -1,5 +1,5 @@
 <?php
-$call_shop_account = get_api(base_url("api/category/GetAllCategory.php"))['categories'];
+$call_shop_account = get_api(base_url("api/category/GetAllCategory.php"))->categories;
 ?>
 
 <?php if ($call_shop_account): ?>
@@ -18,7 +18,7 @@ $call_shop_account = get_api(base_url("api/category/GetAllCategory.php"))['categ
                     </thead>
                     <tbody class="bottom">
                         <?php
-                        $call_data_shop_account = get_api(base_url("api\product\GetAllProductByIdCategory.php?id_category={$value->id}"))['products'];
+                        $call_data_shop_account = get_api(base_url("api\product\GetAllProductByIdCategory.php?id_category={$value->id}"))->products;
 
                         array_map(function ($value_children) {
                             $check_sold = $value_children->store > 0 ? true : false;

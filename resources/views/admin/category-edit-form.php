@@ -2,9 +2,9 @@
 $id = check_string(hash_decode(input_get("id")));
 
 $respon = post_api(base_url("api\category\GetCategoryById.php"), ["id_category" => $id]);
-$category = $respon['category'];
+$category = $respon->category;
 
-if ($respon['status'] == "error") redirect(base_url_admin());
+if ($respon->status == "error") redirect(base_url_admin());
 ?>
 
 <div class="category-add-container">

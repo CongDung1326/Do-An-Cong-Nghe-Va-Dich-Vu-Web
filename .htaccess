@@ -21,6 +21,7 @@ RewriteRule ^client/check-purchased-lol/([A-Za-z0-9-]+)$ "index.php?module=clien
 RewriteRule ^client/remove-purchased-lol/([A-Za-z0-9-]+)$ "index.php?module=client&action=remove-purchased-lol&id=$1"
 RewriteRule ^client/shop$ "index.php?module=client&action=shop"
 RewriteRule ^client/buy/([A-Za-z0-9-]+)$ "index.php?module=client&action=buy&id=$1"
+RewriteRule ^client/information-user/([A-Za-z0-9-]+)$ "index.php?module=client&action=information-user&id=$1"
 ## Admin
 RewriteRule ^admin/home$ "index.php?module=admin&action=home"
 RewriteRule ^admin/$ "index.php?module=admin&action=home"

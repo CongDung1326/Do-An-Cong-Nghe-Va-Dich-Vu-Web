@@ -15,7 +15,7 @@ if (input_post("username") && input_post("name") && input_post("password") && in
         "name" => $name,
     ];
     $respon = post_api(base_url("api/user/Register.php"), $data);
-    if ($respon['status'] == "error") $title = $respon['message'];
+    if ($respon->status == "error") $title = $respon->message;
     else
         redirect(base_url("client/login"));
 }

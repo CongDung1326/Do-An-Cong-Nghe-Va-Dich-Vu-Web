@@ -8,7 +8,7 @@ class DB
     public function connect()
     {
         if (!$this->db) {
-            $this->db = mysqli_connect(DB_HOST, DB_NAME, DB_PASSWORD, DB_TABLE);
+            $this->db = mysqli_connect(DB_HOST, DB_NAME, DB_PASSWORD, DB_TABLE, DB_PORT);
             $this->db->set_charset("utf8");
         }
     }

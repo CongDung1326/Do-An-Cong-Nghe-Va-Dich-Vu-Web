@@ -21,7 +21,7 @@
             <label for="">Rank</label>
             <select name="lol_rank" id="">
                 <?php
-                $get_list_rank = get_api(base_url("api/images/GetAllImagesRankLOL.php"))['images'];
+                $get_list_rank = get_api(base_url("api/images/GetAllImagesRankLOL.php"))->images;
 
                 array_map(function ($rank) { ?>
                     <option value="<?= $rank->id ?>"><?= $rank->name ?></option>
@@ -77,8 +77,8 @@ if (isset($_FILES['lol_images'])) {
         "images" => implode(",", $name_images)
     ];
     $respon = post_api(base_url("api/account/AddAccountLOL.php"), $data);
-    if ($respon['errCode'] == 1) show_notification("warning", "Vui lòng nhập đầy đủ");
-    if ($respon['status'] == "error") show_notification("warning", $respon['message']);
+    if ($respon->errCode == 1) show_notification("warning", "Vui lòng nhập đầy đủ");
+    if ($respon->status == "error") show_notification("warning", $respon->message);
 
     show_notification("success", "Thêm thành công!", base_url_admin("manage-item-lol"));
 }

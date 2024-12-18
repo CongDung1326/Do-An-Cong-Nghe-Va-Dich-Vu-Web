@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             <?php
-            $notifications = get_api(base_url("api/notification/GetAllNotification.php?limit_start=5"))['notifications'];
+            $notifications = get_api(base_url("api/notification/GetAllNotification.php?limit_start=5"))->notifications;
 
             array_map(function ($notification, $count) {
             ?>

@@ -10,7 +10,7 @@ class Notification extends Api
         $this->db = new DB();
         $this->api = new Api();
     }
-    public function GetAllNotification($limit_start = 0, $limit = 0, $search)
+    public function GetAllNotification($limit_start, $limit, $search)
     {
         if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Limit vui lòng phải là số"]);
         if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
@@ -64,7 +64,7 @@ class Notification extends Api
             ]);
         }
     }
-    public function GetAllNotificationRandom($search = "", $limit_start = 0, $limit = 0, $id_user, $is_show = "ALL", $data)
+    public function GetAllNotificationRandom($search, $limit_start, $limit, $id_user, $is_show, $data)
     {
         $table_user = "user";
         $query_user = "SELECT * FROM $table_user WHERE id = $id_user";
@@ -106,7 +106,7 @@ class Notification extends Api
             ]);
         }
     }
-    public function GetAllNotificationLOL($search = "", $limit_start = 0, $limit = 0, $id_user, $is_show = "ALL", $data)
+    public function GetAllNotificationLOL($search, $limit_start, $limit, $id_user, $is_show, $data)
     {
         $table_user = "user";
         $query_user = "SELECT * FROM $table_user WHERE id = $id_user";

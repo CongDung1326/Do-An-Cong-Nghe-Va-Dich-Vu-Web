@@ -13,7 +13,7 @@ function get_api($url)
     if ($e = curl_error($ch)) {
         echo $e;
     } else {
-        $resp = convert_object_to_array($resp);
+        $resp = json_decode_utf8($resp);
 
         $result = $resp;
     }
@@ -35,7 +35,7 @@ function post_api($url, $data)
     if ($e = curl_error($ch)) {
         echo $e;
     } else {
-        $resp = convert_object_to_array($resp);
+        $resp = json_decode_utf8($resp);
 
         $result = $resp;
     }

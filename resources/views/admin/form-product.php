@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             <?php
-            $products = get_api(base_url("api/product/GetAllProduct.php"))['products'];
+            $products = get_api(base_url("api/product/GetAllProduct.php"))->products;
             array_map(function ($product, $count) { ?>
                 <tr>
                     <td><?= $count ?></td>

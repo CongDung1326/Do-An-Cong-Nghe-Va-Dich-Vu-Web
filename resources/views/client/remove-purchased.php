@@ -13,7 +13,5 @@ $respon = post_api(base_url("api/notification/RemoveNotificationByIdUser.php"), 
     "id_user" => $id_user,
     "id_notification" => $id
 ]));
-if ($respon['status'] == "error")
-    redirect(base_url());
 
 redirect(base_url("client/purchased"));

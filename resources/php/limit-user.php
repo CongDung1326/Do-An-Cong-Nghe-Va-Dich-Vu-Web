@@ -6,7 +6,7 @@ if (input_get(hash_encode("limit-user")) && input_get(hash_encode("limit"))) {
     $limit_max = input_get(hash_encode("limit"));
     $limit = $limit_user == 1 ? "limit_start=$limit_max" : "limit_start=" . $limit_max * ($limit_user - 1) . "&limit=$limit_max";
 
-    $users = post_api(base_url("api/user/GetAllUser.php?$limit"), api_verify())['users'];
+    $users = post_api(base_url("api/user/GetAllUser.php?$limit"), api_verify())->users;
     $result = "";
     $not_found = "<tr>
         <td colspan='5'>Không tìm thấy người dùng nào cả!</td>

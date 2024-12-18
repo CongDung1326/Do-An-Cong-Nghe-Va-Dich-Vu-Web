@@ -2,9 +2,9 @@
 $id = check_string(hash_decode(input_get("id")));
 
 $respon = get_api(base_url("api/account/GetAccountLOLByIdAccount.php?id=$id"));
-if ($respon['status'] == "error") redirect(base_url_admin());
+if ($respon->status == "error") redirect(base_url_admin());
 
-$item = $respon['account'];
+$item = $respon->account;
 ?>
 
 <div class="category-add-container">
@@ -30,7 +30,7 @@ $item = $respon['account'];
             <label for="">Rank</label>
             <select name="lol_rank" id="">
                 <?php
-                $get_list_rank = get_api(base_url("api/images/GetAllImagesRankLOL.php"))['images'];
+                $get_list_rank = get_api(base_url("api/images/GetAllImagesRankLOL.php"))->images;
 
                 array_map(function ($rank) {
                     global $item;
@@ -104,8 +104,8 @@ if (isset($_POST['lol_rank'])) {
     ];
     $respon = post_api(base_url("api/account/EditAccountLOL.php"), $data);
 
-    if ($respon['errCode'] == 1) show_notification("warning", "Vui lòng nhập đầy đủ");
-    if ($respon['status'] == "error") show_notification("error", $respon['message']);
+    if ($respon->errCode == 1) show_notification("warning", "Vui lòng nhập đầy đủ");
+    if ($respon->status == "error") show_notification("error", $respon->message);
 
     show_notification("success", "Sửa thành công!", base_url_admin("manage-item-lol"));
 }

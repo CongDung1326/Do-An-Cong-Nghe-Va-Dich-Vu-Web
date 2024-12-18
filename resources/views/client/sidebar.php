@@ -3,7 +3,7 @@ $money = 0;
 if (session_get("information")) {
     $id = session_get("information")['id'];
 
-    $result = post_api(base_url("api\user\GetUserById.php?id_user=$id"), api_verify())['user'];
+    $result = post_api(base_url("api\user\GetUserById.php?id_user=$id"), api_verify())->user;
     $money = $result->money;
 }
 ?>

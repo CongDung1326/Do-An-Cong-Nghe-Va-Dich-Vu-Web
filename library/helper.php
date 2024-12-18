@@ -201,10 +201,6 @@ function check_types($type)
             return false;
     }
 }
-function convert_object_to_array($data)
-{
-    return get_object_vars(json_decode_utf8($data));
-}
 function api_verify($data = [])
 {
     $result = [
@@ -220,7 +216,7 @@ function api_verify($data = [])
 }
 function site($key)
 {
-    $settings = post_api(base_url("api\settings\GetAllSettings.php"), api_verify())['settings'];
+    $settings = post_api(base_url("api/settings/GetAllSettings.php"), api_verify())->settings;
 
     foreach ($settings as $setting) {
         if ($setting->name == $key) {
@@ -228,4 +224,14 @@ function site($key)
         }
     }
     return null;
+}
+function name_user($data)
+{
+    $array_names = explode(" ", $data);
+    $last_name = array_pop($array_names);
+
+    return [
+        "first_name" => $array_names,
+        "last_name" => $last_name
+    ];
 }

@@ -188,7 +188,7 @@ class User extends Api
         if (empty($id_user)) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
         if (!is_numeric($id_user)) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Id vui lòng phải là số"]);
         if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Không tìm thấy user"]);
-        if (!empty($age) && !is_numeric($age))  return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Tuổi vui lòng phải là số"]);
+        if (strtotime($age) <= strtotime(0))  return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Tuổi vui lòng phải là chuẩn theo ngày tháng năm"]);
         if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Vui lòng đúng định dạng email"]);
         if (!empty($number_phone) && !is_numeric($number_phone))  return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Số điện thoại vui lòng phải là số"]);
         if (!empty($money) && !is_numeric($money) && $money > 0)  return json_encode_utf8(["errCode" => 9, "status" => "error", "message" => "Số tiền vui lòng phải là số và nó phải lớn hơn 0"]);

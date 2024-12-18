@@ -2,14 +2,14 @@
 $id = hash_decode(input_get("id"));
 
 $respon = get_api(base_url("api/account/GetAccountLOLByIdAccount.php?id=$id"));
-$account = $respon['account'];
+$account = $respon->account;
 
 if (empty($account)) show_notification("error", "Tài khoản này đã được mua!", base_url());
 ?>
 
 <div class="form-buy-container">
     <form method="post" class="flex">
-        <div class="title">Acc Liên Minh #1 - <?= $account->number_char ?> Tướng - <?= $account->number_skin ?> Skin</div>
+        <div class="title">Acc Liên Minh #<?= $account->id ?> - <?= $account->number_char ?> Tướng - <?= $account->number_skin ?> Skin</div>
         <div class="buy"><button name="buy_account" value="true" type="submit">Mua Với <?= number_format($account->price) ?>đ</button></div>
     </form>
     <div class="form-buy">
@@ -32,7 +32,7 @@ if (input_post("buy_account")) {
         "id_account" => $id
     ];
     $respon = post_api(base_url("api/account/BuyAccountLOL.php"), $data);
-    if ($respon['status'] == "error") show_notification("warning", $respon['message']);
+    if ($respon->status == "error") show_notification("warning", $respon->message);
     else
         show_notification("success", "Mua tài khoản thành công!", base_url("client/shop"));
 }

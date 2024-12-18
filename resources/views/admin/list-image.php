@@ -1,7 +1,7 @@
 <?php
 $id = input_get("id");
 
-$account = get_api(base_url("api/account/GetAccountLOLByIdAccount.php?id=$id"))['account'];
+$account = get_api(base_url("api/account/GetAccountLOLByIdAccount.php?id=$id"))->account;
 
 if (!isset($account->image)) redirect(base_url_admin());
 ?>

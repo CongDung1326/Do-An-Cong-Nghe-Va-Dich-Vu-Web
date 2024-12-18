@@ -8,7 +8,7 @@ if (input_get(hash_encode("limit-purcharsed")) && input_get(hash_encode("limit")
     $limit = $limit_purcharsed == 1 ? "limit_start=$limit_max" : "limit_start=" . $limit_max * ($limit_purcharsed - 1) . "&limit=$limit_max";
 
     $user_id = session_get("information")['id'];
-    $buys = post_api(base_url("api/notification/GetAllNotificationRandom.php?is_show=T&$limit"), api_verify(["id_user" => $user_id]))['notifications'];
+    $buys = post_api(base_url("api/notification/GetAllNotificationRandom.php?is_show=T&$limit"), api_verify(["id_user" => $user_id]))->notifications;
     $result = "";
     $not_found = "<tr>
         <td colspan='7'>Không tìm thấy tài khoản nào cả!</td>

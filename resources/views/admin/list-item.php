@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             <?php
-            $accounts = post_api(base_url("api/account/GetAllAccountRandom.php?is_sold=F&limit_start=5"), api_verify())['accounts'];
+            $accounts = post_api(base_url("api/account/GetAllAccountRandom.php?is_sold=F&limit_start=5"), api_verify())->accounts;
 
             array_map(function ($account, $count) { ?>
                 <tr>

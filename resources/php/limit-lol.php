@@ -5,7 +5,7 @@ if (input_get(hash_encode("limit-lol")) && input_get(hash_encode("limit"))) {
     $limit_lol = input_get(hash_encode("limit-lol"));
     $limit_max = input_get(hash_encode("limit"));
     $limit = $limit_lol == 1 ? "limit_start=$limit_max" : "limit_start=" . $limit_max * ($limit_lol - 1) . "&limit=$limit_max";
-    $accounts = post_api(base_url("api/account/GetAllAccountLOL.php?is_sold=F&$limit"), api_verify())['accounts'];
+    $accounts = post_api(base_url("api/account/GetAllAccountLOL.php?is_sold=F&$limit"), api_verify())->accounts;
     $result = "";
     $not_found = "<tr>
         <td colspan='11'>Không tìm thấy tài khoản nào cả!</td>

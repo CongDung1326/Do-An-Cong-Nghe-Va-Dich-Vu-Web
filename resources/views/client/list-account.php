@@ -3,7 +3,7 @@
     <div class="wrapper">
         <?php
         $respon = post_api(base_url("api/account/GetAllAccountLOL.php?is_sold=F"), api_verify());
-        $accounts = $respon['accounts'];
+        $accounts = $respon->accounts;
 
         array_map(function ($account) { ?>
             <div class="list-account">
@@ -25,9 +25,27 @@
                         <div class="price"><?= number_format($account->price) ?>đ</div>
                     </div>
                 </div>
-
-                <button type="submit">MUA NGAY</button>
+                <form action="" method="post">
+                    <input type="hidden" name="buy_account_id" value="<?= hash_encode($account->id) ?>">
+                    <button type="submit" name="buy_account" value="true">MUA NGAY</button>
+                </form>
             </div>
         <?php }, $accounts); ?>
     </div>
 </div>
+
+<?php
+if (input_post("buy_account") && input_post("buy_account_id")) {
+    $id_user = session_get("information")['id'];
+    $id_account = hash_decode(input_post("buy_account_id"));
+
+    $data = [
+        "id_user" => $id_user,
+        "id_account" => $id_account
+    ];
+    $respon = post_api(base_url("api/account/BuyAccountLOL.php"), $data);
+    if ($respon->status == "error") show_notification("warning", $respon->message);
+    else
+        show_notification("success", "Mua tài khoản thành công!", base_url("client/shop"));
+}
+?>

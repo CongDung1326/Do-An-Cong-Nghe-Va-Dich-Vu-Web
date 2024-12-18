@@ -16,12 +16,12 @@
                 "id_user" => $id_user,
                 "id_notification" => $id_notification
             ]));
-            if ($respon['errCode'] == 11 && $respon['status'] == "error") {
-                show_notification("error", $respon['message'], base_url());
+            if ($respon->errCode == 11 && $respon->status == "error") {
+                show_notification("error", $respon->message, base_url());
                 return;
             }
 
-            $accounts = $respon['accounts'];
+            $accounts = $respon->accounts;
 
             array_map(function ($account, $count) { ?>
                 <tr>

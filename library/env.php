@@ -6,5 +6,6 @@ define("DB_HOST", $env['DB_HOST']);
 define("DB_NAME", $env['DB_NAME']);
 define("DB_PASSWORD", $env['DB_PASSWORD']);
 define("DB_TABLE", $env['DB_TABLE']);
+define("DB_PORT", $env['DB_PORT']);
 define("API_USERNAME", $env['API_USERNAME']);
 define("API_PASSWORD", $env['API_PASSWORD']);

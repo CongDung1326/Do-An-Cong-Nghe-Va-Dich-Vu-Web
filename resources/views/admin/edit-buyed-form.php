@@ -2,9 +2,9 @@
 $id = check_string(hash_decode(input_get("id")));
 
 $respon = post_api(base_url("api/account/GetAllAccountBuyed.php"), api_verify(["id_account" => $id]));
-if ($respon['status'] == "error") redirect(base_url_admin());
+if ($respon->status == "error") redirect(base_url_admin());
 
-$account = $respon['account'];
+$account = $respon->account;
 ?>
 
 <?php if ($account->type == "lol"): ?>
@@ -31,7 +31,7 @@ $account = $respon['account'];
                 <label for="">Rank</label>
                 <select name="lol_rank" id="">
                     <?php
-                    $get_list_rank = get_api(base_url("api/images/GetAllImagesRankLOL.php"))['images'];
+                    $get_list_rank = get_api(base_url("api/images/GetAllImagesRankLOL.php"))->images;
 
                     array_map(function ($rank) {
                         global $account;
@@ -69,7 +69,7 @@ $account = $respon['account'];
                 <label for="">Chuyên Mục</label>
                 <select name="item_product" id="">
                     <?php
-                    $products = get_api(base_url("api/product/GetAllProduct.php"))['products'];
+                    $products = get_api(base_url("api/product/GetAllProduct.php"))->products;
                     array_map(function ($product) {
                         global $account;
                         $isSelect = ($product->title == $account->title) ? "selected" : "";
@@ -136,8 +136,8 @@ if (isset($_POST['lol_rank'])) {
     ];
     $respon = post_api(base_url("api/account/EditAccountLOL.php"), $data);
 
-    if ($respon['errCode'] == 1) show_notification("warning", "Vui lòng nhập đầy đủ");
-    if ($respon['status'] == "error") show_notification("error", $respon['message']);
+    if ($respon->errCode == 1) show_notification("warning", "Vui lòng nhập đầy đủ");
+    if ($respon->status == "error") show_notification("error", $respon['message']);
 
     show_notification("success", "Sửa thành công!", base_url_admin("manage-account-buyed"));
 }
@@ -155,7 +155,7 @@ if (input_post("item_username") && input_post("item_password") && input_post("it
 
     if (!is_numeric($item_product)) show_notification("warning", "Vui lòng không nghịch bậy bạ!");
     $respon = post_api(base_url("api/account/EditAccountRandom.php"), $data);
-    if ($respon['status'] == "error") show_notification("warning", $respon['message']);
+    if ($respon->status == "error") show_notification("warning", $respon['message']);
 
     redirect(base_url_admin("manage-account-buyed"));
 }

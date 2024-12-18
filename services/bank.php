@@ -10,7 +10,7 @@ class Bank extends Api
         $this->db = new DB();
         $this->api = new Api();
     }
-    public function GetAllBank($limit_start = 0, $limit = 0, $status = 'ALL', $data)
+    public function GetAllBank($limit_start, $limit, $status, $data)
     {
         if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Limit vui lòng phải là số"]);
         if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
@@ -48,7 +48,7 @@ class Bank extends Api
             ]);
         }
     }
-    public function GetAllBankByIdUser($search, $limit_start = 0, $limit = 0, $status = 'ALL', $id_user, $data)
+    public function GetAllBankByIdUser($search, $limit_start, $limit, $status, $id_user, $data)
     {
         $search = check_string($search);
         $query_user = "SELECT * FROM user WHERE id=$id_user";

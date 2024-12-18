@@ -9,6 +9,6 @@ if (!input_get("id") || !is_numeric(hash_decode(input_get("id")))) {
 $id = check_string(hash_decode(input_get("id")));
 
 $respon = post_api(base_url("api/notification/RemoveNotifiaction.php"), api_verify(["id_notification" => $id]));
-if ($respon['status'] == "error") redirect(base_url_admin());
+if ($respon->status == "error") redirect(base_url_admin());
 
 redirect(base_url_admin("manage-order-sold"));

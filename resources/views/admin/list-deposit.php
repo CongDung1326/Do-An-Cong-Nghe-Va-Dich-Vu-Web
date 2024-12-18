@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             <?php
-            $banks = post_api(base_url("api/bank/GetAllBank.php?limit_start=5&status=W"), api_verify())['banks'];
+            $banks = post_api(base_url("api/bank/GetAllBank.php?limit_start=5&status=W"), api_verify())->banks;
 
             array_map(function ($bank, $count) { ?>
                 <tr>
@@ -128,7 +128,7 @@ if (input_post("deposit_type") && input_post("deposit_type_id") && input_post("u
         "id_user" => $user_id,
         "status" => $deposit_type
     ]));
-    if ($respon['status'] == "error") show_notification("error", $respon['message']);
+    if ($respon->status == "error") show_notification("error", $respon->message);
 
     reload();
 }

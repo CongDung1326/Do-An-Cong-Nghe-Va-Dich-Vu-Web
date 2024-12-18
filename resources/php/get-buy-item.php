@@ -8,7 +8,7 @@ if (input_get("id")) {
     if (!is_numeric($id)) {
         return;
     }
-    $data = post_api(base_url("api/product/GetProductById.php"), api_verify(["id_product" => $id]))['product'];
+    $data = post_api(base_url("api/product/GetProductById.php"), api_verify(["id_product" => $id]))->product;
 
     $output = [
         "title" => $data->title,

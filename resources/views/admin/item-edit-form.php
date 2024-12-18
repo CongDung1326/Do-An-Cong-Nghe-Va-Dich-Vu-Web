@@ -1,9 +1,9 @@
 <?php
 $id = check_string(hash_decode(input_get("id")));
 $respon = get_api(base_url("api/account/GetAccountRandomById.php?id=$id"));
-if ($respon['status'] == "error") redirect(base_url_admin());
+if ($respon->status == "error") redirect(base_url_admin());
 
-$item = $respon['account'];
+$item = $respon->account;
 ?>
 
 <div class="category-add-container">
@@ -21,7 +21,7 @@ $item = $respon['account'];
             <label for="">Chuyên Mục</label>
             <select name="item_product" id="">
                 <?php
-                $products = get_api(base_url("api/product/GetAllProduct.php"))['products'];
+                $products = get_api(base_url("api/product/GetAllProduct.php"))->products;
                 array_map(function ($product) {
                     global $item;
                     $isSelect = ($product->title == $item->title) ? "selected" : "";
@@ -49,7 +49,7 @@ if (input_post("item_username") && input_post("item_password") && input_post("it
 
     if (!is_numeric($item_product)) show_notification("warning", "Vui lòng không nghịch bậy bạ!");
     $respon = post_api(base_url("api/account/EditAccountRandom.php"), $data);
-    if ($respon['status'] == "error") show_notification("warning", $respon['message']);
+    if ($respon->status == "error") show_notification("warning", $respon->message);
 
     redirect(base_url_admin("manage-item"));
 }

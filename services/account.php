@@ -12,7 +12,7 @@ class Account extends Api
     }
 
     // Random
-    public function GetAllAccountRandom($search = "", $limit_start = 0, $limit = 0, $id_user, $is_sold = "ALL", $id_notification, $data)
+    public function GetAllAccountRandom($search, $limit_start, $limit, $id_user, $is_sold, $id_notification, $data)
     {
         $table_user = "user";
         $query_user =  "SELECT * FROM $table_user WHERE id = $id_user";
@@ -189,7 +189,7 @@ class Account extends Api
         ]);
     }
     // LOL
-    public function GetAllAccountLOL($search = "", $limit_start = 0, $limit = 0, $id_user, $is_sold = "ALL", $id_notification, $data)
+    public function GetAllAccountLOL($search, $limit_start, $limit, $id_user, $is_sold, $id_notification, $data)
     {
         $table_user = "user";
         $query_user =  "SELECT * FROM $table_user WHERE id = $id_user";
@@ -443,7 +443,7 @@ class Account extends Api
             "message" => "Mua thành công",
         ]);
     }
-    public function GetAllAccountBuyed($search = "", $limit_start = 0, $limit = 0, $id_account, $data)
+    public function GetAllAccountBuyed($search, $limit_start, $limit, $id_account, $data)
     {
         $table = "account";
         $table_user = "user";

@@ -20,7 +20,7 @@
             <?php
             $user_id = session_get("information")['id'];
 
-            $buys = post_api(base_url("api/notification/GetAllNotificationRandom.php?is_show=T&limit_start=5"), api_verify(["id_user" => $user_id]))['notifications'];
+            $buys = post_api(base_url("api/notification/GetAllNotificationRandom.php?is_show=T&limit_start=5"), api_verify(["id_user" => $user_id]))->notifications;
             array_map(function ($buy, $count) {  ?>
                 <tr>
                     <td><?= $count ?></td>

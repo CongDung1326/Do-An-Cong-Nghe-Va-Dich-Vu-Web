@@ -10,8 +10,8 @@ if (input_post("username") && input_post("password")) {
     ];
     $login = post_api(base_url("api/user/Login.php"), $data);
 
-    if ($login['status'] == "success") {
-        $row = $login['user'];
+    if ($login->status == "success") {
+        $row = $login->user;
         session_set("information", [
             "id" => $row->id,
             "name" => $row->name,
@@ -21,7 +21,7 @@ if (input_post("username") && input_post("password")) {
 
         redirect(base_url());
     } else {
-        $title = $login['message'];
+        $title = $login->message;
     }
 }
 ?>

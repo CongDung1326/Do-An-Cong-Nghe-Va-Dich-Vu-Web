@@ -16,7 +16,7 @@
         </thead>
         <tbody>
             <?php
-            $users = post_api(base_url("api/user/GetAllUser.php?limit_start=5"), api_verify())['users'];
+            $users = post_api(base_url("api/user/GetAllUser.php?limit_start=5"), api_verify())->users;
             array_map(function ($user, $count) { ?>
                 <tr>
                     <td><?= $count ?></td>

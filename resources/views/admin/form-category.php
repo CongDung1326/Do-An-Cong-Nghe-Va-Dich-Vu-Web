@@ -11,7 +11,7 @@
         </thead>
         <tbody>
             <?php
-            $categorys = get_api(base_url("api/category/GetAllCategory.php"))['categories'];
+            $categorys = get_api(base_url("api/category/GetAllCategory.php"))->categories;
             array_map(function ($category, $count) { ?>
                 <tr>
                     <td><?= $count ?></td>

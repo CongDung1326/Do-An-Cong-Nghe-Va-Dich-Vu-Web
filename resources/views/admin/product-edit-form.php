@@ -2,8 +2,8 @@
 $id = check_string(hash_decode(input_get("id")));
 
 $respon = post_api(base_url("api/product/GetProductById.php"), api_verify(["id_product" => $id]));
-if ($respon['status'] == "error") redirect(base_url_admin());
-$product = $respon['product'];
+if ($respon->status == "error") redirect(base_url_admin());
+$product = $respon->product;
 ?>
 
 <div class="product-add-container">
@@ -25,7 +25,7 @@ $product = $respon['product'];
             <label for="">Chuyên Mục</label>
             <select name="product_category" id="">
                 <?php
-                $categorys = get_api(base_url("api/category/GetAllCategory.php"))['categories'];
+                $categorys = get_api(base_url("api/category/GetAllCategory.php"))->categories;
 
                 array_map(function ($category) {
                     global $product;

@@ -22,7 +22,7 @@
                 <?php
                 $id = session_get("information")['id'];
 
-                $banks = post_api(base_url("api\bank\GetAllBankByIdUser.php?limit_start=5"), api_verify(["id_user" => $id]))['banks'];
+                $banks = post_api(base_url("api\bank\GetAllBankByIdUser.php?limit_start=5"), api_verify(["id_user" => $id]))->banks;
 
                 array_map(function ($bank, $count) {
 

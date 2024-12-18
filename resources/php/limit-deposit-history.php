@@ -7,7 +7,7 @@ if (input_get(hash_encode("limit-deposit")) && input_get(hash_encode("limit"))) 
     $limit = $limit_deposit == 1 ? "limit_start=$limit_max" : "limit_start=" . $limit_max * ($limit_deposit - 1) . "&limit=$limit_max";
     $id = session_get("information")['id'];
 
-    $banks = post_api(base_url("api\bank\GetAllBankByIdUser.php?$limit"), api_verify(["id_user" => $id]))['banks'];
+    $banks = post_api(base_url("api\bank\GetAllBankByIdUser.php?$limit"), api_verify(["id_user" => $id]))->banks;
     $result = "";
     $not_found = "<tr>
         <td colspan='8'>Không tìm thấy nhà mạng nào cả!</td>

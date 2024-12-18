@@ -1,0 +1,54 @@
+.information-form-container {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: var(--color-1);
+}
+
+.information-form-container .title {
+    font-size: var(--font-size-2);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.information-form-container .information-form .information {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.information-form-container .information-form .information .input {
+    position: relative;
+    width: 100%;
+}
+
+.information-form-container .information-form .information i {
+    position: absolute;
+    top: 65%;
+    right: 5px;
+    transform: translateY(-50%);
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.information-form-container .information-form .information input {
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+}
+
+input[type="date"].time-created::-webkit-inner-spin-button,
+input[type="date"].time-created::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.information-form-container .information-form button {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--color-12);
+    color: var(--color-1);
+    font-weight: bold;
+    outline: none;
+    border: none;
+}

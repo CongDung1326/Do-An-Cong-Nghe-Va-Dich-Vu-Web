@@ -6,7 +6,7 @@ if (input_get(hash_encode("limit-account")) && input_get(hash_encode("limit"))) 
     $limit_max = input_get(hash_encode("limit"));
     $limit = $limit_account == 1 ? "limit_start=$limit_max" : "limit_start=" . $limit_max * ($limit_account - 1) . "&limit=$limit_max";
 
-    $accounts = post_api(base_url("api\account\GetAllAccountBuyed.php?$limit"), api_verify())['accounts'];
+    $accounts = post_api(base_url("api\account\GetAllAccountBuyed.php?$limit"), api_verify())->accounts;
     $result = "";
     $not_found = "<tr>
         <td colspan='7'>Không tìm thấy tài khoản nào cả!</td>

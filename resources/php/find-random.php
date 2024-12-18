@@ -3,7 +3,7 @@ include_once __DIR__ . "/../../config.php";
 
 if (input_get(hash_encode("search"))) {
     $search = input_get(hash_encode("search"));
-    $accounts = post_api(base_url("api/account/GetAllAccountRandom.php?is_sold=F&search=$search"), api_verify())['accounts'];
+    $accounts = post_api(base_url("api/account/GetAllAccountRandom.php?is_sold=F&search=$search"), api_verify())->accounts;
     $result = "";
     $not_found = "<tr>
         <td colspan='6'>Không tìm thấy tài khoản nào cả!</td>
@@ -30,7 +30,7 @@ if (input_get(hash_encode("search"))) {
 
     echo !empty($result) ? $result : $not_found;
 } else {
-    $accounts = post_api(base_url("api/account/GetAllAccountRandom.php?is_sold=F"), api_verify())['accounts'];
+    $accounts = post_api(base_url("api/account/GetAllAccountRandom.php?is_sold=F"), api_verify())->accounts;
     $result = "";
     $not_found = "<tr>
         <td colspan='6'>Danh sách tài khoản đang chống!</td>

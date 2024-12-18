@@ -17,7 +17,7 @@
             <label for="">Chuyên Mục</label>
             <select name="product_category" id="">
                 <?php
-                $categorys = get_api(base_url("api/category/GetAllCategory.php"))['categories'];
+                $categorys = get_api(base_url("api/category/GetAllCategory.php"))->categories;
                 array_map(function ($category) { ?>
                     <option value="<?= hash_encode($category->id) ?>"><?= $category->name ?></option>
                 <?php }, $categorys); ?>
@@ -40,7 +40,7 @@ if (input_post("product_title") && input_post("product_comment") && input_post("
         "price" => $product_price,
         "id_category" => $product_category
     ]));
-    if ($respon['status'] == "error") show_notification("error", $respon['message']);
+    if ($respon->status == "error") show_notification("error", $respon->message);
     redirect(base_url_admin("manage-store"));
 }
 ?>
