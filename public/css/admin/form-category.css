@@ -64,3 +64,13 @@
     background-color: var(--color-9);
     color: var(--color-1);
 }
+
+@media only screen and (max-width:1024px) {
+    .wrapper {
+        overflow: scroll;
+    }
+
+    .form-category-container table {
+        width: 1000px;
+    }
+}

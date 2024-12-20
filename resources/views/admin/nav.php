@@ -23,7 +23,8 @@ $showManageAdmin = session_get("information") ? session_get("information")['role
             <img onclick="toggleDropMenu()" src="<?= session_get("information") ? base_url(session_get("information")['avatar']) : "https://pbs.twimg.com/profile_images/1701878932176351232/AlNU3WTK_400x400.jpg"; ?>" alt="">
             <ul class="hidden">
                 <?php if (session_get("information")): ?>
-                    <li><a href="">Thông tin người dùng</a></li>
+                    <?php $id = isset($id) ? hash_encode($id) : "" ?>
+                    <li><a href="<?= base_url("client/information-user/" . $id) ?>">Thông tin người dùng</a></li>
                     <li><a href="<?= base_url("client/logout") ?>">Đăng xuất</a></li>
                 <?php else: ?>
                     <li><a href="<?= base_url("client/login") ?>">Đăng Nhập</a></li>

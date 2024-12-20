@@ -45,3 +45,14 @@
     background-color: var(--color-10);
     color: var(--color-1);
 }
+
+
+@media only screen and (max-width:1024px) {
+    .wrapper {
+        overflow: scroll;
+    }
+
+    .list-deposit-container table {
+        width: 1000px;
+    }
+}

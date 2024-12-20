@@ -51,4 +51,5 @@ input[type="date"].time-created::-webkit-calendar-picker-indicator {
     font-weight: bold;
     outline: none;
     border: none;
+    cursor: pointer;
 }

@@ -54,7 +54,7 @@ if (input_post("product_title") && input_post("product_comment") && input_post("
         "id_category" => $product_category,
         "id_product" => $id
     ]));
-    if ($respon['status'] == "error") show_notification("error", $respon['message']);
+    if ($respon->status == "error") show_notification("error", $respon->message);
     redirect(base_url_admin("manage-store"));
 }
 ?>

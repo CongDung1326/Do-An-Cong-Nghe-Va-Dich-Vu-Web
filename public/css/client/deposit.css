@@ -79,3 +79,14 @@
         width: 1000px;
     }
 }
+
+@media screen and (max-width: 730px) {
+    .deposit-banner-container {
+        flex-direction: column;
+    }
+
+    .deposit-banner,
+    .notice-banner {
+        width: 100% !important;
+    }
+}

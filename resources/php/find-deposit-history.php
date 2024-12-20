@@ -42,7 +42,7 @@ if (input_get(hash_encode("search"))) {
     echo !empty($result) ? $result : $not_found;
 } else {
     $id = session_get("information")['id'];
-    $banks = post_api(base_url("api\bank\GetAllBankByIdUser.php"), api_verify(["id_user" => $id]))['banks'];
+    $banks = post_api(base_url("api\bank\GetAllBankByIdUser.php"), api_verify(["id_user" => $id]))->banks;
     $result = "";
     $not_found = "<tr>
         <td colspan='8'>Danh sách nhà mạng đang chống!</td>

@@ -14,9 +14,13 @@
     font-weight: bold;
 }
 
+.banner-container .wrapper {
+    width: 100%;
+}
+
 .banner-container div.banner-left,
 .banner-container div.banner-right {
-    width: 50%;
+    width: 100%;
 }
 
 .banner-container div.banner-left .product-recently,
@@ -81,4 +85,36 @@
     background-color: var(--color-4);
     font-size: var(--font-size-0);
     text-transform: capitalize;
+}
+
+@media only screen and (max-width: 740px) {
+    .banner-container {
+        display: block;
+        padding-top: 20px;
+    }
+
+    .banner-container div.banner-left,
+    .banner-container div.banner-right {
+        width: 800px;
+    }
+
+    div.wrapper {
+        overflow: scroll;
+    }
+
+
+}
+
+/* Tablet Devices */
+@media only screen and (min-width: 740px) and (max-width: 1024px) {
+    .banner-container {
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .banner-container div.banner-left,
+    .banner-container div.banner-right {
+        width: 100%;
+    }
+
 }

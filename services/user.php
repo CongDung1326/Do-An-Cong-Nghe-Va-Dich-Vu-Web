@@ -67,16 +67,14 @@ class User extends Api
             "message" => "Đăng ký thành công",
         ]);
     }
-    public function GetUserById($id_user, $data)
+    public function GetUserById($id_user)
     {
         $table = "user";
         $query = "SELECT * FROM $table WHERE id=$id_user";
 
-        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
-        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
-        if (empty($id_user)) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!is_numeric($id_user)) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "id vui lòng phải là số"]);
-        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Không tìm thấy user nào cả"]);
+        if (empty($id_user)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
+        if (!is_numeric($id_user)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "id vui lòng phải là số"]);
+        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy user nào cả"]);
 
         $user = $this->db->get_row($query);
         $total_money = $this->db->get_row("SELECT SUM(amount) as result FROM bank WHERE user_id = $id_user AND status = 'S'")['result'];
@@ -92,11 +90,8 @@ class User extends Api
             "user" => $user
         ]);
     }
-    public function GetDataBanner($data)
+    public function GetDataBanner()
     {
-        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
-        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
-
         $buyed = $this->db->get_row("SELECT COUNT(*) as buyed FROM notification_buy")['buyed'];
         $account_sold = $this->db->get_row("SELECT COUNT(*) as sold FROM account WHERE is_sold = 'T'")['sold'];
         $count_user = $this->db->get_row("SELECT COUNT(*) as users FROM user")['users'];
@@ -114,15 +109,13 @@ class User extends Api
             ]
         ]);
     }
-    public function RemoveUser($id_user, $data)
+    public function RemoveUser($id_user)
     {
         $table = "user";
         $query = "SELECT * FROM $table WHERE id=$id_user";
 
-        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
-        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
-        if (empty($id_user)) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Không tìm thấy user"]);
+        if (empty($id_user)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
+        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Không tìm thấy user"]);
 
         $this->db->remove($table, "id=$id_user");
 
@@ -132,15 +125,13 @@ class User extends Api
             "message" => "Xoá dữ liệu thành công",
         ]);
     }
-    public function GetAllUser($search, $limit_start, $limit, $data)
+    public function GetAllUser($search, $limit_start, $limit)
     {
-        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
-        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
-        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Limit vui lòng phải là số"]);
-        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
-        if ($limit < 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
-        if ($limit_start < 0) return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
-        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
+        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Limit vui lòng phải là số"]);
+        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
+        if ($limit < 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
+        if ($limit_start < 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
+        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
 
 
         $limit = ($limit != 0) ? ",$limit" : "";
@@ -173,7 +164,7 @@ class User extends Api
             ]);
         }
     }
-    public function EditUser($id_user, $username, $password, $name, $age, $email, $number_phone, $avatar, $money, $role_id, $data)
+    public function EditUser($id_user, $username, $password, $name, $age, $email, $number_phone, $avatar, $money, $role_id)
     {
         $table = "user";
         $query = "SELECT * FROM $table WHERE id=$id_user";
@@ -183,16 +174,14 @@ class User extends Api
         $age = check_string($age);
         $email = check_string($email);
 
-        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
-        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
-        if (empty($id_user)) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!is_numeric($id_user)) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Id vui lòng phải là số"]);
-        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Không tìm thấy user"]);
-        if (strtotime($age) <= strtotime(0))  return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Tuổi vui lòng phải là chuẩn theo ngày tháng năm"]);
-        if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Vui lòng đúng định dạng email"]);
-        if (!empty($number_phone) && !is_numeric($number_phone))  return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Số điện thoại vui lòng phải là số"]);
-        if (!empty($money) && !is_numeric($money) && $money > 0)  return json_encode_utf8(["errCode" => 9, "status" => "error", "message" => "Số tiền vui lòng phải là số và nó phải lớn hơn 0"]);
-        if (!empty($role_id) && !is_numeric($role_id) && ($role_id != 0 || $role_id != 2))  return json_encode_utf8(["errCode" => 10, "status" => "error", "message" => "Quyền hạng vui lòng phải là số và phải nằm trong 0 và 2"]);
+        if (empty($id_user)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
+        if (!is_numeric($id_user)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Id vui lòng phải là số"]);
+        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy user"]);
+        if (!empty($age) && (strtotime($age) <= strtotime(0)))  return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Tuổi vui lòng phải là chuẩn theo ngày tháng năm"]);
+        if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng đúng định dạng email"]);
+        if (!empty($number_phone) && !is_numeric($number_phone))  return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Số điện thoại vui lòng phải là số"]);
+        if (!empty($money) && !is_numeric($money) && $money > 0)  return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Số tiền vui lòng phải là số và nó phải lớn hơn 0"]);
+        if (!empty($role_id) && !is_numeric($role_id) && ($role_id != 0 || $role_id != 2))  return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Quyền hạng vui lòng phải là số và phải nằm trong 0 và 2"]);
 
         $user = $this->db->get_row($query);
 
@@ -202,7 +191,7 @@ class User extends Api
         $email = !empty($email) ? $email : $user['email'];
         $number_phone = !empty($number_phone) ? $number_phone : $user['number_phone'];
         $money = !empty($money) ? $money : $user['money'];
-        $role_id = !is_null($role_id) ? $role_id : $user['role_id'];
+        $role_id = !empty($role_id) ? $role_id : $user['role_id'];
         $age = !empty($age) ? $age : $user['age'];
 
         try {
@@ -218,7 +207,7 @@ class User extends Api
             ], "id=$id_user");
         } catch (Exception) {
             return json_encode_utf8([
-                "errCode" => 11,
+                "errCode" => 9,
                 "status" => "error",
                 "message" => "Trùng tên tài khoản",
             ]);
@@ -230,7 +219,7 @@ class User extends Api
             "message" => "Cập nhật thành công",
         ]);
     }
-    public function EditSettings($id_user, $title, $description, $logo, $keyword, $name_shop, $discount, $data)
+    public function EditSettings($id_user, $title, $description, $logo, $keyword, $name_shop, $discount)
     {
         $table = "settings";
         $query_user = "SELECT * FROM user WHERE id=$id_user AND role_id = 2";
@@ -239,11 +228,9 @@ class User extends Api
         $keyword = check_string($keyword);
         $name_shop = check_string($name_shop);
 
-        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
-        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
-        if (empty($id_user) && empty($title) && empty($description) && empty($keyword) && empty($name_shop) && empty($discount)) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!empty($discount) && !is_numeric($discount)) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Chiết khấu vui lòng phải là số"]);
-        if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Không tìm thấy tài khoản"]);
+        if (empty($id_user) && empty($title) && empty($description) && empty($keyword) && empty($name_shop) && empty($discount)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
+        if (!empty($discount) && !is_numeric($discount)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Chiết khấu vui lòng phải là số"]);
+        if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy tài khoản"]);
 
         $result = [
             "title" => $title,

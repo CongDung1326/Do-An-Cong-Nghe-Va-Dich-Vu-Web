@@ -203,10 +203,7 @@ function check_types($type)
 }
 function api_verify($data = [])
 {
-    $result = [
-        "username" => API_USERNAME,
-        "password" => API_PASSWORD,
-    ];
+    $result = [];
     if (isset($data)) {
         foreach ($data as $key => $value) {
             $result[$key] = $value;
@@ -227,7 +224,7 @@ function site($key)
 }
 function name_user($data)
 {
-    $array_names = explode(" ", $data);
+    $array_names = explode(" ", trim($data));
     $last_name = array_pop($array_names);
 
     return [

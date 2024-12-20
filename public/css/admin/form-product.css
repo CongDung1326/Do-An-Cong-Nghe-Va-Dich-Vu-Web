@@ -85,3 +85,13 @@
     background-color: var(--color-1);
     border: 1px solid var(--color-6);
 }
+
+@media only screen and (max-width:1024px) {
+    .wrapper {
+        overflow: scroll;
+    }
+
+    .form-product-container table {
+        width: 1000px;
+    }
+}

@@ -26,7 +26,7 @@
                 array_map(function ($rank) { ?>
                     <option value="<?= $rank->id ?>"><?= $rank->name ?></option>
                 <?php }, $get_list_rank); ?>
-            </select>1
+            </select>
         </div>
         <div class="category">
             <label for="">Price</label>

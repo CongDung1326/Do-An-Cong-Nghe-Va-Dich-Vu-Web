@@ -1,6 +1,6 @@
 .deposit-history-container {
     margin: 20px 0;
-    padding: 10px;
+    padding: 15px;
     background-color: var(--color-1);
 }
 
@@ -28,8 +28,8 @@
     color: var(--color-1);
 }
 
-@media only screen and (min-width:740px) and (max-width:1024px) {
-    .deposit-history-container {
+@media only screen and (max-width:1024px) {
+    .wrapper {
         overflow: scroll;
     }
 

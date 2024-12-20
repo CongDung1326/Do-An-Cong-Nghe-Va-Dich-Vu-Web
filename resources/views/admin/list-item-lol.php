@@ -7,44 +7,46 @@
         </div>
     </div>
     <div class="limit"><span>Hiển Thị (Thấp Nhất 2): </span><input type="number" min="1" value="5"></div>
-    <table>
-        <thead>
-            <th>STT</th>
-            <th>Tên Tài Khoản</th>
-            <th>Mật Khẩu</th>
-            <th>Tên Sản Phẩm</th>
-            <th>Số Tướng</th>
-            <th>Số Skin</th>
-            <th>Rank</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Trạng Thái</th>
-            <th>Chức Năng</th>
-        </thead>
-        <tbody>
-            <?php
-            $accounts = post_api(base_url("api/account/GetAllAccountLOL.php?is_sold=F&limit_start=5"), api_verify())->accounts;
+    <div class="wrapper">
+        <table>
+            <thead>
+                <th>STT</th>
+                <th>Tên Tài Khoản</th>
+                <th>Mật Khẩu</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Số Tướng</th>
+                <th>Số Skin</th>
+                <th>Rank</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>Trạng Thái</th>
+                <th>Chức Năng</th>
+            </thead>
+            <tbody>
+                <?php
+                $accounts = post_api(base_url("api/account/GetAllAccountLOL.php?is_sold=F&limit_start=5"), api_verify())->accounts;
 
-            array_map(function ($account, $count) { ?>
-                <tr>
-                    <td><?= $count ?></td>
-                    <td><?= $account->username ?></td>
-                    <td><?= $account->password ?></td>
-                    <td>Acc Liên Minh #<?= $account->name ?></td>
-                    <td><?= $account->number_char ?></td>
-                    <td><?= $account->number_skin ?></td>
-                    <td><?= $account->rank ?></td>
-                    <td><?= number_format($account->price) ?>đ</td>
-                    <td><a href="<?= base_url_admin("see-image-lol/" . $account->id) ?>">See Image..</a></td>
-                    <td><?= $account->is_sold == "T" ? "Đã Bán" : "Chưa Bán"; ?></td>
-                    <td>
-                        <button class="success"><a href="<?= base_url_admin("lol-edit/" . hash_encode($account->id)) ?>">Chỉnh Sửa</a></button>
-                        <button class="failed" value="<?= hash_encode($account->id) ?>">Xoá</button>
-                    </td>
-                </tr>
-            <?php }, $accounts, array_map_length($accounts)); ?>
-        </tbody>
-    </table>
+                array_map(function ($account, $count) { ?>
+                    <tr>
+                        <td><?= $count ?></td>
+                        <td><?= $account->username ?></td>
+                        <td><?= $account->password ?></td>
+                        <td>Acc Liên Minh #<?= $account->name ?></td>
+                        <td><?= $account->number_char ?></td>
+                        <td><?= $account->number_skin ?></td>
+                        <td><?= $account->rank ?></td>
+                        <td><?= number_format($account->price) ?>đ</td>
+                        <td><a href="<?= base_url_admin("see-image-lol/" . $account->id) ?>">See Image..</a></td>
+                        <td><?= $account->is_sold == "T" ? "Đã Bán" : "Chưa Bán"; ?></td>
+                        <td>
+                            <button class="success"><a href="<?= base_url_admin("lol-edit/" . hash_encode($account->id)) ?>">Chỉnh Sửa</a></button>
+                            <button class="failed" value="<?= hash_encode($account->id) ?>">Xoá</button>
+                        </td>
+                    </tr>
+                <?php }, $accounts, array_map_length($accounts)); ?>
+            </tbody>
+        </table>
+    </div>
     <div class="change-page">
         <div class="prev" onclick="prevPage()"><button>Sau</button></div>
         <input type="number" disabled value="1">

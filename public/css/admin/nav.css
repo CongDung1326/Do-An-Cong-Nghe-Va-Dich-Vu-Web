@@ -131,6 +131,16 @@
     .nav-container ul.nav-left li:nth-child(2) {
         display: none;
     }
+
+    .nav-container ul.nav-right li.drop-menu ul {
+        left: unset;
+        right: 0;
+    }
+
+    .nav-container ul.nav-right li.drop-menu ul::before {
+        left: unset;
+        right: 15px;
+    }
 }
 
 /* Tablet */

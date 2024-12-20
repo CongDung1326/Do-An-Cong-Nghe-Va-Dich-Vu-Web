@@ -7,6 +7,7 @@ function get_api($url)
     $result = [];
 
     curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_USERPWD, API_USERNAME . ":" . API_PASSWORD);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     $resp = curl_exec($ch);
@@ -29,6 +30,7 @@ function post_api($url, $data)
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_USERPWD, API_USERNAME . ":" . API_PASSWORD);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode_utf8($data));
 
     $resp = curl_exec($ch);

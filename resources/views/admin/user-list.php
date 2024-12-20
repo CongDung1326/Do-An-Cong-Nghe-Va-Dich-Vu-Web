@@ -4,44 +4,46 @@
         <div class="find"><span>Tìm Kiếm: </span><input type="text" value=""></div>
     </div>
     <div class="limit"><span>Hiển Thị (Thấp Nhất 2): </span><input type="number" min="1" value="5"></div>
-    <table>
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Tài Khoản</th>
-                <th>Ví</th>
-                <th>Admin</th>
-                <th>Chức Năng</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $users = post_api(base_url("api/user/GetAllUser.php?limit_start=5"), api_verify())->users;
-            array_map(function ($user, $count) { ?>
+    <div class="wrapper">
+        <table>
+            <thead>
                 <tr>
-                    <td><?= $count ?></td>
-                    <td>
-                        <ul>
-                            <li><b>Tên đăng nhập:</b> <?= $user->username ?></li>
-                            <li><b>Địa chỉ Email:</b> <?= $user->email ?></li>
-                            <li><b>Số điện thoại:</b> <?= $user->number_phone ?></li>
-                        </ul>
-                    </td>
-                    <td>
-                        <ul>
-                            <li><b>Số dư khả dụng:</b> <?= number_format($user->money) ?>đ</li>
-                            <li><b>Tổng số tiền nạp:</b> <?= number_format($user->total_money) ?>đ</li>
-                        </ul>
-                    </td>
-                    <td><?= $user->role_id == '2' ? "Có" : "Không"; ?></td>
-                    <td>
-                        <button class="success"><a href="<?= base_url_admin("user-edit/" . hash_encode($user->id)) ?>">Sửa</a></button>
-                        <button class="failed" value="<?= hash_encode($user->id) ?>">Xoá</button>
-                    </td>
+                    <th>STT</th>
+                    <th>Tài Khoản</th>
+                    <th>Ví</th>
+                    <th>Admin</th>
+                    <th>Chức Năng</th>
                 </tr>
-            <?php }, $users, array_map_length($users)); ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php
+                $users = post_api(base_url("api/user/GetAllUser.php?limit_start=5"), api_verify())->users;
+                array_map(function ($user, $count) { ?>
+                    <tr>
+                        <td><?= $count ?></td>
+                        <td>
+                            <ul>
+                                <li><b>Tên đăng nhập:</b> <?= $user->username ?></li>
+                                <li><b>Địa chỉ Email:</b> <?= $user->email ?></li>
+                                <li><b>Số điện thoại:</b> <?= $user->number_phone ?></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li><b>Số dư khả dụng:</b> <?= number_format($user->money) ?>đ</li>
+                                <li><b>Tổng số tiền nạp:</b> <?= number_format($user->total_money) ?>đ</li>
+                            </ul>
+                        </td>
+                        <td><?= $user->role_id == '2' ? "Có" : "Không"; ?></td>
+                        <td>
+                            <button class="success"><a href="<?= base_url_admin("user-edit/" . hash_encode($user->id)) ?>">Sửa</a></button>
+                            <button class="failed" value="<?= hash_encode($user->id) ?>">Xoá</button>
+                        </td>
+                    </tr>
+                <?php }, $users, array_map_length($users)); ?>
+            </tbody>
+        </table>
+    </div>
     <div class="change-page">
         <div class="prev" onclick="prevPage()"><button>Sau</button></div>
         <input type="number" disabled value="1">

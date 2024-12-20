@@ -1,5 +1,6 @@
 <?php
 include_once __DIR__ . "/../post.php";
+$respon = include_once __DIR__ . "/../authorization.php";
 
 $user = new User();
 
@@ -16,4 +17,11 @@ $avatar = isset($data->avatar) ? $data->avatar : "";
 $money = isset($data->money) ? $data->money : "";
 $role_id = isset($data->role_id) ? $data->role_id : "";
 
-print_r($user->EditUser($id_user, $username, $password, $name, $age, $email, $number_phone, $avatar, $money, $role_id, $data));
+if ($respon === 200) {
+    print_r($user->EditUser($id_user, $username, $password, $name, $age, $email, $number_phone, $avatar, $money, $role_id));
+} else {
+    print_r(json_encode_utf8([
+        "status" => "error",
+        "message" => "Bạn không đủ quyền hạn để truy cập"
+    ]));
+}

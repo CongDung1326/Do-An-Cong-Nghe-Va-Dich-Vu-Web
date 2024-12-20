@@ -4,39 +4,42 @@
         <div class="find"><span>Tìm Kiếm: </span><input type="text" value=""></div>
     </div>
     <div class="limit"><span>Hiển Thị (Thấp Nhất 2): </span><input type="number" min="1" value="5"></div>
-    <table class="history-purchased">
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Sản Phẩm</th>
-                <th>Số Lượng</th>
-                <th>Thanh Toán</th>
-                <th>Mã Giao Dịch</th>
-                <th>Thời Gian</th>
-                <th>Thao Tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $user_id = session_get("information")['id'];
+    <div class="wrapper">
 
-            $buys = post_api(base_url("api/notification/GetAllNotificationRandom.php?is_show=T&limit_start=5"), api_verify(["id_user" => $user_id]))->notifications;
-            array_map(function ($buy, $count) {  ?>
+        <table class="history-purchased">
+            <thead>
                 <tr>
-                    <td><?= $count ?></td>
-                    <td><?= $buy->title ?></td>
-                    <td><?= $buy->amount ?></td>
-                    <td><?= number_format($buy->money) ?>đ</td>
-                    <td><?= $buy->unique_code ?></td>
-                    <td><?= timeAgo($buy->time) ?></td>
-                    <td>
-                        <button class="check"><a href="<?= base_url("client/check-purchased/" . hash_encode($buy->id)) ?>">Kiểm Tra Sản Phẩm</a></button>
-                        <button class="delete" value="<?= hash_encode($buy->id) ?>">Xoá</button>
-                    </td>
+                    <th>STT</th>
+                    <th>Sản Phẩm</th>
+                    <th>Số Lượng</th>
+                    <th>Thanh Toán</th>
+                    <th>Mã Giao Dịch</th>
+                    <th>Thời Gian</th>
+                    <th>Thao Tác</th>
                 </tr>
-            <?php }, $buys, array_map_length($buys)); ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php
+                $user_id = session_get("information")['id'];
+
+                $buys = post_api(base_url("api/notification/GetAllNotificationRandom.php?is_show=T&limit_start=5"), api_verify(["id_user" => $user_id]))->notifications;
+                array_map(function ($buy, $count) {  ?>
+                    <tr>
+                        <td><?= $count ?></td>
+                        <td><?= $buy->title ?></td>
+                        <td><?= $buy->amount ?></td>
+                        <td><?= number_format($buy->money) ?>đ</td>
+                        <td><?= $buy->unique_code ?></td>
+                        <td><?= timeAgo($buy->time) ?></td>
+                        <td>
+                            <button class="check"><a href="<?= base_url("client/check-purchased/" . hash_encode($buy->id)) ?>">Kiểm Tra Sản Phẩm</a></button>
+                            <button class="delete" value="<?= hash_encode($buy->id) ?>">Xoá</button>
+                        </td>
+                    </tr>
+                <?php }, $buys, array_map_length($buys)); ?>
+            </tbody>
+        </table>
+    </div>
     <div class="change-page">
         <div class="prev" onclick="prevPage()"><button>Sau</button></div>
         <input type="number" disabled value="1">

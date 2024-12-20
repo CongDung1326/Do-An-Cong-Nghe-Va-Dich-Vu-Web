@@ -85,3 +85,16 @@
 .banner-container .banner .banner-money {
     background-color: var(--color-10);
 }
+
+@media screen and (max-width: 740px) {
+    .banner-container .banner {
+        display: block;
+    }
+
+    .banner-container .banner .banner-sold,
+    .banner-container .banner .banner-account,
+    .banner-container .banner .banner-user,
+    .banner-container .banner .banner-money {
+        margin-bottom: 10px;
+    }
+}

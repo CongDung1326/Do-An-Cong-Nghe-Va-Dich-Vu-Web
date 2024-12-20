@@ -5,7 +5,7 @@ $call_shop_account = get_api(base_url("api/category/GetAllCategory.php"))->categ
 <?php if ($call_shop_account): ?>
     <div class="shop-account-container">
         <?php array_map(function ($value) { ?>
-            <div class="wapper-table">
+            <div class="wrapper-table">
                 <table class="shop-account">
                     <thead class="top">
                         <tr>

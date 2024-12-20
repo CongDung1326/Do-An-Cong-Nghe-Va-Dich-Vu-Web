@@ -64,7 +64,7 @@ class Notification extends Api
             ]);
         }
     }
-    public function GetAllNotificationRandom($search, $limit_start, $limit, $id_user, $is_show, $data)
+    public function GetAllNotificationRandom($search, $limit_start, $limit, $id_user, $is_show)
     {
         $table_user = "user";
         $query_user = "SELECT * FROM $table_user WHERE id = $id_user";
@@ -75,9 +75,7 @@ class Notification extends Api
         if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
         if (empty($id_user)) return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
         if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Không tìm thấy user"]);
-        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
-        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 9, "status" => "error", "message" => "Đăng nhập thất bại"]);
-        if ($is_show != "ALL" && $is_show != "T" && $is_show != "F") return json_encode_utf8(["errCode" => 10, "status" => "error", "message" => "Is show vui lòng phải là T|F"]);
+        if ($is_show != "ALL" && $is_show != "T" && $is_show != "F") return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Is show vui lòng phải là T|F"]);
 
         $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
         $limit = ($limit != 0) ? ",$limit" : "";
@@ -106,7 +104,7 @@ class Notification extends Api
             ]);
         }
     }
-    public function GetAllNotificationLOL($search, $limit_start, $limit, $id_user, $is_show, $data)
+    public function GetAllNotificationLOL($search, $limit_start, $limit, $id_user, $is_show)
     {
         $table_user = "user";
         $query_user = "SELECT * FROM $table_user WHERE id = $id_user";
@@ -117,9 +115,7 @@ class Notification extends Api
         if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
         if (empty($id_user)) return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
         if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Không tìm thấy user"]);
-        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
-        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 9, "status" => "error", "message" => "Đăng nhập thất bại"]);
-        if ($is_show != "ALL" && $is_show != "T" && $is_show != "F") return json_encode_utf8(["errCode" => 10, "status" => "error", "message" => "Is show vui lòng phải là T|F"]);
+        if ($is_show != "ALL" && $is_show != "T" && $is_show != "F") return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Is show vui lòng phải là T|F"]);
 
         $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
         $limit = ($limit != 0) ? ",$limit" : "";
@@ -148,18 +144,16 @@ class Notification extends Api
             ]);
         }
     }
-    public function RemoveNotificationByIdUser($id_user, $id_notification, $data)
+    public function RemoveNotificationByIdUser($id_user, $id_notification)
     {
         $table = "notification_buy";
         $table_user = "user";
         $query_user = "SELECT * FROM $table_user WHERE id = $id_user";
         $query_notification = "SELECT * FROM $table WHERE id = $id_notification";
 
-        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
-        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
-        if (empty($id_user) || empty($id_notification)) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Không tìm thấy người dùng"]);
-        if ($this->db->num_rows($query_notification) == 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Không tìm thấy đơn hàng nào cả"]);
+        if (empty($id_user) || empty($id_notification)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
+        if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Không tìm thấy người dùng"]);
+        if ($this->db->num_rows($query_notification) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy đơn hàng nào cả"]);
 
         $this->db->update($table, [
             "is_show" => "F"
@@ -170,18 +164,16 @@ class Notification extends Api
             "message" => "Xoá thành công",
         ]);
     }
-    public function RemoveNotification($id_notification, $data)
+    public function RemoveNotification($id_notification)
     {
         $table = "notification_buy";
         $table_account = "account";
         $table_lol = "account_lol";
         $query = "SELECT * FROM $table WHERE id=$id_notification";
 
-        if (!isset($data->username) || !isset($data->password)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Bạn không đủ quyền hạn để truy cập"]);
-        if (!$this->api->CheckIsAdmin($data->username, hash_encode($data->password))) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Đăng nhập thất bại"]);
-        if (empty($id_notification)) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!is_numeric($id_notification)) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "id truyền vào vui lòng phải là số"]);
-        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Không tìm thấy đơn hàng nào"]);
+        if (empty($id_notification)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
+        if (!is_numeric($id_notification)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "id truyền vào vui lòng phải là số"]);
+        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy đơn hàng nào"]);
 
         $notification = $this->db->get_row($query);
         $unique_code = $notification['unique_code'];

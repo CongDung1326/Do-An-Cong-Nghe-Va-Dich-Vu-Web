@@ -4,44 +4,46 @@
         <div class="find"><span>Tìm Kiếm: </span><input type="text" value=""></div>
     </div>
     <div class="limit"><span>Hiển Thị (Thấp Nhất 2): </span><input type="number" min="1" value="5"></div>
-    <table>
-        <thead>
-            <th>STT</th>
-            <th>Tên Tài Khoản</th>
-            <th>Họ Tên</th>
-            <th>Loại Thẻ</th>
-            <th>Serial</th>
-            <th>Pin</th>
-            <th>Số Tiền</th>
-            <th>Thời Gian</th>
-            <th>Chức Năng</th>
-        </thead>
-        <tbody>
-            <?php
-            $banks = post_api(base_url("api/bank/GetAllBank.php?limit_start=5&status=W"), api_verify())->banks;
+    <div class="wrapper">
+        <table>
+            <thead>
+                <th>STT</th>
+                <th>Tên Tài Khoản</th>
+                <th>Họ Tên</th>
+                <th>Loại Thẻ</th>
+                <th>Serial</th>
+                <th>Pin</th>
+                <th>Số Tiền</th>
+                <th>Thời Gian</th>
+                <th>Chức Năng</th>
+            </thead>
+            <tbody>
+                <?php
+                $banks = post_api(base_url("api/bank/GetAllBank.php?limit_start=5&status=W"), api_verify())->banks;
 
-            array_map(function ($bank, $count) { ?>
-                <tr>
-                    <td><?= $count ?></td>
-                    <td><?= $bank->username ?></td>
-                    <td><?= $bank->name ?></td>
-                    <td><?= $bank->type ?></td>
-                    <td><?= $bank->serial ?></td>
-                    <td><?= $bank->pin ?></td>
-                    <td><?= number_format($bank->amount) ?>đ</td>
-                    <td><?= timeAgo($bank->time_created) ?></td>
-                    <td>
-                        <form action="" method="post">
-                            <button class="success" name="deposit_type" type="submit" value="S">Thành Công</button>
-                            <button class="failed" name="deposit_type" type="submit" value="F">Thất Bại</button>
-                            <input type="text" value="<?= hash_encode($bank->id) ?>" name="deposit_type_id" hidden>
-                            <input type="text" value="<?= hash_encode($bank->id_user) ?>" name="user_id" hidden>
-                        </form>
-                    </td>
-                </tr>
-            <?php }, $banks, array_map_length($banks)); ?>
-        </tbody>
-    </table>
+                array_map(function ($bank, $count) { ?>
+                    <tr>
+                        <td><?= $count ?></td>
+                        <td><?= $bank->username ?></td>
+                        <td><?= $bank->name ?></td>
+                        <td><?= $bank->type ?></td>
+                        <td><?= $bank->serial ?></td>
+                        <td><?= $bank->pin ?></td>
+                        <td><?= number_format($bank->amount) ?>đ</td>
+                        <td><?= timeAgo($bank->time_created) ?></td>
+                        <td>
+                            <form action="" method="post">
+                                <button class="success" name="deposit_type" type="submit" value="S">Thành Công</button>
+                                <button class="failed" name="deposit_type" type="submit" value="F">Thất Bại</button>
+                                <input type="text" value="<?= hash_encode($bank->id) ?>" name="deposit_type_id" hidden>
+                                <input type="text" value="<?= hash_encode($bank->id_user) ?>" name="user_id" hidden>
+                            </form>
+                        </td>
+                    </tr>
+                <?php }, $banks, array_map_length($banks)); ?>
+            </tbody>
+        </table>
+    </div>
     <div class="change-page">
         <div class="prev" onclick="prevPage()"><button>Sau</button></div>
         <input type="number" disabled value="1">

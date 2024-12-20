@@ -44,7 +44,7 @@ $user = $respon->user;
             </div>
             <div class="user">
                 <label for="">Đã Tiêu</label>
-                <input type="text" value="<?= number_format($user->spent) ?>Đ" disabled>
+                <input type="text" value="<?= number_format($user->spent) ?>đ" disabled>
             </div>
             <div class="user">
                 <label for="">Tổng Đã Nạp</label>
@@ -107,11 +107,11 @@ if (input_post("user_password")) {
     redirect(base_url_admin("manage-user"));
 }
 
-if (input_post("user_name") && input_post("user_email") && input_post("user_number_phone") && input_post("user_role_id")) {
+if (input_post("user_name") && input_post("user_email")) {
     $user_name = check_string(input_post("user_name"));
     $user_email = check_string(input_post("user_email"));
-    $user_number_phone = check_string(input_post("user_number_phone"));
-    $user_role_id = check_string(input_post("user_role_id"));
+    $user_number_phone = !empty(input_post("user_number_phone")) ? check_string(input_post("user_number_phone")) : "";
+    $user_role_id = !empty(input_post("user_role_id")) ? check_string(input_post("user_role_id")) : 0;
 
     $respon = post_api(base_url("api/user/EditUser.php"), api_verify([
         "id_user" => $id,
@@ -120,8 +120,8 @@ if (input_post("user_name") && input_post("user_email") && input_post("user_numb
         'number_phone' => $user_number_phone,
         'role_id' => $user_role_id
     ]));
-    if ($respon->status == "error") show_notification("error", $respon->message);
 
+    if ($respon->status == "error") show_notification("error", $respon->message);
     redirect(base_url_admin("manage-user"));
 }
 ?>
