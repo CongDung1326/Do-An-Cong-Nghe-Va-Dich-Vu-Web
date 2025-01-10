@@ -20,7 +20,6 @@
                 show_notification("error", $respon->message, base_url());
                 return;
             }
-
             $accounts = $respon->accounts;
 
             array_map(function ($account, $count) { ?>

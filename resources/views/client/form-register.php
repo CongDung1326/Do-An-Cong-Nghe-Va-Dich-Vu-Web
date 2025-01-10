@@ -22,6 +22,7 @@ if (input_post("username") && input_post("name") && input_post("password") && in
 ?>
 
 <div class="form-register-wrapper">
+    <div class="back"><a href="<?= base_url() ?>"><i class="fa-solid fa-reply"></i></a></div>
     <div class="form-register-container">
         <div class="logo"><img src="https://marketplace.canva.com/EAFaFUz4aKo/2/0/1600w/canva-yellow-abstract-cooking-fire-free-logo-JmYWTjUsE-Q.jpg" alt=""></div>
 
@@ -41,8 +42,8 @@ if (input_post("username") && input_post("name") && input_post("password") && in
                 <input type="email" name="email" id="" placeholder="Enter your email">
             </div>
             <div class="error-title"><?= $title ?></div>
-            <div class="have-account"><a href="<?= base_url("client/login"); ?>">Đã có tài khoản</a></div>
             <button type="submit" style="--color: #FBBC05;">Đăng Ký</button>
+            <div class="have-account">Đã có tài khoản? <a href="<?= base_url("client/login"); ?>">Đăng nhập</a></div>
         </form>
     </div>
 </div>

@@ -1,136 +1,83 @@
 <?php
 require_once __DIR__ . "/../config.php";
-require_once __DIR__ . "/api.php";
 
-class Bank extends Api
+class Bank
 {
-    private $db, $api;
+    private $db, $db_bank, $db_user, $err_code = 0;
     public function __construct()
     {
         $this->db = new DB();
-        $this->api = new Api();
+        $this->db_bank = new BankDB();
+        $this->db_user = new UserDB();
     }
-    public function GetAllBank($limit_start, $limit, $status)
+    public function GetAllBank($limit_start, $limit, $search, $status)
     {
-        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Limit vui lòng phải là số"]);
-        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
-        if ($limit < 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
-        if ($limit_start < 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
-        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
-        if ($status != 'F' && $status != 'S' && $status != 'ALL' && $status != 'W') return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "status vui lòng phải là S|W|F"]);
+        if (!is_numeric($limit)) return ["err_code" => $this->err_code = 11];
+        if (!is_numeric($limit_start)) return ["err_code" => $this->err_code = 12];
+        if ($limit < 0) return ["err_code" => $this->err_code = 13];
+        if ($limit_start < 0) return ["err_code" => $this->err_code = 14];
+        if ($limit_start == 0 && $limit != 0) return ["err_code" => $this->err_code = 15];
+        if ($status != 'F' && $status != 'S' && $status != 'ALL' && $status != 'W') return ["err_code" => $this->err_code = 38];
 
-        $limit = ($limit != 0) ? ",$limit" : "";
-        $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
-        $order_by = $status == "ALL" ? "ORDER BY FIELD(b.status, 'W','S','F')" : "ORDER BY time_created DESC";
-        $status = $status == "ALL" ? "" : "AND b.status = '$status'";
-        $table = "bank";
-        $table_user = "user";
-        $query = "SELECT b.id, b.type, b.amount, b.serial, b.pin, b.status, b.time_created, u.name , u.username, u.id as id_user
-        FROM $table b, $table_user u 
-        WHERE b.user_id = u.id $status $order_by $limit_start$limit";
-
-        $banks = $this->db->get_list($query);
-        if ($this->db->num_rows($query) > 0) {
-            return json_encode_utf8([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Lấy dữ liệu thành công",
-                "banks" => $banks
-            ]);
+        $banks = $this->db_bank->exec_search_bank($limit_start, $limit, $search, $status);
+        if (count($banks) > 0) {
+            return ["err_code" => $this->err_code, "data" => $banks];
         } else {
-            return json_encode([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Không có đơn nạp tiền nào",
-                "banks" => []
-            ]);
+            return ["err_code" => $this->err_code = 22, "data" => []];
         }
     }
     public function GetAllBankByIdUser($search, $limit_start, $limit, $status, $id_user)
     {
         $search = check_string($search);
-        $query_user = "SELECT * FROM user WHERE id=$id_user";
-        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Limit vui lòng phải là số"]);
-        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
-        if ($limit < 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
-        if ($limit_start < 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
-        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
-        if ($status != 'F' && $status != 'S' && $status != 'ALL' && $status != 'W') return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "status vui lòng phải là S|W|F"]);
-        if (empty($id_user)) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Không tìm thấy user"]);
+        if (!is_numeric($limit)) return ["err_code" => $this->err_code = 11];
+        if (!is_numeric($limit_start)) return ["err_code" => $this->err_code = 12];
+        if ($limit < 0) return ["err_code" => $this->err_code = 13];
+        if ($limit_start < 0) return ["err_code" => $this->err_code = 14];
+        if ($limit_start == 0 && $limit != 0) return ["err_code" => $this->err_code = 15];
+        if ($status != 'F' && $status != 'S' && $status != 'ALL' && $status != 'W') return ["err_code" => $this->err_code = 38];
+        if (empty($id_user)) return ["err_code" => $this->err_code = 1];
+        if (!$this->db_user->check_user_exist($id_user)) return ["err_code" => $this->err_code = 10];
 
-        $limit = ($limit != 0) ? ",$limit" : "";
-        $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
-        $order_by = $status == "ALL" ? "ORDER BY FIELD(b.status, 'W','S','F')" : "ORDER BY time_created DESC";
-        $status = $status == "ALL" ? "" : "AND b.status = '$status'";
-        $search = (!empty($search)) ? "AND b.type LIKE '%$search%'" : "";
-        $table = "bank";
-        $table_user = "user";
-        $query = "SELECT b.id, b.type, b.amount, b.serial, b.pin, b.status, b.time_created, u.name, b.comment
-        FROM $table b, $table_user u 
-        WHERE b.user_id = u.id $status $search $order_by $limit_start$limit";
-
-        $banks = $this->db->get_list($query);
-        if ($this->db->num_rows($query) > 0) {
-            return json_encode_utf8([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Lấy dữ liệu thành công",
-                "banks" => $banks
-            ]);
+        $banks = $this->db_bank->exec_search_bank_by_id_user($search, $limit_start, $limit, $status, $id_user);
+        if (count($banks) > 0) {
+            return ["err_code" => $this->err_code, "data" => $banks];
         } else {
-            return json_encode([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Không có đơn nạp tiền nào",
-                "banks" => []
-            ]);
+            return ["err_code" => $this->err_code = 22, "data" => []];
         }
     }
     public function Deposit($id_user, $id_bank, $status)
     {
-        $table = "bank";
-        $table_user = "user";
-        $query = "SELECT * FROM $table WHERE id=$id_bank AND status='W'";
-        $query_user = "SELECT * FROM $table_user WHERE id=$id_user";
+        if (empty($id_bank) || empty($id_user) || empty($status)) return ["err_code" => $this->err_code = 1];
+        if (!is_numeric($id_user) || !is_numeric($id_bank)) return ["err_code" => $this->err_code = 9];
+        if (!$this->db_bank->check_bank_exist($id_bank)) return ["err_code" => $this->err_code = 39];
+        if (!$this->db_user->check_user_exist($id_user)) return ["err_code" => $this->err_code = 10];
+        if ($status != "S" && $status != "F") return ["err_code" => $this->err_code = 40];
 
-        if (empty($id_bank) || empty($id_user) || empty($status)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!is_numeric($id_user) || !is_numeric($id_bank)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "id tham số truyền vào vui lòng phải là số"]);
-        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy đơn nạp thẻ nào"]);
-        if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Không tìm thấy người dùng nào"]);
-        if ($status != "S" && $status != "F") return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Trạng thái vui lòng phải là S|F"]);
-
-        $this->db->update($table, [
+        $this->db_bank->exec_update([
             "status" => $status
         ], "id=$id_bank");
 
         if ($status == "S") {
-            $bank = $this->db->get_row("SELECT * FROM $table WHERE id=$id_bank AND status='S'");
-            $user = $this->db->get_row($query_user);
+            $bank = $this->db_bank->exec_select_one("", "id=$id_bank AND status='S'");
+            $user = $this->db_user->exec_select_one("", "id=$id_user");
 
-            $this->db->update($table_user, [
+            $this->db_user->exec_update([
                 "money" => $user['money'] + $bank['amount']
             ], "id=$id_user");
         }
 
-        return json_encode([
-            "errCode" => 0,
-            "status" => "success",
-            "message" => "Xử lý dữ liệu thành công",
-        ]);
+        return ["err_code" => $this->err_code];
     }
     public function AddDeposit($id_user, $card_type, $money_type, $serial, $pin)
     {
-        $table = "bank";
-        $query_user = "SELECT * FROM user WHERE id=$id_user";
-        if (empty($id_user) || empty($card_type) || empty($money_type) || empty($serial) || empty($pin)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!is_numeric($id_user)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "id vui lòng phải là số"]);
-        if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy người dùng"]);
-        if (check_types($card_type) != "card-type") return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Vui lòng nhập đúng định dạng thẻ"]);
-        if (check_types($money_type) != "card-money") return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng nhập đúng định dạng tiền"]);
-        if (strlen($serial) < 10 || strlen($pin) < 10) return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Mã thẻ và số serial không hợp lệ"]);
+        if (empty($id_user) || empty($card_type) || empty($money_type) || empty($serial) || empty($pin)) return ["err_code" => $this->err_code = 1];
+        if (!is_numeric($id_user)) return ["err_code" => $this->err_code = 9];
+        if (!$this->db_user->check_user_exist($id_user)) return ["err_code" => $this->err_code = 10];
+        if (check_types($card_type) != "card-type") return ["err_code" => $this->err_code = 41];
+        if (check_types($money_type) != "card-money") return ["err_code" => $this->err_code = 42];
+        if (strlen($serial) < 10 || strlen($pin) < 10) return ["err_code" => $this->err_code = 43];
 
-        $this->db->insert($table, [
+        $this->db_bank->exec_insert([
             "type" => $card_type,
             "serial" => $serial,
             "amount" => $money_type * discount(site("discount")),
@@ -139,10 +86,6 @@ class Bank extends Api
             "user_id" => $id_user,
             "time_created" => time()
         ]);
-        return json_encode([
-            "errCode" => 0,
-            "status" => "success",
-            "message" => "Nạp thẻ thành công",
-        ]);
+        return ["err_code" => $this->err_code];
     }
 }

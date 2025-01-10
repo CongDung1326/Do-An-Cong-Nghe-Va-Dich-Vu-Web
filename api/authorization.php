@@ -1,9 +1,9 @@
 <?php
+include_once __DIR__ . "/../services/api.php";
+$api = new Api();
 $respon_code = 0;
 
-if ((isset($_SERVER['PHP_AUTH_USER']) && ($_SERVER['PHP_AUTH_USER'] == "admin")) and
-    (isset($_SERVER['PHP_AUTH_PW']) && ($_SERVER['PHP_AUTH_PW'] == "123"))
-) {
+if ($api->CheckIsAdmin($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
     http_response_code(200);
     $respon_code = 200;
 } else {

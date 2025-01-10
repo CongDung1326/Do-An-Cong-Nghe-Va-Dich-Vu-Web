@@ -4,7 +4,7 @@ $id = check_string(hash_decode(input_get("id")));
 $respon = post_api(base_url("api/account/GetAllAccountBuyed.php"), api_verify(["id_account" => $id]));
 if ($respon->status == "error") redirect(base_url_admin());
 
-$account = $respon->account;
+$account = $respon->accounts;
 ?>
 
 <?php if ($account->type == "lol"): ?>

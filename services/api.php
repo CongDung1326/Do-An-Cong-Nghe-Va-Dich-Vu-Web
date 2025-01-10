@@ -3,19 +3,17 @@ require_once __DIR__ . "/../config.php";
 
 class Api
 {
-    private $db;
+    private $db_api, $err_code = 0;
     public function __construct()
     {
-        $this->db = new DB();
+        $this->db_api = new ApiDB();
     }
-    protected function CheckIsAdmin($username, $password)
+    public function CheckIsAdmin($username, $password)
     {
         $username = check_string($username);
-        $password = check_string($password);
-        $table = "api";
-        $query = "SELECT * FROM $table WHERE username = '$username' AND password = '$password'";
+        $password = hash_encode(check_string($password));
 
-        if ($this->db->num_rows($query) == 0) return false;
+        if ($this->db_api->exec_num_rows("username = '$username' AND password = '$password'") == 0) return false;
         return true;
     }
 }

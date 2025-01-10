@@ -21,7 +21,7 @@ if (
         ]));
     }
 
-    post_api(base_url("api/bank/AddDeposit.php"), api_verify([
+    $data = post_api(base_url("api/bank/AddDeposit.php"), api_verify([
         "id_user" => $id,
         "card_type" => $card_type,
         "money_type" => $money_type,
@@ -30,8 +30,8 @@ if (
     ]));
 
     die(json_encode_utf8([
-        "status" => "success",
-        "message" => "Nạp Thành Công!"
+        "status" => $data->status,
+        "message" => $data->message
     ]));
 } else {
     die(json_encode_utf8([

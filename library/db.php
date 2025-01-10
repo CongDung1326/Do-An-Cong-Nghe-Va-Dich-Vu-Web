@@ -24,6 +24,7 @@ class DB
     {
         $this->connect();
         $row = $this->db->query("SELECT * FROM settings WHERE name='$data'")->fetch_array();
+        $this->dis_connect();
         return $row['value'];
     }
 
@@ -38,7 +39,6 @@ class DB
             $value_list .= ",'" . mysqli_real_escape_string($this->db, $value) . "'";
         }
         $query = "INSERT INTO $table (" . trim($field_list, ",") . ") VALUES (" . trim($value_list, ",") . ")";
-
         return mysqli_query($this->db, $query);
     }
 
@@ -51,15 +51,16 @@ class DB
             $query .= $key . "='" . mysqli_real_escape_string($this->db, $value) . "',";
         }
         $query = "UPDATE $table SET " . trim($query, ",") . " WHERE $where";
-        return mysqli_query($this->db, $query);
+        $result = mysqli_query($this->db, $query);
+        return $result;
     }
 
     public function remove($table, $where)
     {
         $this->connect();
         $query = "DELETE FROM $table WHERE $where";
-
-        return mysqli_query($this->db, $query);
+        $result = mysqli_query($this->db, $query);
+        return $result;
     }
 
     public function get_list($query)

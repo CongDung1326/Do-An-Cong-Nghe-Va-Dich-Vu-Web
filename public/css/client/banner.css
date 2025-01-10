@@ -39,6 +39,7 @@
 
 .banner-container .banner .order tbody {
     width: 100%;
+    display: inline-table;
 }
 
 .banner-container .banner .order td,
@@ -101,8 +102,6 @@
     div.wrapper {
         overflow: scroll;
     }
-
-
 }
 
 /* Tablet Devices */

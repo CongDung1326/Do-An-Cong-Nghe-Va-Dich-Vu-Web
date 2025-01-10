@@ -10,4 +10,12 @@ $password_verify = isset($data->password_verify) ? $data->password_verify : "";
 $name = isset($data->name) ? $data->name : "";
 $email = isset($data->email) ? $data->email : "";
 
-print_r($user->Register($username, $password, $password_verify, $name, $email));
+$result = $user->Register($username, $password, $password_verify, $name, $email);
+$err_code = $result['err_code'];
+
+if ($err_code != 0) {
+    print_r(json_encode_utf8(check_num_error($err_code, "", "", "")));
+    return;
+}
+
+print_r(json_encode_utf8(check_num_error($err_code, "Đăng ký thành công", null, null)));

@@ -27,6 +27,8 @@ if (input_post("username") && input_post("password")) {
 ?>
 
 <div class="form-login-wrapper">
+    <div class="back"><a href="<?= base_url() ?>"><i class="fa-solid fa-reply"></i></a></div>
+
     <div class="form-login-container">
         <div class="logo"><img src="https://marketplace.canva.com/EAFaFUz4aKo/2/0/1600w/canva-yellow-abstract-cooking-fire-free-logo-JmYWTjUsE-Q.jpg" alt=""></div>
 

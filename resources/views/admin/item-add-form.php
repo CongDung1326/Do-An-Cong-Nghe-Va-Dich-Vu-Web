@@ -36,7 +36,7 @@ if (input_post("item_username") && input_post("item_password") && input_post("it
     ];
 
     $add_random = post_api(base_url("api/account/AddAccountRandom.php"), $data);
-    if ($add_random->errCode == 4) {
+    if ($add_random->errCode == 8) {
         show_notification("warning", $add_random->message);
     }
 

@@ -232,3 +232,309 @@ function name_user($data)
         "last_name" => $last_name
     ];
 }
+function check_num_error($num_error, $message, $key, $data)
+{
+    $result = [];
+
+    switch ($num_error) {
+        case 0:
+            $result = [
+                "errCode" => $num_error,
+                "status" => "success",
+                "message" => $message
+            ];
+            if (!is_null($key)) $result[$key] = $data;
+
+            return $result;
+        case 1:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Thiếu tham số truyền vào"
+            ];
+        case 2:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Tài khoản hoặc mật khẩu sai"
+            ];
+        case 3:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Tên tài khoản vui lòng dài từ 5 đến 20 ký tự"
+            ];
+        case 4:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Mật khẩu vui lòng dài từ 8 đến 16 ký tự"
+            ];
+        case 5:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Tên quá dài"
+            ];
+        case 6:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Vui lòng đúng định dạng email"
+            ];
+        case 7:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Mật khẩu không trùng khớp"
+            ];
+        case 8:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Tài khoản đã được sử dụng"
+            ];
+        case 9:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Id vui lòng phải là số"
+            ];
+        case 10:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Không tìm thấy người dùng"
+            ];
+        case 11:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Limit vui lòng phải là số"
+            ];
+        case 12:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Limit start vui lòng phải là số"
+            ];
+        case 13:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Limit vui lòng phải lớn hơn 0"
+            ];
+        case 14:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Limit start vui lòng phải lớn hơn 0"
+            ];
+        case 15:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Vui lòng set limit start lớn hơn 0"
+            ];
+        case 16:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Vui lòng set limit start lớn hơn 0"
+            ];
+        case 17:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Vui lòng tuổi phải là số và phải lớn hơn 0"
+            ];
+        case 18:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Vui lòng đúng định dạng Email"
+            ];
+        case 19:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Vui lòng số điện thoại phải là số"
+            ];
+        case 20:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Vui lòng số tiền phải là số và phải lớn hơn 0"
+            ];
+        case 21:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Quyền hạng vui lòng phải là số và phải nằm trong 0 và 2"
+            ];
+        case 22:
+            $result = [
+                "errCode" => $num_error,
+                "status" => "success",
+                "message" => "Danh sách đang trống"
+            ];
+            if (!is_null($key)) $result[$key] = $data;
+
+            return $result;
+        case 23:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Không tìm thấy danh mục nào"
+            ];
+        case 24:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Tên danh mục đã tồn tại"
+            ];
+        case 25:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Không tìm thấy danh mục"
+            ];
+        case 26:
+            return [
+                "errCode" => $num_error,
+                "status" => "success",
+                "message" => "Phần cài đặt đang trống vui lòng nhập thêm"
+            ];
+        case 27:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Chiết khấu vui lòng phải là số"
+            ];
+        case 28:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Không tìm thấy đơn hàng"
+            ];
+        case 29:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Trạng thái bán chỉ được nhập T hoặc F"
+            ];
+        case 30:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Tài khoản đã bị xoá hoặc bị lỗi"
+            ];
+        case 31:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Không tìm thấy mã sản phẩm"
+            ];
+        case 32:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Không tìm thấy tài khoản game"
+            ];
+        case 33:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Số lượng tướng vui lòng phải là số và lớn hơn 0"
+            ];
+        case 34:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Số lượng trang phục vui lòng phải là số và lớn hơn 0"
+            ];
+        case 35:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Không tìm thấy hình ảnh"
+            ];
+        case 36:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Không tìm thấy type của account"
+            ];
+        case 37:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Trạng thái xem vui chỉ vui lòng nhập T hoặc F"
+            ];
+        case 38:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Trạng thái vui lòng chỉ là S hoặc W hoặc F"
+            ];
+        case 39:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Không tìm thấy đơn nạp thẻ nào cả"
+            ];
+        case 40:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Trạng thái vui lòng nhập S hoặc F"
+            ];
+        case 41:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Vui lòng nhập đúng định dạng thẻ"
+            ];
+        case 42:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Vui lòng nhập đúng định dạng tiền"
+            ];
+        case 43:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Mã thẻ và số serial không hợp lệ"
+            ];
+        case 44:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Trùng tên sản phẩm"
+            ];
+        case 45:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Số lượng vui lòng phải là số và phải lớn hơn 0"
+            ];
+        case 46:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Số lượng hàng đang không có đủ"
+            ];
+        case 47:
+            return [
+                "errCode" => $num_error,
+                "status" => "error",
+                "message" => "Tiền không đủ vui lòng nạp thêm"
+            ];
+        default:
+            return [
+                "status" => "error",
+                "message" => "Có gì đó sai sai!"
+            ];
+    }
+}

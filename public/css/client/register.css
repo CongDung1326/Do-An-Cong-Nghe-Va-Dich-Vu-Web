@@ -74,10 +74,21 @@
     margin: 7px 0;
     background-color: var(--color);
     font-weight: bold;
+    border-radius: 5px;
 }
 
-.have-account a {
-    text-decoration: none;
+.have-account {
+    margin-top: 20px;
+}
+
+.back a {
+    position: fixed;
+    display: block;
+    left: 10px;
+    top: 10px;
+    font-size: var(--font-size-5);
+    color: var(--color-1);
+    cursor: pointer;
 }
 
 /* Mobile */

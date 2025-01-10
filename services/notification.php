@@ -1,203 +1,124 @@
 <?php
 require_once __DIR__ . "/../config.php";
-require_once __DIR__ . "/api.php";
 
-class Notification extends Api
+class Notification
 {
-    private $db, $api;
+    private $db, $db_notification, $db_account, $db_user, $err_code = 0;
     public function __construct()
     {
         $this->db = new DB();
-        $this->api = new Api();
+        $this->db_notification = new NotificationDB();
+        $this->db_account = new AccountDB();
+        $this->db_user = new UserDB();
     }
     public function GetAllNotification($limit_start, $limit, $search)
     {
-        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Limit vui lòng phải là số"]);
-        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
-        if ($limit < 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
-        if ($limit_start < 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
-        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
+        if (!is_numeric($limit)) return ["err_code" => $this->err_code = 11];
+        if (!is_numeric($limit_start)) return ["err_code" => $this->err_code = 12];
+        if ($limit < 0) return ["err_code" => $this->err_code = 13];
+        if ($limit_start < 0) return ["err_code" => $this->err_code = 14];
+        if ($limit_start == 0 && $limit != 0) return ["err_code" => $this->err_code = 15];
 
-        $limit = ($limit != 0) ? ",$limit" : "";
-        $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
-        $table = "notification_buy";
-        $query = "SELECT * FROM $table ORDER BY time DESC $limit_start$limit";
-        $search_lol = (!empty($search)) ? "AND (b.unique_code LIKE '%$search%' OR l.id LIKE '%$search%')" : "";
-        $query_lol = "SELECT b.id, b.amount, b.money, b.user_id, b.unique_code, b.time, l.id as title, u.name
-        FROM notification_buy b, account_lol l, user u
-        WHERE b.account_lol_id = l.id AND b.user_id = u.id $search_lol ";
-        $search_random = (!empty($search)) ? "AND (b.unique_code LIKE '%$search%' OR s.title LIKE '%$search%')" : "";
-        $query_product = "SELECT b.id, b.amount, b.money, b.user_id, b.unique_code, b.time, s.title as title, u.name
-        FROM notification_buy b, store_account_children s, user u
-        WHERE b.store_account_children_id = s.id AND b.user_id = u.id $search_random ";
-        $notifications = $this->db->get_list($query);
+        $notifications = $this->db_notification->exec_search_notification($limit_start, $limit);
         $result = [];
         $result_query = "";
 
         foreach ($notifications as $notification) {
             if (isset($notification['account_lol_id'])) {
                 $id_lol = $notification['account_lol_id'];
-                $result_query = $this->db->get_row($query_lol . "AND l.id=$id_lol");
+                $result_query = $this->db_account->exec_notification_account($search, "lol", $id_lol);
 
                 if ($result_query)
                     $result_query['title'] = "Acc Liên Minh #" . $result_query['title'];
             } else {
                 $id_product = $notification['store_account_children_id'];
-                $result_query = $this->db->get_row($query_product . "AND s.id=$id_product");
+                $result_query = $this->db_account->exec_notification_account($search, "random", $id_product);
             }
 
             if ($result_query) array_push($result,  $result_query);
         }
-        if ($this->db->num_rows($query) > 0) {
-            return json_encode_utf8([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Lấy dữ liệu thành công",
-                "notifications" => $result
-            ]);
+        if (count($notifications) > 0) {
+            return ["err_code" => $this->err_code, "data" => $result];
         } else {
-            return json_encode_utf8([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Thông báo đang trống",
-                "notifications" => []
-            ]);
+            return ["err_code" => $this->err_code = 22, "data" => []];
         }
     }
     public function GetAllNotificationRandom($search, $limit_start, $limit, $id_user, $is_show)
     {
-        $table_user = "user";
-        $query_user = "SELECT * FROM $table_user WHERE id = $id_user";
-        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Limit vui lòng phải là số"]);
-        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
-        if ($limit < 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
-        if ($limit_start < 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
-        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
-        if (empty($id_user)) return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Không tìm thấy user"]);
-        if ($is_show != "ALL" && $is_show != "T" && $is_show != "F") return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Is show vui lòng phải là T|F"]);
+        if (!is_numeric($limit)) return ["err_code" => $this->err_code = 11];
+        if (!is_numeric($limit_start)) return ["err_code" => $this->err_code = 12];
+        if ($limit < 0) return ["err_code" => $this->err_code = 13];
+        if ($limit_start < 0) return ["err_code" => $this->err_code = 14];
+        if ($limit_start == 0 && $limit != 0) return ["err_code" => $this->err_code = 15];
+        if (empty($id_user)) return ["err_code" => $this->err_code = 1];
+        if (!$this->db_user->check_user_exist($id_user)) return ["err_code" => $this->err_code = 10];
+        if ($is_show != "ALL" && $is_show != "T" && $is_show != "F") return ["err_code" => $this->err_code = 37];
 
-        $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
-        $limit = ($limit != 0) ? ",$limit" : "";
+        $notifications = $this->db_notification->exec_search_random($search, $limit_start, $limit, $id_user, $is_show);
 
-        $search = (!empty($search)) ? "AND (b.unique_code LIKE '%$search%' OR s.title LIKE '%$search%')" : "";
-        $is_show = $is_show == "ALL" ? "" : "AND is_show = '$is_show'";
-        $query = "SELECT b.id, b.amount, b.money, b.user_id, b.unique_code, b.time, s.title as title, u.name, b.is_show
-        FROM notification_buy b, store_account_children s, user u
-        WHERE b.store_account_children_id = s.id AND b.user_id = u.id AND b.user_id = $id_user $search $is_show
-        ORDER BY b.time DESC $limit_start$limit";
-        $notifications = $this->db->get_list($query);
-
-        if ($this->db->num_rows($query) > 0) {
-            return json_encode_utf8([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Lấy dữ liệu thành công",
-                "notifications" => $notifications
-            ]);
+        if (count($notifications) > 0) {
+            return ["err_code" => $this->err_code, "data" => $notifications];
         } else {
-            return json_encode_utf8([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Thông báo đang trống",
-                "notifications" => []
-            ]);
+            return ["err_code" => $this->err_code = 22, "data" => []];
         }
     }
     public function GetAllNotificationLOL($search, $limit_start, $limit, $id_user, $is_show)
     {
-        $table_user = "user";
-        $query_user = "SELECT * FROM $table_user WHERE id = $id_user";
-        if (!is_numeric($limit)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Limit vui lòng phải là số"]);
-        if (!is_numeric($limit_start)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Limit start vui lòng phải là số"]);
-        if ($limit < 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Limit vui lòng phải lớn hơn 0"]);
-        if ($limit_start < 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Limit start vui lòng phải lớn hơn 0"]);
-        if ($limit_start == 0 && $limit != 0) return json_encode_utf8(["errCode" => 5, "status" => "error", "message" => "Vui lòng set limit start lớn hơn 0"]);
-        if (empty($id_user)) return json_encode_utf8(["errCode" => 6, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 7, "status" => "error", "message" => "Không tìm thấy user"]);
-        if ($is_show != "ALL" && $is_show != "T" && $is_show != "F") return json_encode_utf8(["errCode" => 8, "status" => "error", "message" => "Is show vui lòng phải là T|F"]);
+        if (!is_numeric($limit)) return ["err_code" => $this->err_code = 11];
+        if (!is_numeric($limit_start)) return ["err_code" => $this->err_code = 12];
+        if ($limit < 0) return ["err_code" => $this->err_code = 13];
+        if ($limit_start < 0) return ["err_code" => $this->err_code = 14];
+        if ($limit_start == 0 && $limit != 0) return ["err_code" => $this->err_code = 15];
+        if (empty($id_user)) return ["err_code" => $this->err_code = 1];
+        if (!$this->db_user->check_user_exist($id_user)) return ["err_code" => $this->err_code = 10];
+        if ($is_show != "ALL" && $is_show != "T" && $is_show != "F") return ["err_code" => $this->err_code = 37];
 
-        $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
-        $limit = ($limit != 0) ? ",$limit" : "";
+        $notifications = $this->db_notification->exec_search_lol($search, $limit_start, $limit, $id_user, $is_show);
 
-        $search = (!empty($search)) ? "AND (b.unique_code LIKE '%$search%' OR l.id LIKE '%$search%')" : "";
-        $is_show = $is_show == "ALL" ? "" : "AND is_show = '$is_show'";
-        $query = "SELECT b.id, b.money, b.time, l.number_char, l.number_skin, i.name as rank, l.id as number_account, b.unique_code
-        FROM notification_buy b, account_lol l, images i
-        WHERE b.account_lol_id = l.id AND b.user_id = $id_user AND l.rank_lol_id = i.id $search $is_show
-        ORDER BY b.time DESC $limit_start$limit";
-        $notifications = $this->db->get_list($query);
-
-        if ($this->db->num_rows($query) > 0) {
-            return json_encode_utf8([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Lấy dữ liệu thành công",
-                "notifications" => $notifications
-            ]);
+        if (count($notifications) > 0) {
+            return ["err_code" => $this->err_code, "data" => $notifications];
         } else {
-            return json_encode_utf8([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Thông báo đang trống",
-                "notifications" => []
-            ]);
+            return ["err_code" => $this->err_code = 22, "data" => []];
         }
     }
     public function RemoveNotificationByIdUser($id_user, $id_notification)
     {
-        $table = "notification_buy";
-        $table_user = "user";
-        $query_user = "SELECT * FROM $table_user WHERE id = $id_user";
-        $query_notification = "SELECT * FROM $table WHERE id = $id_notification";
+        if (empty($id_user) || empty($id_notification)) return ["err_code" => $this->err_code = 1];
+        if (!$this->db_user->check_user_exist($id_user)) return ["err_code" => $this->err_code = 10];
+        if (!$this->db_notification->check_notification_exist($id_notification)) return ["err_code" => $this->err_code = 28];
 
-        if (empty($id_user) || empty($id_notification)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if ($this->db->num_rows($query_user) == 0) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Không tìm thấy người dùng"]);
-        if ($this->db->num_rows($query_notification) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy đơn hàng nào cả"]);
-
-        $this->db->update($table, [
+        $this->db_notification->exec_update([
             "is_show" => "F"
         ], "id = $id_notification AND user_id = $id_user");
-        return json_encode_utf8([
-            "errCode" => 0,
-            "status" => "success",
-            "message" => "Xoá thành công",
-        ]);
+        return ["err_code" => $this->err_code];
     }
     public function RemoveNotification($id_notification)
     {
-        $table = "notification_buy";
-        $table_account = "account";
         $table_lol = "account_lol";
-        $query = "SELECT * FROM $table WHERE id=$id_notification";
 
-        if (empty($id_notification)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!is_numeric($id_notification)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "id truyền vào vui lòng phải là số"]);
-        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy đơn hàng nào"]);
+        if (empty($id_notification)) return ["err_code" => $this->err_code = 1];
+        if (!is_numeric($id_notification)) return ["err_code" => $this->err_code = 9];
+        if (!$this->db_notification->check_notification_exist($id_notification)) return ["err_code" => $this->err_code = 28];
 
-        $notification = $this->db->get_row($query);
+        $notification = $this->db_notification->exec_select_one("", "id=$id_notification");
         $unique_code = $notification['unique_code'];
-        $query_account = "SELECT * FROM $table_account WHERE unique_code='$unique_code'";
+        $where_account = "unique_code='$unique_code'";
 
-        if ($this->db->num_rows($query_account) >= 2) {
-            $accounts = $this->db->get_list($query_account);
+        if ($this->db_account->exec_num_rows("", $where_account) >= 2) {
+            $accounts = $this->db_account->exec_select_all("", $where_account);
 
             foreach ($accounts as $value) {
-                $this->db->remove($table_account, "id={$value['id']}");
+                $this->db_account->exec_remove("id={$value['id']}");
             }
-            $this->db->remove($table, "id=$id_notification");
+            $this->db_notification->exec_remove("id=$id_notification");
         } else {
-            $account = $this->db->get_row($query_account);
+            $account = $this->db_account->exec_select_one("", $where_account);
 
-            $this->db->remove($table, "id=$id_notification");
+            $this->db_notification->exec_remove("id=$id_notification");
             $this->db->remove($table_lol, "account_id={$account['id']}");
-            $this->db->remove($table_account, "id={$account['id']}");
+            $this->db_account->exec_remove("id={$account['id']}");
         }
 
-        return json_encode_utf8([
-            "errCode" => 0,
-            "status" => "success",
-            "message" => "Xoá thành công",
-        ]);
+        return ["err_code" => $this->err_code];
     }
 }

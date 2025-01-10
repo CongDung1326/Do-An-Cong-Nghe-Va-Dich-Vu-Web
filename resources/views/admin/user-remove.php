@@ -7,6 +7,6 @@ if (!input_get("id") || !is_numeric(hash_decode(input_get("id")))) {
 }
 
 $id = check_string(hash_decode(input_get("id")));
-post_api(base_url("api/user/RemoveUser.php"), api_verify(["id_user" => $id]));
+post_api(base_url("api/user/RemoveUser.php"), api_verify(["id" => $id]));
 
 redirect(base_url_admin("manage-user"));

@@ -10,11 +10,20 @@ $comment = isset($data->comment) ? $data->comment : "";
 $price = isset($data->price) ? $data->price : "";
 $id_category = isset($data->id_category) ? $data->id_category : "";
 
-if ($respon === 200) {
-    print_r($product->AddProduct($title, $comment, $price, $id_category));
-} else {
+if ($respon !== 200) {
     print_r(json_encode_utf8([
         "status" => "error",
         "message" => "Bạn không đủ quyền hạn để truy cập"
     ]));
+    return;
 }
+
+$result = $product->AddProduct($title, $comment, $price, $id_category);
+$err_code = $result['err_code'];
+
+if ($err_code != 0) {
+    print_r(json_encode_utf8(check_num_error($err_code, "", "", "")));
+    return;
+};
+
+print_r(json_encode_utf8(check_num_error($err_code, "Thêm sản phẩm thành công", null, null)));

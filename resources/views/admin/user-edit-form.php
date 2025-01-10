@@ -1,7 +1,7 @@
 <?php
 $id = check_string(hash_decode(input_get("id")));
 
-$respon = post_api(base_url("api/user/GetUserById.php?id_user=$id"), api_verify());
+$respon = post_api(base_url("api/user/GetUserById.php?id=$id"), api_verify());
 if ($respon->status == "error") redirect(base_url());
 
 $user = $respon->user;

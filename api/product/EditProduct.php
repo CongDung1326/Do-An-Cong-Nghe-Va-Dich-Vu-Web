@@ -11,11 +11,20 @@ $price = isset($data->price) ? $data->price : "";
 $id_category = isset($data->id_category) ? $data->id_category : "";
 $id_product = isset($data->id_product) ? $data->id_product : "";
 
-if ($respon === 200) {
-    print_r($product->EditProduct($title, $comment, $price, $id_category, $id_product));
-} else {
+if ($respon !== 200) {
     print_r(json_encode_utf8([
         "status" => "error",
         "message" => "Bạn không đủ quyền hạn để truy cập"
     ]));
+    return;
 }
+
+$result = $product->EditProduct($title, $comment, $price, $id_category, $id_product);
+$err_code = $result['err_code'];
+
+if ($err_code != 0) {
+    print_r(json_encode_utf8(check_num_error($err_code, "", "", "")));
+    return;
+}
+
+print_r(json_encode_utf8(check_num_error($err_code, "Sửa thành công", null, null)));

@@ -17,11 +17,20 @@ $avatar = isset($data->avatar) ? $data->avatar : "";
 $money = isset($data->money) ? $data->money : "";
 $role_id = isset($data->role_id) ? $data->role_id : "";
 
-if ($respon === 200) {
-    print_r($user->EditUser($id_user, $username, $password, $name, $age, $email, $number_phone, $avatar, $money, $role_id));
-} else {
+if ($respon !== 200) {
     print_r(json_encode_utf8([
         "status" => "error",
         "message" => "Bạn không đủ quyền hạn để truy cập"
     ]));
+    return;
 }
+
+$result = $user->EditUser($id_user, $username, $password, $name, $age, $email, $number_phone, $avatar, $money, $role_id);
+$err_code = $result['err_code'];
+
+if ($err_code != 0) {
+    print_r(json_encode_utf8(check_num_error($err_code, "", "", "")));
+    return;
+}
+
+print_r(json_encode_utf8(check_num_error($err_code, "Sửa thành công", null, null)));

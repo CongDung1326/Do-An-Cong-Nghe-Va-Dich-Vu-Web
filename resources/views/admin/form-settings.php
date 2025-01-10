@@ -66,7 +66,7 @@ if (input_post("title") && input_post("description") && input_post("keyword") &&
         "discount" => $discount,
         "logo" => $check_image_exist ? $target_file : ""
     ];
-    $respon = post_api(base_url("api/user/EditSettings.php"), api_verify($result));
+    $respon = post_api(base_url("api/settings/EditSettings.php"), api_verify($result));
     if ($respon->status == "error") show_notification("error", $respon['message']);
     show_notification("success", "Cập nhật thành công!");
 }

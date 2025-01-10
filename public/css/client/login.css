@@ -62,10 +62,8 @@
     font-weight: bold;
 }
 
-.form-login-container button,
-.form-login-container button a {
-    text-decoration: none;
-    color: white;
+.form-login-container button {
+    color: var(--color-1);
     outline: none;
     border: none;
     width: 90%;
@@ -74,6 +72,30 @@
     margin: 7px 0;
     background-color: var(--color);
     font-weight: bold;
+    border-radius: 5px;
+    font-size: var(--font-size-1);
+}
+
+.form-login-container button:has(a) {
+    padding: 0;
+}
+
+.form-login-container button:has(a) a {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    color: var(--color-1);
+}
+
+.back a {
+    position: fixed;
+    display: block;
+    left: 10px;
+    top: 10px;
+    font-size: var(--font-size-5);
+    color: var(--color-1);
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 740px) {

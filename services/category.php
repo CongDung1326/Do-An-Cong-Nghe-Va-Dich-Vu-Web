@@ -3,103 +3,73 @@ require_once __DIR__ . "/../config.php";
 
 class Category
 {
-    private $db;
+    private $db_category, $err_code = 0;
     public function __construct()
     {
-        $this->db = new DB();
+        $this->db_category = new CategoryDB();
     }
     public function GetAllCategory()
     {
-        $table = "store_account_parent";
-        $query = "SELECT * FROM $table";
-
-        $categories = $this->db->get_list($query);
-        if ($this->db->num_rows($query) > 0) {
-            return json_encode([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Lấy dữ liệu thành công",
-                "categories" => $categories
-            ]);
-        } else {
-            return json_encode([
-                "errCode" => 0,
-                "status" => "success",
-                "message" => "Dữ liệu đang trống",
-                "categories" => []
-            ]);
-        }
+        $categories = $this->db_category->exec_select_all(null, null);
+        $this->db_category->dis_connect();
+        if (count($categories) > 0)
+            return ["err_code" => $this->err_code, "data" => $categories];
+        else
+            return ["err_code" => $this->err_code = 22, "data" => []];
     }
     public function GetCategoryById($id_category)
     {
-        $table = "store_account_parent";
-        $query = "SELECT * FROM $table WHERE id=$id_category";
+        $where = "id=$id_category";
+        if (empty($id_category)) return ["err_code" => $this->err_code = 1];
+        if (!is_numeric($id_category)) return ["err_code" => $this->err_code = 9];
+        if (!$this->db_category->check_category_exist($id_category)) return ["err_code" => $this->err_code = 23];
 
-        if (empty($id_category)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!is_numeric($id_category)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Id vui lòng là số"]);
-        if ($this->db->num_rows($query) == 0)  return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy danh mục nào"]);
-
-        $category = $this->db->get_row($query);
-        return json_encode([
-            "errCode" => 0,
-            "status" => "success",
-            "message" => "Lấy dữ liệu thành công",
-            "category" => $category
-        ]);
+        $data = $this->db_category->exec_select_one("", $where);
+        $this->db_category->dis_connect();
+        return [
+            "err_code" => $this->err_code,
+            "data" => $data
+        ];
     }
     public function AddCategory($name)
     {
-        $table = "store_account_parent";
         $name = check_string($name);
-        $query = "SELECT * FROM $table WHERE name='$name'";
 
-        if (empty($name)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if ($this->db->num_rows($query) > 0) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Tên đã được sử dụng"]);
+        if (empty($name))  return ["err_code" => $this->err_code = 1];
+        if ($this->db_category->check_category_name_exist($name) > 0)  return ["err_code" => $this->err_code = 24];
 
-        $this->db->insert($table, [
+        $this->db_category->exec_insert([
             "name" => $name
         ]);
-        return json_encode([
-            "errCode" => 0,
-            "status" => "success",
-            "message" => "Thêm thành công",
-        ]);
+        $this->db_category->dis_connect();
+        return ["err_code" => $this->err_code];
     }
     public function EditCategory($id_category, $name)
     {
-        $table = "store_account_parent";
         $name = check_string($name);
-        $query = "SELECT * FROM $table WHERE id=$id_category";
-        $query_name_exist = "SELECT * FROM $table WHERE name='$name'";
+        $where_exist_category = "id=$id_category";
 
-        if (empty($name) || empty($id_category)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!is_numeric($id_category)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Id vui lòng là số"]);
-        if ($this->db->num_rows($query) == 0) return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy chuyên mục"]);
-        if ($this->db->num_rows($query_name_exist) > 0) return json_encode_utf8(["errCode" => 4, "status" => "error", "message" => "Tên đã được sử dụng"]);
+        if (empty($name) || empty($id_category)) return ["err_code" => $this->err_code = 1];
+        if (!is_numeric($id_category)) return ["err_code" => $this->err_code = 9];
+        if (!$this->db_category->check_category_exist($id_category)) return ["err_code" => $this->err_code = 25];
+        if ($this->db_category->check_category_name_exist($name) > 0) return ["err_code" => $this->err_code = 24];
 
-        $this->db->update($table, [
+        $this->db_category->exec_update([
             "name" => $name
-        ], "id=$id_category");
-        return json_encode([
-            "errCode" => 0,
-            "status" => "success",
-            "message" => "Sửa thành công",
-        ]);
+        ], $where_exist_category);
+        $this->db_category->dis_connect();
+        return ["err_code" => $this->err_code];
     }
     public function RemoveCategory($id_category)
     {
-        $table = "store_account_parent";
-        $query = "SELECT * FROM $table WHERE id=$id_category";
+        $where = "id=$id_category";
 
-        if (empty($id_category)) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
-        if (!is_numeric($id_category)) return json_encode_utf8(["errCode" => 2, "status" => "error", "message" => "Id vui lòng là số"]);
-        if ($this->db->num_rows($query) == 0)  return json_encode_utf8(["errCode" => 3, "status" => "error", "message" => "Không tìm thấy danh mục nào"]);
+        if (empty($id_category)) return ["err_code" => $this->err_code = 1];
+        if (!is_numeric($id_category)) return ["err_code" => $this->err_code = 9];
+        if (!$this->db_category->check_category_exist($id_category)) return ["err_code" => $this->err_code = 25];
 
-        $this->db->remove($table, "id=$id_category");
-        return json_encode([
-            "errCode" => 0,
-            "status" => "success",
-            "message" => "Xoá dữ liệu thành công",
-        ]);
+        $this->db_category->exec_remove($where);
+        $this->db_category->dis_connect();
+        return ["err_code" => $this->err_code];
     }
 }
