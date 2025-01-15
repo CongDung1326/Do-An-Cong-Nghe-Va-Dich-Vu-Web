@@ -88,4 +88,34 @@ class Bank
         ]);
         return ["err_code" => $this->err_code];
     }
+    public function GetAllManageBank($search, $limit_start, $limit)
+    {
+        if (!is_numeric($limit)) return ["err_code" => $this->err_code = 11];
+        if (!is_numeric($limit_start)) return ["err_code" => $this->err_code = 12];
+        if ($limit < 0) return ["err_code" => $this->err_code = 13];
+        if ($limit_start < 0) return ["err_code" => $this->err_code = 14];
+        if ($limit_start == 0 && $limit != 0) return ["err_code" => $this->err_code = 15];
+
+        $banks = $this->db_bank->exec_manage_bank($search, $limit_start, $limit);
+        if (count($banks) > 0) {
+            return ["err_code" => $this->err_code, "data" => $banks];
+        } else {
+            return ["err_code" => $this->err_code = 22, "data" => []];
+        }
+    }
+    public function RemoveManageBank($id)
+    {
+        $where = "id=$id";
+        if (empty($id)) return ["err_code" => $this->err_code = 1];
+        if (!is_numeric($id)) return ["err_code" => $this->err_code = 9];
+        if (!$this->db_bank->check_bank_exist($id)) return ["err_code" => $this->err_code = 39];
+
+
+        $this->db_bank->exec_remove($where);
+
+        $this->db_bank->dis_connect();
+        return [
+            "err_code" => $this->err_code
+        ];
+    }
 }

@@ -26,13 +26,14 @@ class Notification
         foreach ($notifications as $notification) {
             if (isset($notification['account_lol_id'])) {
                 $id_lol = $notification['account_lol_id'];
-                $result_query = $this->db_account->exec_notification_account($search, "lol", $id_lol);
+                $result_query = $this->db_account->exec_notification_account($search, "lol", $id_lol, "");
 
                 if ($result_query)
                     $result_query['title'] = "Acc Liên Minh #" . $result_query['title'];
             } else {
                 $id_product = $notification['store_account_children_id'];
-                $result_query = $this->db_account->exec_notification_account($search, "random", $id_product);
+                $id_notification = $notification['id'];
+                $result_query = $this->db_account->exec_notification_account($search, "random", $id_product, $id_notification);
             }
 
             if ($result_query) array_push($result,  $result_query);

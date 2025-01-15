@@ -36,6 +36,8 @@
 
 <?php
 if (input_post("buy_account") && input_post("buy_account_id")) {
+    if (!session_get("information"))
+        redirect(base_url("client/login"));
     $id_user = session_get("information")['id'];
     $id_account = hash_decode(input_post("buy_account_id"));
 

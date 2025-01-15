@@ -163,7 +163,7 @@ class AccountDB extends DB
 
         return $this->get_list($query);
     }
-    public function exec_notification_account($search, $type, $id)
+    public function exec_notification_account($search, $type, $id, $id_notification)
     {
         switch ($type) {
             case "lol":
@@ -177,7 +177,7 @@ class AccountDB extends DB
                 $search = (!empty($search)) ? "AND (b.unique_code LIKE '%$search%' OR s.title LIKE '%$search%')" : "";
                 $query = "SELECT b.id, b.amount, b.money, b.user_id, b.unique_code, b.time, s.title as title, u.name
                 FROM notification_buy b, store_account_children s, user u
-                WHERE b.store_account_children_id = s.id AND b.user_id = u.id $search AND s.id=$id";
+                WHERE b.store_account_children_id = s.id AND b.user_id = u.id $search AND s.id=$id AND b.id=$id_notification";
 
                 return $this->get_row($query);
         }

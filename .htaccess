@@ -51,6 +51,8 @@ RewriteRule ^admin/remove-account-buyed/([A-Za-z0-9-]+)$ "index.php?module=admin
 RewriteRule ^admin/manage-order-sold$ "index.php?module=admin&action=manage-order-sold"
 RewriteRule ^admin/order-remove/([A-Za-z0-9-]+)$ "index.php?module=admin&action=order-remove&id=$1"
 RewriteRule ^admin/manage-settings$ "index.php?module=admin&action=manage-settings"
+RewriteRule ^admin/manage-bank$ "index.php?module=admin&action=manage-bank"
+RewriteRule ^admin/remove-list-bank/([A-Za-z0-9-]+)$ "index.php?module=admin&action=remove-list-bank&id=$1"
 
 ## Set tạm thời khi không tìm thấy trang thì show 404 
 RewriteCond %{REQUEST_FILENAME} !-f

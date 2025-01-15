@@ -82,4 +82,15 @@ class BankDB extends DB
     {
         return $this->exec_num_rows("id=$id_bank") > 0 ? true : false;
     }
+    public function exec_manage_bank($search, $limit_start, $limit)
+    {
+        $limit = ($limit != 0) ? ",$limit" : "";
+        $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
+        $search = (!empty($search)) ? "AND b.type LIKE '%$search%' AND u.username LIKE '%$search%'" : "";
+        $filter = "AND (status='S' OR status='F')";
+        $query = "SELECT u.name, u.username, b.amount, b.type, b.status, b.comment, b.time_created, b.id
+        FROM bank b, user u
+        WHERE b.user_id=u.id $search $filter $limit_start$limit";
+        return $this->get_list($query);
+    }
 }

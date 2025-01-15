@@ -43,7 +43,7 @@ $banners = post_api(base_url("api\settings\GetDataBanner.php"), api_verify())->d
             <div class="right">
                 <i class="fa-solid fa-money-bill"></i>
             </div>
-            <div class="move"><a href="">Xem thêm <i class="fa-solid fa-arrow-right"></i></a></div>
+            <!-- <div class="move"><a href="">Xem thêm <i class="fa-solid fa-arrow-right"></i></a></div> -->
         </div>
     </div>
 </div>
