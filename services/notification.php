@@ -31,7 +31,7 @@ class Notification
                 if ($result_query)
                     $result_query['title'] = "Acc Liên Minh #" . $result_query['title'];
             } else {
-                $id_product = $notification['store_account_children_id'];
+                $id_product = $notification['product_id'];
                 $id_notification = $notification['id'];
                 $result_query = $this->db_account->exec_notification_account($search, "random", $id_product, $id_notification);
             }

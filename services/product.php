@@ -32,7 +32,7 @@ class Product
         if (!is_numeric($id_category)) return ["err_code" => $this->err_code = 9];
         if (!$this->db_category->check_category_exist($id_category)) return ["err_code" => $this->err_code = 23];
 
-        $products = $this->db_product->exec_select_all("", "store_account_parent_id=$id_category");
+        $products = $this->db_product->exec_select_all("", "category_id=$id_category");
         $this->db_product->dis_connect();
         if (count($products) > 0) {
             return ["err_code" => $this->err_code, "data" => $products];
@@ -55,7 +55,7 @@ class Product
             "title" => $title,
             "comment" => $comment,
             "price" => $price,
-            "store_account_parent_id" => $id_category,
+            "category_id" => $id_category,
         ]);
         $this->db_product->dis_connect();
         return ["err_code" => $this->err_code];
@@ -76,7 +76,7 @@ class Product
             "title" => $title,
             "comment" => $comment,
             "price" => $price,
-            "store_account_parent_id" => $id_category,
+            "category_id" => $id_category,
         ], "id=$id_product");
         $this->db_product->dis_connect();
         return ["err_code" => $this->err_code];
@@ -136,7 +136,7 @@ class Product
         $this->db_notification->exec_insert([
             "amount" => $amount,
             "user_id" => $id_user,
-            "store_account_children_id" => $id_product,
+            "product_id" => $id_product,
             "money" => $total_money,
             "unique_code" => $random,
             "time" => time(),
@@ -146,7 +146,7 @@ class Product
             "is_sold" => "T",
             "user_id" => $id_user,
             "unique_code" => $random
-        ], "store_account_children_id = $id_product AND is_sold='F' LIMIT $amount");
+        ], "product_id = $id_product AND is_sold='F' LIMIT $amount");
         $this->db_product->dis_connect();
         return ["err_code" => $this->err_code];
     }

@@ -61,8 +61,8 @@ class AccountDB extends DB
         $unique_code = !empty($unique_code) ? "AND a.unique_code = '$unique_code'" : "";
 
         $query = "SELECT a.id, a.username, a.password, s.title, a.is_sold 
-            FROM account a, store_account_children s 
-            WHERE (a.store_account_children_id = s.id) $is_sold AND a.type = 'random' $id_user $unique_code $search $limit_start$limit";
+            FROM account a, product s 
+            WHERE (a.product_id = s.id) $is_sold AND a.type = 'random' $id_user $unique_code $search $limit_start$limit";
 
         return $this->get_list($query);
     }
@@ -97,19 +97,19 @@ class AccountDB extends DB
     }
     public function exec_update_account_random($username, $password, $id_account, $id_product)
     {
-        $old_product = $this->exec_select_one("store_account_children_id", "id=$id_account");
-        $new_product = $this->get_row("SELECT * FROM store_account_children WHERE id=$id_product");
-        $id_old_product = $old_product['store_account_children_id'];
+        $old_product = $this->exec_select_one("product_id", "id=$id_account");
+        $new_product = $this->get_row("SELECT * FROM product WHERE id=$id_product");
+        $id_old_product = $old_product['product_id'];
         $id_new_product = $new_product['id'];
-        $get_data_old_product = $this->get_row("SELECT * FROM store_account_children WHERE id=$id_old_product");
+        $get_data_old_product = $this->get_row("SELECT * FROM product WHERE id=$id_old_product");
 
         if ($id_old_product != $id_new_product) {
             // Update old product
-            $this->update("store_account_children", [
+            $this->update("product", [
                 "store" => $get_data_old_product['store'] - 1
             ], "id=$id_old_product");
             // Update new product
-            $this->update("store_account_children", [
+            $this->update("product", [
                 "store" => $new_product['store'] + 1
             ], "id=$id_new_product");
         }
@@ -118,18 +118,18 @@ class AccountDB extends DB
         $this->exec_update([
             "username" => $username,
             "password" => $password,
-            "store_account_children_id" => $id_product,
+            "product_id" => $id_product,
         ], "id=$id_account");
         return true;
     }
     public function exec_get_account_random_have_sold($id_account, $is_sold)
     {
         $table = "account";
-        $table_product = "store_account_children";
+        $table_product = "product";
         $is_sold = !empty($is_sold) ? $is_sold : "F";
         $query = "SELECT a.id, a.username, a.password, a.type, s.title 
         FROM $table a, $table_product s 
-        WHERE a.store_account_children_id = s.id 
+        WHERE a.product_id = s.id 
         AND a.is_sold='$is_sold' 
         AND a.id=$id_account
         AND a.type='random'";
@@ -176,8 +176,8 @@ class AccountDB extends DB
             case "random":
                 $search = (!empty($search)) ? "AND (b.unique_code LIKE '%$search%' OR s.title LIKE '%$search%')" : "";
                 $query = "SELECT b.id, b.amount, b.money, b.user_id, b.unique_code, b.time, s.title as title, u.name
-                FROM notification_buy b, store_account_children s, user u
-                WHERE b.store_account_children_id = s.id AND b.user_id = u.id $search AND s.id=$id AND b.id=$id_notification";
+                FROM notification_buy b, product s, user u
+                WHERE b.product_id = s.id AND b.user_id = u.id $search AND s.id=$id AND b.id=$id_notification";
 
                 return $this->get_row($query);
         }

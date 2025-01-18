@@ -80,8 +80,8 @@ class NotificationDB extends DB
         $search = (!empty($search)) ? "AND (b.unique_code LIKE '%$search%' OR s.title LIKE '%$search%')" : "";
         $is_show = $is_show == "ALL" ? "" : "AND is_show = '$is_show'";
         $query = "SELECT b.id, b.amount, b.money, b.user_id, b.unique_code, b.time, s.title as title, u.name, b.is_show
-        FROM notification_buy b, store_account_children s, user u
-        WHERE b.store_account_children_id = s.id AND b.user_id = u.id AND b.user_id = $id_user $search $is_show
+        FROM notification_buy b, product s, user u
+        WHERE b.product_id = s.id AND b.user_id = u.id AND b.user_id = $id_user $search $is_show
         ORDER BY b.time DESC $limit_start$limit";
 
         return $this->get_list($query);

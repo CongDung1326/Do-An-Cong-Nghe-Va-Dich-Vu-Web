@@ -3,7 +3,7 @@ require_once __DIR__ . "/../../config.php";
 
 class CategoryDB extends DB
 {
-    private $table = "store_account_parent";
+    private $table = "category";
     public function exec_select_all($select, $where)
     {
         $where = trim($where);

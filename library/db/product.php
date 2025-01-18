@@ -3,7 +3,7 @@
 
     class ProductDB extends DB
     {
-        private $table = "store_account_children";
+        private $table = "product";
         public function exec_select_all($select, $where)
         {
             $where = trim($where);
@@ -49,9 +49,9 @@
         }
         public function exec_get_all_product()
         {
-            $table = "store_account_children";
-            $table_category = "store_account_parent";
-            $query = "SELECT p.id, p.title, p.comment, p.store, p.sold, p.price, p.time_created, p.store_account_parent_id, c.name FROM $table p, $table_category c WHERE c.id = p.store_account_parent_id";
+            $table = "product";
+            $table_category = "category";
+            $query = "SELECT p.id, p.title, p.comment, p.store, p.sold, p.price, p.time_created, p.category_id, c.name FROM $table p, $table_category c WHERE c.id = p.category_id";
 
             return $this->get_list($query);
         }

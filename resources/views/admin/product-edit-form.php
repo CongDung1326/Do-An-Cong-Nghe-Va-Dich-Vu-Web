@@ -30,7 +30,7 @@ $product = $respon->product;
                 array_map(function ($category) {
                     global $product;
 
-                    $isSelect = ($product->store_account_parent_id == $category->id) ? "selected" : "";
+                    $isSelect = ($product->category_id == $category->id) ? "selected" : "";
                 ?>
                     <option <?= $isSelect; ?> value="<?= hash_encode($category->id) ?>"><?= $category->name ?></option>
                 <?php }, $categorys); ?>

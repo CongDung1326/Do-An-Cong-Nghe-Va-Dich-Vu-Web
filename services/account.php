@@ -59,7 +59,7 @@ class Account
             $this->db_account->exec_insert([
                 "username" => $username,
                 "password" => $password,
-                "store_account_children_id" => $id_product,
+                "product_id" => $id_product,
                 "is_sold" => "F",
                 "type" => "random",
             ]);
@@ -80,7 +80,7 @@ class Account
         if (!is_numeric($id_account)) return ["err_code" => $this->err_code = 9];
         if (!$this->db_account->check_account_exist($id_account)) return ["err_code" => $this->err_code = 32];
 
-        $id_product = $this->db_account->exec_select_one("store_account_children_id", "id=$id_account")['store_account_children_id'];
+        $id_product = $this->db_account->exec_select_one("product_id", "id=$id_account")['product_id'];
         $store = $this->db_product->exec_select_one("store", "id=$id_product")['store'];
 
         $this->db_account->exec_remove("id=$id_account");
