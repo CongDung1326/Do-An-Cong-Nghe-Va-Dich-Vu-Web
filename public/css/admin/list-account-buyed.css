@@ -44,9 +44,12 @@
     color: var(--color-1);
 }
 
-.list-account-container button.failed a {
+.list-account-container button.failed {
     background-color: var(--color-10);
     color: var(--color-1);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 
@@ -70,4 +73,14 @@
     border-radius: 5px;
     background-color: var(--color-9);
     color: var(--color-1);
+}
+
+@media only screen and (max-width:1024px) {
+    .wrapper {
+        overflow: scroll;
+    }
+
+    .list-account-container table {
+        width: 1000px;
+    }
 }

@@ -26,7 +26,7 @@
             <div class="deposit-recently">
                 <table class="order">
                     <?php
-                    $banks = post_api(base_url("api\bank\GetAllBank.php?limit_start=10&status=S"), api_verify())->banks;
+                    $banks = post_api(base_url("api/bank/GetAllBank.php?limit_start=10&status=S"), api_verify())->banks;
 
                     array_map(function ($bank) { ?>
                         <tr>

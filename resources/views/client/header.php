@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="<?= base_url("public/css/common/notification.css") ?>">
+    <link rel="stylesheet" href="<?= base_url("public/css/common/not-found-product.css") ?>">
     <script src="<?= base_url("public/alert-notification/alert-notification.js") ?>" defer async></script>
     <?= loadFileCss("public/css/client/", $css); ?>
     <?= $body['header'] ?>

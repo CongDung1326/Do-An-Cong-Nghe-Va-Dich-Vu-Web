@@ -1,5 +1,5 @@
 <?php
-$banners = post_api(base_url("api\settings\GetDataBanner.php"), api_verify())->data;
+$banners = post_api(base_url("api/settings/GetDataBanner.php"), api_verify())->data;
 ?>
 
 <div class="banner-container">

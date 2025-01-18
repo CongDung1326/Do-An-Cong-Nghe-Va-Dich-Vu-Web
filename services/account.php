@@ -35,6 +35,7 @@ class Account
             if (!$this->db_account->check_account_has_unique_code($unique_code)) return ["err_code" => $this->err_code = 30];
         }
         $accounts = $this->db_account->exec_search_random($search, $limit_start, $limit, $id_user, $is_sold, $unique_code);
+        $this->db_account->dis_connect();
         if (count($accounts) > 0) {
             return ["err_code" => $this->err_code, "data" => $accounts];
         } else {
@@ -66,8 +67,10 @@ class Account
                 'store' => $store + 1
             ], "id=$id_product");
 
+            $this->db_account->dis_connect();
             return ["err_code" => $this->err_code];
         } catch (Exception) {
+            $this->db_account->dis_connect();
             return ["err_code" => $this->err_code = 8];
         }
     }
@@ -84,6 +87,7 @@ class Account
         $this->db_product->exec_update([
             "store" => $store - 1
         ], "id=$id_product");
+        $this->db_account->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function EditAccountRandom($username, $password, $id_account, $id_product)
@@ -101,6 +105,7 @@ class Account
         if (!$this->db_account->exec_update_account_random($username, $password, $id_account, $id_product))
             return ["err_code" => $this->err_code = 8];
 
+        $this->db_account->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function GetAccountRandomById($id_account, $is_sold = "F")
@@ -112,6 +117,7 @@ class Account
         if (!$this->db_account->check_account_is_sold($id_account, $is_sold, "")) return ["err_code" => $this->err_code = 32];
 
         $data = $this->db_account->exec_get_account_random_have_sold($id_account, $is_sold);
+        $this->db_account->dis_connect();
         return ["err_code" => $this->err_code, "data" => $data];
     }
     // LOL
@@ -136,6 +142,7 @@ class Account
         }
 
         $accounts = $this->db_account->exec_search_lol($search, $limit_start, $limit, $id_user, $is_sold, $unique_code);
+        $this->db_account->dis_connect();
         if (count($accounts) > 0) {
             return ["err_code" => $this->err_code, "data" => $accounts];
         } else {
@@ -152,6 +159,7 @@ class Account
 
         $this->db->remove($table_lol, "account_id=$id_account");
         $this->db_account->exec_remove("id=$id_account");
+        $this->db_account->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function AddAccountLOL($username, $password, $number_char, $number_skin, $id_rank, $price, $images)
@@ -194,8 +202,10 @@ class Account
                 "image" => $images
             ]);
 
+            $this->db_account->dis_connect();
             return ["err_code" => $this->err_code];
         } catch (Exception) {
+            $this->db_account->dis_connect();
             return ["err_code" => $this->err_code = 8];
         }
     }
@@ -213,7 +223,7 @@ class Account
             || empty($number_skin)
             || empty($id_rank)
             || empty($price)
-        ) return json_encode_utf8(["errCode" => 1, "status" => "error", "message" => "Thiếu tham số truyền vào"]);
+        ) return ["err_code" => $this->err_code = 1];
         if (!is_numeric($number_char) || $number_char <= 0) return ["err_code" => $this->err_code = 33];
         if (!is_numeric($number_skin) || $number_skin <= 0) return ["err_code" => $this->err_code = 34];
         if (!is_numeric($price) || $price <= 0) return ["err_code" => $this->err_code = 20];
@@ -238,8 +248,10 @@ class Account
                 ], "account_id=$id_account");
             }
 
+            $this->db_account->dis_connect();
             return ["err_code" => $this->err_code];
         } catch (Exception) {
+            $this->db_account->dis_connect();
             return ["err_code" => $this->err_code = 8];
         }
     }
@@ -251,6 +263,7 @@ class Account
         if (!$this->db_account->check_account_is_sold($id_account, $is_sold, "lol")) return ["err_code" => $this->err_code = 32];
 
         $account = $this->db_account->exec_get_account_lol_have_sold($id_account, $is_sold);
+        $this->db_account->dis_connect();
         return ["err_code" => $this->err_code, "data" => $account];
     }
     public function BuyAccountLOL($id_account, $id_user)
@@ -289,6 +302,7 @@ class Account
         $this->db_user->exec_update([
             "money" => $money - $price,
         ], "id=$id_user");
+        $this->db_account->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function GetAllAccountBuyed($search, $limit_start, $limit, $id_account)
@@ -317,8 +331,10 @@ class Account
                         return ["err_code" => $this->err_code = 36];
                 }
             }
+            $this->db_account->dis_connect();
             return ["err_code" => $this->err_code, "data" => $accounts];
         } else {
+            $this->db_account->dis_connect();
             return ["err_code" => $this->err_code = 22, "data" => []];
         }
     }
@@ -347,9 +363,11 @@ class Account
                 break;
 
             default:
+                $this->db_account->dis_connect();
                 return ["err_code" => $this->err_code = 36];
         }
 
+        $this->db_account->dis_connect();
         return ["err_code" => $this->err_code];
     }
 }

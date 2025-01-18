@@ -7,3 +7,4 @@ include_once __DIR__ . "/notification.php";
 include_once __DIR__ . "/bank.php";
 include_once __DIR__ . "/category.php";
 include_once __DIR__ . "/settings.php";
+include_once __DIR__ . "/account-lol.php";

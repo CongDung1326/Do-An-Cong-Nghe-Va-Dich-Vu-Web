@@ -40,6 +40,6 @@ if (input_post("item_username") && input_post("item_password") && input_post("it
         show_notification("warning", $add_random->message);
     }
 
-    redirect(base_url_admin("manage-item"));
+    show_notification("success", $add_random->message, base_url_admin("manage-item"));
 }
 ?>

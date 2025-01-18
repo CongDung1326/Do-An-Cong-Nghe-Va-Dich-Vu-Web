@@ -3,7 +3,7 @@ include_once __DIR__ . "/../../config.php";
 
 if (input_get(hash_encode("search"))) {
     $search = input_get(hash_encode("search"));
-    $banks = post_api(base_url("api\bank\GetAllBank.php?search=$search&status=W"), api_verify())->banks;
+    $banks = post_api(base_url("api/bank/GetAllBank.php?search=$search&status=W"), api_verify())->banks;
     $result = "";
     $not_found = "<tr>
         <td colspan='9'>Không tìm thấy thẻ nào cả!</td>
@@ -36,7 +36,7 @@ if (input_get(hash_encode("search"))) {
 
     echo !empty($result) ? $result : $not_found;
 } else {
-    $banks = post_api(base_url("api\bank\GetAllBank.php?status=W"), api_verify())->banks;
+    $banks = post_api(base_url("api/bank/GetAllBank.php?status=W"), api_verify())->banks;
     $result = "";
     $not_found = "<tr>
         <td colspan='9'>Danh sách thẻ đang chống!</td>

@@ -15,6 +15,7 @@ class Settings
     public function GetAllSettings()
     {
         $settings = $this->db_settings->exec_select_all(null, null);
+        $this->db_settings->dis_connect();
         if (count($settings) > 0) {
             return ["err_code" => $this->err_code, "data" => $settings];
         } else {
@@ -46,7 +47,7 @@ class Settings
                 "value" => $value
             ], "name = '$key'");
         }
-
+        $this->db_settings->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function GetDataBanner()
@@ -62,7 +63,7 @@ class Settings
             "count_user" => $count_user,
             "sold" => $sold
         ];
-
+        $this->db_settings->dis_connect();
         return ["err_code" => $this->err_code, "data" => $data];
     }
 }

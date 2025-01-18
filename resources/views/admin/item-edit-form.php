@@ -51,6 +51,6 @@ if (input_post("item_username") && input_post("item_password") && input_post("it
     $respon = post_api(base_url("api/account/EditAccountRandom.php"), $data);
     if ($respon->status == "error") show_notification("warning", $respon->message);
 
-    redirect(base_url_admin("manage-item"));
+    show_notification("success", $respon->message, base_url_admin("manage-item"));
 }
 ?>

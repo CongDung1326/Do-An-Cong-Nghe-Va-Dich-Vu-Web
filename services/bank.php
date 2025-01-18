@@ -3,10 +3,9 @@ require_once __DIR__ . "/../config.php";
 
 class Bank
 {
-    private $db, $db_bank, $db_user, $err_code = 0;
+    private $db_bank, $db_user, $err_code = 0;
     public function __construct()
     {
-        $this->db = new DB();
         $this->db_bank = new BankDB();
         $this->db_user = new UserDB();
     }
@@ -21,8 +20,10 @@ class Bank
 
         $banks = $this->db_bank->exec_search_bank($limit_start, $limit, $search, $status);
         if (count($banks) > 0) {
+            $this->db_bank->dis_connect();
             return ["err_code" => $this->err_code, "data" => $banks];
         } else {
+            $this->db_bank->dis_connect();
             return ["err_code" => $this->err_code = 22, "data" => []];
         }
     }
@@ -40,8 +41,10 @@ class Bank
 
         $banks = $this->db_bank->exec_search_bank_by_id_user($search, $limit_start, $limit, $status, $id_user);
         if (count($banks) > 0) {
+            $this->db_bank->dis_connect();
             return ["err_code" => $this->err_code, "data" => $banks];
         } else {
+            $this->db_bank->dis_connect();
             return ["err_code" => $this->err_code = 22, "data" => []];
         }
     }
@@ -66,6 +69,7 @@ class Bank
             ], "id=$id_user");
         }
 
+        $this->db_bank->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function AddDeposit($id_user, $card_type, $money_type, $serial, $pin)
@@ -86,6 +90,7 @@ class Bank
             "user_id" => $id_user,
             "time_created" => time()
         ]);
+        $this->db_bank->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function GetAllManageBank($search, $limit_start, $limit)
@@ -98,8 +103,10 @@ class Bank
 
         $banks = $this->db_bank->exec_manage_bank($search, $limit_start, $limit);
         if (count($banks) > 0) {
+            $this->db_bank->dis_connect();
             return ["err_code" => $this->err_code, "data" => $banks];
         } else {
+            $this->db_bank->dis_connect();
             return ["err_code" => $this->err_code = 22, "data" => []];
         }
     }

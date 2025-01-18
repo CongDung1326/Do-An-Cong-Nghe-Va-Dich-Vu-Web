@@ -31,6 +31,15 @@
                 </form>
             </div>
         <?php }, $accounts); ?>
+
+        <?php
+        $not_found = [
+            "list" => $accounts,
+            "title" => "Danh sách đang trống"
+        ];
+
+        require_once __DIR__ . "/../common/not-found-product.php";
+        ?>
     </div>
 </div>
 

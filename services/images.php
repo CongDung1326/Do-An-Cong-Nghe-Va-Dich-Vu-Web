@@ -14,6 +14,7 @@ class Images
         $images = $this->db->get_list($query);
 
         if ($this->db->num_rows($query) > 0) {
+            $this->db->dis_connect();
             return json_encode_utf8([
                 "errCode" => 0,
                 "status" => "success",

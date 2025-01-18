@@ -18,6 +18,7 @@ class Product
     {
         $products = $this->db_product->exec_get_all_product();
 
+        $this->db_product->dis_connect();
         if (count($products) > 0) {
             return ["err_code" => $this->err_code, "data" => $products];
         } else {
@@ -32,6 +33,7 @@ class Product
         if (!$this->db_category->check_category_exist($id_category)) return ["err_code" => $this->err_code = 23];
 
         $products = $this->db_product->exec_select_all("", "store_account_parent_id=$id_category");
+        $this->db_product->dis_connect();
         if (count($products) > 0) {
             return ["err_code" => $this->err_code, "data" => $products];
         } else {
@@ -55,7 +57,7 @@ class Product
             "price" => $price,
             "store_account_parent_id" => $id_category,
         ]);
-
+        $this->db_product->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function EditProduct($title, $comment, $price, $id_category, $id_product)
@@ -76,7 +78,7 @@ class Product
             "price" => $price,
             "store_account_parent_id" => $id_category,
         ], "id=$id_product");
-
+        $this->db_product->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function GetProductById($id_product)
@@ -86,6 +88,7 @@ class Product
         if (!$this->db_product->check_product_exist($id_product))  return ["err_code" => $this->err_code = 31];
 
         $product = $this->db_product->exec_select_one("", "id=$id_product");
+        $this->db_product->dis_connect();
         return ["err_code" => $this->err_code, "data" => $product];
     }
     public function RemoveProduct($id_product)
@@ -96,15 +99,11 @@ class Product
         if (!$this->db_product->check_product_exist($id_product))  return ["err_code" => $this->err_code = 31];
 
         $this->db_product->exec_remove("id=$id_product");
+        $this->db_product->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function BuyItemProduct($id_product, $id_user, $amount)
     {
-        $table = "store_account_children";
-        $table_user = "user";
-        $table_notification = "notification_buy";
-        $table_account = "account";
-
         $random = random_string();
 
         if (empty($id_product) || empty($id_user) || empty($amount)) return ["err_code" => $this->err_code = 1];
@@ -148,7 +147,7 @@ class Product
             "user_id" => $id_user,
             "unique_code" => $random
         ], "store_account_children_id = $id_product AND is_sold='F' LIMIT $amount");
-
+        $this->db_product->dis_connect();
         return ["err_code" => $this->err_code];
     }
 }

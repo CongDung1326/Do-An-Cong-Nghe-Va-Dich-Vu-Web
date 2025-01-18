@@ -8,5 +8,14 @@ if (!input_get("id") || !is_numeric(hash_decode(input_get("id")))) {
 
 $id = check_string(hash_decode(input_get("id")));
 
+$account = get_api(base_url("api/account-lol/GetAccountLOLByIdAccount.php?id=$id"));
+
+if (isset($account->account)) {
+    $old_images = list_separator($account->account->image);
+    $target_dir_remove = __DIR__ . "/../../../";
+
+    remove_upload_images($target_dir_remove, $old_images);
+}
+
 post_api(base_url("api/account/RemoveAccountBuyed.php"), api_verify(["id_account" => $id]));
 redirect(base_url_admin("manage-account-buyed"));

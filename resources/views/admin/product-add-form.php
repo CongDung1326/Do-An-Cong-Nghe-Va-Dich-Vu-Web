@@ -41,6 +41,6 @@ if (input_post("product_title") && input_post("product_comment") && input_post("
         "id_category" => $product_category
     ]));
     if ($respon->status == "error") show_notification("error", $respon->message);
-    redirect(base_url_admin("manage-store"));
+    show_notification("success", "Thêm thành công!", base_url_admin("manage-store"));
 }
 ?>

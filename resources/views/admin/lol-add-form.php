@@ -51,20 +51,15 @@ if (isset($_FILES['lol_images'])) {
     $table_account_lol = "account_lol";
     $price = check_string(input_post("lol_price"));
     $images = $_FILES['lol_images'];
-    $name_images = [];
-    $time = time();
     $target_dir = "public/images/client/";
+    $target_dir_remove = __DIR__ . "/../../../";
+    $name_images = upload_images($target_dir, $images);
 
-    for ($i = 0; $i < count($images['name']); $i++) {
-        $target_file = $target_dir . $time . basename($images['name'][$i]);
-        $image_file_type = check_image(strtolower($target_file));
-
-        if (!$image_file_type) show_notification("error", "Vui lòng chọn đúng định dạng ảnh");
-        if (move_uploaded_file($images['tmp_name'][$i], $target_file)) {
-            array_push($name_images, "public/images/client/" . $time . basename($images['name'][$i]));
-        } else {
+    switch ($name_images) {
+        case 1:
+            show_notification("error", "Vui lòng chọn đúng định dạng ảnh");
+        case 2:
             show_notification("error", "Có gì đó sai sai!");
-        }
     }
 
     $data = [
@@ -78,8 +73,9 @@ if (isset($_FILES['lol_images'])) {
     ];
     $respon = post_api(base_url("api/account/AddAccountLOL.php"), $data);
     if ($respon->errCode == 1) show_notification("warning", "Vui lòng nhập đầy đủ");
+    if ($respon->errCode == 8) remove_upload_images($target_dir_remove, $name_images);
     if ($respon->status == "error") show_notification("warning", $respon->message);
 
-    show_notification("success", "Thêm thành công!", base_url_admin("manage-item-lol"));
+    show_notification("success", $respon->message, base_url_admin("manage-item-lol"));
 }
 ?>

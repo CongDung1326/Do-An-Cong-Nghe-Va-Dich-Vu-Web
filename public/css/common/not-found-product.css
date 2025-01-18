@@ -1,0 +1,19 @@
+.not-found-product {
+    opacity: 0.4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.not-found-product img {
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+}
+
+.not-found-product .title {
+    font-size: var(--font-size-2);
+    font-weight: bold;
+    margin-bottom: 20px;
+}

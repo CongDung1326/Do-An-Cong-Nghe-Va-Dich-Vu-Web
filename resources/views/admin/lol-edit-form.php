@@ -64,31 +64,15 @@ if (isset($_POST['lol_rank'])) {
     $check_is_set_image = !empty($_FILES['lol_images']['name'][0]) ? true : false;
     if ($check_is_set_image) {
         $images = $_FILES['lol_images'];
-        $name_images = [];
-        $time = time();
         $target_dir = "public/images/client/";
+        $target_dir_remove = __DIR__ . "/../../../";
+        $name_images = upload_images($target_dir, $images);
 
-        for ($i = 0; $i < count($images['name']); $i++) {
-            $target_file = $target_dir . $time . basename($images['name'][$i]);
-            $image_file_type = check_image(strtolower($target_file));
-
-            if (!$image_file_type) show_notification("error", "Vui lòng chọn đúng định dạng ảnh!");
-            if (move_uploaded_file($images['tmp_name'][$i], $target_file)) {
-                array_push($name_images, $target_dir . $time . basename($images['name'][$i]));
-            } else {
+        switch ($name_images) {
+            case 1:
+                show_notification("error", "Vui lòng chọn đúng định dạng ảnh");
+            case 2:
                 show_notification("error", "Có gì đó sai sai!");
-            }
-        }
-    }
-
-    if ($check_is_set_image) {
-        $old_images = list_separator($item->image);
-        $target_dir = __DIR__ . "/../../../";
-
-        foreach ($old_images as $image) {
-            if (file_exists($target_dir . $image)) {
-                unlink($target_dir . $image) ? "" : show_notification("warning", "Vui lòng đừng nghịch bậy bạ!");
-            }
         }
     }
 
@@ -105,8 +89,15 @@ if (isset($_POST['lol_rank'])) {
     $respon = post_api(base_url("api/account/EditAccountLOL.php"), $data);
 
     if ($respon->errCode == 1) show_notification("warning", "Vui lòng nhập đầy đủ");
+    if ($respon->errCode == 8) remove_upload_images($target_dir_remove, $name_images);
     if ($respon->status == "error") show_notification("error", $respon->message);
 
+    if ($check_is_set_image) {
+        $old_images = list_separator($item->image);
+        $target_dir = __DIR__ . "/../../../";
+
+        remove_upload_images($target_dir, $old_images);
+    }
     show_notification("success", "Sửa thành công!", base_url_admin("manage-item-lol"));
 }
 ?>

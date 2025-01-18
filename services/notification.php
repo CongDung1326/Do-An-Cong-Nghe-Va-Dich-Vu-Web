@@ -38,6 +38,7 @@ class Notification
 
             if ($result_query) array_push($result,  $result_query);
         }
+        $this->db_notification->dis_connect();
         if (count($notifications) > 0) {
             return ["err_code" => $this->err_code, "data" => $result];
         } else {
@@ -57,6 +58,7 @@ class Notification
 
         $notifications = $this->db_notification->exec_search_random($search, $limit_start, $limit, $id_user, $is_show);
 
+        $this->db_notification->dis_connect();
         if (count($notifications) > 0) {
             return ["err_code" => $this->err_code, "data" => $notifications];
         } else {
@@ -76,6 +78,7 @@ class Notification
 
         $notifications = $this->db_notification->exec_search_lol($search, $limit_start, $limit, $id_user, $is_show);
 
+        $this->db_notification->dis_connect();
         if (count($notifications) > 0) {
             return ["err_code" => $this->err_code, "data" => $notifications];
         } else {
@@ -91,6 +94,7 @@ class Notification
         $this->db_notification->exec_update([
             "is_show" => "F"
         ], "id = $id_notification AND user_id = $id_user");
+        $this->db_notification->dis_connect();
         return ["err_code" => $this->err_code];
     }
     public function RemoveNotification($id_notification)
@@ -120,6 +124,7 @@ class Notification
             $this->db_account->exec_remove("id={$account['id']}");
         }
 
+        $this->db_notification->dis_connect();
         return ["err_code" => $this->err_code];
     }
 }

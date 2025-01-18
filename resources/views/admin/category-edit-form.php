@@ -1,7 +1,7 @@
 <?php
 $id = check_string(hash_decode(input_get("id")));
 
-$respon = post_api(base_url("api\category\GetCategoryById.php"), ["id_category" => $id]);
+$respon = post_api(base_url("api/category/GetCategoryById.php"), ["id_category" => $id]);
 $category = $respon->category;
 
 if ($respon->status == "error") redirect(base_url_admin());
@@ -22,10 +22,10 @@ if ($respon->status == "error") redirect(base_url_admin());
 if (input_post("category_name")) {
     $category_name = check_string(input_post("category_name"));
 
-    post_api(base_url("api\category\EditCategory.php"), [
+    post_api(base_url("api/category/EditCategory.php"), [
         "id_category" => $id,
         "name" => $category_name
     ]);
-    redirect(base_url_admin("manage-store"));
+    show_notification("success", "Sửa thành công!", base_url_admin("manage-store"));
 }
 ?>

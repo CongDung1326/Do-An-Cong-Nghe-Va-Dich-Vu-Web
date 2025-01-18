@@ -104,7 +104,6 @@ if (input_post("user_password")) {
         "password_user" => $user_password,
         "id_user" => $id
     ]));
-    redirect(base_url_admin("manage-user"));
 }
 
 if (input_post("user_name") && input_post("user_email")) {
@@ -122,6 +121,6 @@ if (input_post("user_name") && input_post("user_email")) {
     ]));
 
     if ($respon->status == "error") show_notification("error", $respon->message);
-    redirect(base_url_admin("manage-user"));
+    show_notification("success", "Sửa thành công!", base_url_admin("manage-user"));
 }
 ?>

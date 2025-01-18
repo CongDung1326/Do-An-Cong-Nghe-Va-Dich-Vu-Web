@@ -13,9 +13,10 @@
 if (input_post("category_name")) {
     $category_name = check_string(input_post("category_name"));
 
-    post_api(base_url("api\category\AddCategory.php"), [
+    post_api(base_url("api/category/AddCategory.php"), [
         "name" => $category_name
     ]);
-    redirect(base_url_admin("manage-store"));
+
+    show_notification("success", "Thêm thành công!", base_url_admin("manage-store"));
 }
 ?>

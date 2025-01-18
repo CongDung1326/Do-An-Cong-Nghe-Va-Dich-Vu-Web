@@ -37,24 +37,22 @@ if (input_post("title") && input_post("description") && input_post("keyword") &&
     $name_shop = check_string(input_post("name_shop"));
     $discount = check_string(input_post("discount"));
     $image = $_FILES['logo'];
-    $time = time();
     $target_dir = "assets/storage/";
     $check_image_exist = !empty($image['name']) ? true : false;
-    $table = "settings";
+    $target_file = upload_image($target_dir, $image);
 
     if (!is_numeric($discount)) show_notification("error", "Chiết khấu vui lòng nhập số!");
     if ($check_image_exist) {
-        $target_file = $target_dir . $time . basename($image['name']);
-        $image_file_type = check_image(strtolower($target_file));
-        if (!$image_file_type) show_notification("error", "Vui lòng chọn đúng định dạng ảnh!");
-        if (!move_uploaded_file($image['tmp_name'], $target_file)) {
-            show_notification("error", "Có gì đó sai sai!");
-        } else {
-            $old_images = site("logo");
-            $target_dir = __DIR__ . "/../../../";
-            if (file_exists($target_dir . $old_images)) {
-                unlink($target_dir . $old_images);
-            }
+        switch ($target_file) {
+            case 1:
+                show_notification("error", "Vui lòng chọn đúng định dạng ảnh");
+            case 2:
+                show_notification("error", "Có gì đó sai sai!");
+            default:
+                $old_image = site("logo");
+                $target_dir = __DIR__ . "/../../../";
+
+                remove_upload_image($target_dir, $old_image);
         }
     }
     $result = [

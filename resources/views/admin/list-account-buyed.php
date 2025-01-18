@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             <?php
-            $accounts = post_api(base_url("api\account\GetAllAccountBuyed.php?limit_start=5"), api_verify())->accounts;
+            $accounts = post_api(base_url("api/account/GetAllAccountBuyed.php?limit_start=5"), api_verify())->accounts;
 
             array_map(function ($account, $count) { ?>
                 <tr>
@@ -30,7 +30,7 @@
                     <td><?= $account->is_sold == "T" ? "Đã Bán" : "Chưa Bán"; ?></td>
                     <td>
                         <button class="success"><a href="<?= base_url_admin("edit-account-buyed/" . hash_encode($account->id)) ?>">Chỉnh Sửa</a></button>
-                        <button class="failed"><a href="<?= base_url_admin("remove-account-buyed/" . hash_encode($account->id)) ?>">Xoá</a></button>
+                        <button class="failed" value="<?= hash_encode($account->id) ?>">Xoá</button>
                     </td>
                 </tr>
             <?php }, $accounts, array_map_length($accounts)); ?>
@@ -103,4 +103,14 @@
         }
         limitUser();
     }
+
+    const showYesNo = () => {
+        let btnDelete = document.querySelectorAll(".list-account-container button.failed");
+        btnDelete.forEach((button) => {
+            button.addEventListener('click', () => {
+                notificationYesNo("warning", "Bạn có chắc muốn xoá không?", "<?= base_url_admin("remove-account-buyed/") ?>" + button.value);
+            })
+        })
+    }
+    showYesNo();
 </script>

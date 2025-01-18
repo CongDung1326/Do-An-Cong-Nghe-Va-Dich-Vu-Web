@@ -232,6 +232,56 @@ function name_user($data)
         "last_name" => $last_name
     ];
 }
+function upload_images($directory_check_image, $images)
+{
+    $result = [];
+    $time = time();
+
+    // Kiểm tra xem có file nào người dùng gửi vào có phải chuẩn là file image không
+    for ($i = 0; $i < count($images['name']); $i++) {
+        $target_file = $directory_check_image . $time . basename($images['name'][$i]);
+        $image_file_type = check_image(strtolower($target_file));
+
+        if (!$image_file_type) return 1;
+    }
+    // Exec save file
+    for ($i = 0; $i < count($images['name']); $i++) {
+        $target_file = $directory_check_image . $time . basename($images['name'][$i]);
+        if (move_uploaded_file($images['tmp_name'][$i], $target_file)) {
+            array_push($result, $directory_check_image . $time . basename($images['name'][$i]));
+        } else {
+            return 2;
+        }
+    }
+
+    return $result;
+}
+function remove_upload_images($directory, $images)
+{
+    foreach ($images as $image) {
+        if (file_exists($directory . $image)) {
+            unlink($directory . $image) ? "" : show_notification("warning", "Vui lòng đừng nghịch bậy bạ!");
+        }
+    }
+}
+function upload_image($directory_check_image, $image)
+{
+    $time = time();
+    $target_file = $directory_check_image . $time . basename($image['name']);
+    $image_file_type = check_image(strtolower($target_file));
+    if (!$image_file_type) return 1;
+    if (!move_uploaded_file($image['tmp_name'], $target_file)) {
+        return 2;
+    }
+
+    return $target_file;
+}
+function remove_upload_image($directory, $image)
+{
+    if (file_exists($directory . $image)) {
+        unlink($directory . $image);
+    }
+}
 function check_num_error($num_error, $message, $key, $data)
 {
     $result = [];

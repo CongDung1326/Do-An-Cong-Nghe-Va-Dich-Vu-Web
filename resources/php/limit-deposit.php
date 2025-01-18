@@ -6,7 +6,7 @@ if (input_get(hash_encode("limit-deposit")) && input_get(hash_encode("limit"))) 
     $limit_max = input_get(hash_encode("limit"));
     $limit = $limit_deposit == 1 ? "limit_start=$limit_max" : "limit_start=" . $limit_max * ($limit_deposit - 1) . "&limit=$limit_max";
 
-    $banks = post_api(base_url("api\bank\GetAllBank.php?$limit&status=W"), api_verify())->banks;
+    $banks = post_api(base_url("api/bank/GetAllBank.php?$limit&status=W"), api_verify())->banks;
     $result = "";
     $not_found = "<tr>
         <td colspan='9'>Không tìm thấy thẻ nào cả!</td>

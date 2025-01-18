@@ -12,7 +12,7 @@
             <?php
             $id_user = session_get("information")['id'];
 
-            $respon = post_api(base_url("api\account\GetAllAccountLOL.php?is_sold=T"), api_verify([
+            $respon = post_api(base_url("api/account/GetAllAccountLOL.php?is_sold=T"), api_verify([
                 "id_user" => $id_user,
                 "id_notification" => $id_notification
             ]));
