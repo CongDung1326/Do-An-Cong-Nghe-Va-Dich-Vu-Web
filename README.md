@@ -37,10 +37,10 @@ Website hỗ trợ bán tài khoản game Liên Minh Huyền Thoại
 ## Giao Diện Quản Lý Nạp Thẻ
 <img src="https://imgur.com/E31BlOf.png">
 
-## Giao Diện Cài Đặt
+## Giao Diện Quản Lý Người Dùng
 <img src="https://i.imgur.com/S2GaVgi.png">
 
-## Giao Diện Quản Lý Người Dùng
+## Giao Diện Cài Đặt
 <img src="https://imgur.com/6eFyVjr.png">
 
 ### Link Website
