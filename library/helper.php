@@ -15,6 +15,14 @@ function base_url_admin($url = '')
     }
     return $a . '/admin/' . $url;
 }
+function base_url_admin_v2($url = '')
+{
+    $a = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"];
+    if ($a == 'http://localhost') {
+        $a = 'http://localhost/Do-An-Thuc-Hanh-Cong-Nghe-Va-Dich-Vu-Web';
+    }
+    return $a . '/admin-v2/' . $url;
+}
 function redirect($url, $time = 0)
 {
     if ($time > 0)
