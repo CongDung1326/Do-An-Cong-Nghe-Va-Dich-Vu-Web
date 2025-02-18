@@ -1,11 +1,9 @@
 <?php
 require_once __DIR__ . "/../../config.php";
-
-class UserDB extends DB
+class UsersDB extends DB
 {
-    private $table = "user";
-    public function __construct() {}
-    public function exec_select_all($select, $where)
+    private $table = "users";
+    public function exec_select_list($select, $where)
     {
         $where = trim($where);
 
@@ -15,7 +13,7 @@ class UserDB extends DB
 
         return $result;
     }
-    public function exec_select_one($select, $where)
+    public function exec_select_row($select, $where)
     {
         $where = trim($where);
 
@@ -44,32 +42,20 @@ class UserDB extends DB
     {
         return $this->remove($this->table, $where);
     }
-    public function check_login($username, $password)
+    public function exec_login($username, $password)
     {
-        return $this->exec_num_rows("username='$username' AND password='$password'") > 0 ? true : false;
-    }
-    public function check_username_exist($username)
-    {
-        return  $this->exec_num_rows("username='$username'") > 0 ? true : false;
-    }
-    public function exec_search($select, $search, $limit_start, $limit)
-    {
-        $limit = ($limit != 0) ? ",$limit" : "";
-        $limit_start = ($limit_start != 0) ? "LIMIT $limit_start" : "";
-        $search = "username LIKE '%$search%'";
+        $username = check_string($username);
+        $passwordHash = hash_encode(check_string($password));
 
-        return $this->exec_select_all($select, "$search $limit_start$limit");
+        if ($this->exec_num_rows("username='$username' AND passwordHash='$passwordHash'") == 0) return 1;
+
+        return 0;
     }
-    public function check_user_exist($id_user)
+    public function exec_find_login_by_username_password($username, $password)
     {
-        return $this->exec_num_rows("id=$id_user") > 0 ? true : false;
-    }
-    public function check_admin($id_user)
-    {
-        return $this->exec_num_rows("id=$id_user AND role_id=2") > 0 ? true : false;
-    }
-    public function sum_user()
-    {
-        return $this->exec_select_one("COUNT(*) as users", null)['users'];
+        $username = check_string($username);
+        $passwordHash = hash_encode(check_string($password));
+
+        return $this->exec_select_row("*", "username='$username' AND passwordHash='$passwordHash'");
     }
 }

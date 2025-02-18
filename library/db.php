@@ -28,6 +28,14 @@ class DB
         return $row['value'];
     }
 
+    public function site_v2($data)
+    {
+        $this->connect();
+        $row = $this->db->query("SELECT * FROM settings WHERE keyCode='$data'")->fetch_array();
+        $this->dis_connect();
+        return $row['displayName'];
+    }
+
     public function insert($table, $data)
     {
         $this->connect();

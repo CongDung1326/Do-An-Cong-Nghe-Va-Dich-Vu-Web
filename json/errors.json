@@ -1,0 +1,32 @@
+[
+    {
+        "errCode": -2,
+        "status": "warning",
+        "message": "Lỗi này không nằm trong phạm vi kiểm soát"
+    },
+    {
+        "errCode": -1,
+        "status": "error",
+        "message": "Lỗi từ server"
+    },
+    {
+        "errCode": 0,
+        "status": "success",
+        "message": "Lấy dữ liệu thành công"
+    },
+    {
+        "errCode": 1,
+        "status": "warning",
+        "message": "Sai tài khoản hoặc mật khẩu"
+    },
+    {
+        "errCode": 2,
+        "status": "error",
+        "message": "Tài khoản đã được sử dụng"
+    },
+    {
+        "errCode": 3,
+        "status": "warning",
+        "message": "Thiếu tham số truyền vào"
+    }
+]

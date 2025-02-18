@@ -80,6 +80,10 @@ function json_decode_utf8($json)
 {
     return json_decode($json, false, 512, JSON_UNESCAPED_UNICODE);
 }
+function json_decode_utf8_v2($json)
+{
+    return json_decode($json, true, 512, JSON_UNESCAPED_UNICODE);
+}
 function timeAgo($time_ago)
 {
     $time_ago = empty($time_ago) ? 0 : $time_ago;
@@ -230,6 +234,7 @@ function site($key)
     }
     return null;
 }
+function site_v2($key) {}
 function name_user($data)
 {
     $array_names = explode(" ", trim($data));
@@ -595,4 +600,22 @@ function check_num_error($num_error, $message, $key, $data)
                 "message" => "Có gì đó sai sai!"
             ];
     }
+}
+function check_error($num_error, $data)
+{
+    global $data_errors;
+    $num_error_not_found_error = -2;
+    $array_error = [];
+
+    foreach ($data_errors as $error) {
+        if ($error["errCode"] == $num_error) $array_error = $error;
+    }
+    if (empty($array_error)) foreach ($data_errors as $error) if ($error["errCode"] == $num_error_not_found_error) return $error;
+    if (!empty($data)) {
+        foreach ($data as $key => $value) {
+            $array_error[$key] = $value;
+        }
+    }
+
+    return $array_error;
 }
