@@ -32,8 +32,7 @@ class DB
     {
         $this->connect();
         $row = $this->db->query("SELECT * FROM settings WHERE keyCode='$data'")->fetch_array();
-        $this->dis_connect();
-        return $row['displayName'];
+        return isset($row['displayName']) ? $row['displayName'] : null;
     }
 
     public function insert($table, $data)

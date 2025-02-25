@@ -10,19 +10,10 @@ $body = [
 $body['header'] = '';
 $body['footer'] = '';
 
-// $css = [
-//     "index.css",
-//     "settings.css",
-//     "footer.css",
-//     "header.css",
-//     "nav.css",
-//     "index.css",
-//     "banner.css",
-//     "sidebar.css",
-//     "shop-account.css",
-//     "form-buy.css",
-// ];
+$css = [
+    "main.css",
+];
 
 require_once __DIR__ . "/header.php";
-require_once __DIR__ . "/settings-form.php";
+require_once __DIR__ . "/register-form.php";
 require_once __DIR__ . "/footer.php";

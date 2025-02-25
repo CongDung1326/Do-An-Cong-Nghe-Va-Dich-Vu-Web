@@ -2,7 +2,7 @@
 require_once __DIR__ . "/../../config.php";
 class SettingsDB extends DB
 {
-    private $table = "users";
+    private $table = "settings";
     public function exec_select_list($select, $where)
     {
         $where = trim($where);
@@ -42,5 +42,12 @@ class SettingsDB extends DB
     {
         return $this->remove($this->table, $where);
     }
-    public function exec_get_all_setting() {}
+    public function exec_get_all_setting($key_code)
+    {
+        if (empty($key_code) || is_null($key_code))
+            return $this->exec_select_list("*", null);
+
+        $key_code = check_string($key_code);
+        return $this->site_v2($key_code);
+    }
 }

@@ -58,4 +58,13 @@ class UsersDB extends DB
 
         return $this->exec_select_row("*", "username='$username' AND passwordHash='$passwordHash'");
     }
+    public function exec_login_admin($username, $password)
+    {
+        $username = check_string($username);
+        $passwordHash = hash_encode(check_string($password));
+
+        if ($this->exec_num_rows("username='$username' AND passwordHash='$passwordHash' AND roleId='ROLE_ADMIN'") == 0) return 1;
+
+        return 0;
+    }
 }

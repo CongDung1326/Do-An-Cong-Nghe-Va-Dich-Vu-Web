@@ -58,6 +58,12 @@ RewriteRule ^admin/remove-list-bank/([A-Za-z0-9-]+)$ "index.php?module=admin&act
 RewriteRule ^admin-v2/home$ "index.php?module=admin-v2&action=index"
 RewriteRule ^admin-v2/settings$ "index.php?module=admin-v2&action=settings"
 RewriteRule ^admin-v2/coupons$ "index.php?module=admin-v2&action=coupons"
+RewriteRule ^admin-v2/login$ "index.php?module=admin-v2&action=login"
+
+## Client V2
+RewriteRule ^client-v2/home$ "index.php?module=client-v2&action=index"
+RewriteRule ^client-v2/login$ "index.php?module=client-v2&action=login"
+RewriteRule ^client-v2/register$ "index.php?module=client-v2&action=register"
 
 ## Set tạm thời khi không tìm thấy trang thì show 404 
 RewriteCond %{REQUEST_FILENAME} !-f

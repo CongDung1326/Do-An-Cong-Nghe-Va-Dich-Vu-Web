@@ -28,5 +28,15 @@
         "errCode": 3,
         "status": "warning",
         "message": "Thiếu tham số truyền vào"
+    },
+    {
+        "errCode": 4,
+        "status": "error",
+        "message": "Không tìm thấy settings"
+    },
+    {
+        "errCode": 5,
+        "status": "warning",
+        "message": "Bạn không có quyền để truy cập vào đây"
     }
 ]

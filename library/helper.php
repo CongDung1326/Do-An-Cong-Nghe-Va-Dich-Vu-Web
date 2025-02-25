@@ -234,7 +234,12 @@ function site($key)
     }
     return null;
 }
-function site_v2($key) {}
+function site_v2($key)
+{
+    $setting = get_api(base_url("api-v2/settings/site.php?keyCode=$key"));
+
+    return isset($setting['settings']) ? $setting['settings'] : null;
+}
 function name_user($data)
 {
     $array_names = explode(" ", trim($data));

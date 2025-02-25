@@ -3,9 +3,9 @@
     <div class="header-container">
         <div class="nav-logo">
             <a href="<?= base_url_admin_v2("home") ?>">
-                <b><img src="<?= base_url() ?>assets/img/logo.png" alt=""></b>
+                <b><img src="<?= base_url() . site_v2("SETTING_LOGO") ?>" alt=""></b>
                 <span class="logo">
-                    <img src="<?= base_url() ?>assets/img/logo-text.png" alt="">
+                    <label for=""><?= site_v2("SETTING_NAME_SHOP") ?></label>
                 </span>
             </a>
         </div>

@@ -1,10 +1,15 @@
 <?php
 include_once __DIR__ . "/../post.php";
+$result_authorization = include_once __DIR__ . "/../authorization.php";
+if ($result_authorization != "OK") {
+    print_r($result_authorization);
+    return;
+}
 
 $users = new Users();
 $data = json_decode(file_get_contents('php://input'));
 
-$result = $users->login($data);
+$result = $users->login_admin($data);
 $err_code = $result['err_code'];
 
 if ($err_code != 0) {

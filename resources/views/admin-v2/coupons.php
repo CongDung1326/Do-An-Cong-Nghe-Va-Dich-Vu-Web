@@ -2,10 +2,10 @@
 // if (!defined(IN_SITE)) die("The Request Not Found");
 
 $body = [
-    "title" => site("title"),
-    "desc" => site("description"),
-    "keyword" => site("keyword"),
-    "author" => site("author")
+    "title" => site_v2("SETTING_TITLE"),
+    "desc" => site_v2("SETTING_DESCRIPTION"),
+    "keyword" => site_v2("SETTING_KEYWORD"),
+    "author" => site_v2("SETTING_AUTHOR")
 ];
 $body['header'] = '';
 $body['footer'] = '';

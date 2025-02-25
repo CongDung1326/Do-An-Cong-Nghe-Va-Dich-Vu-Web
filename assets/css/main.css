@@ -493,6 +493,22 @@ hr {
   text-align: center;
 }
 
+.header .header-container .nav-logo b img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.full-size-image {
+  width: 100%;
+  height: 100%;
+}
+
+.header .header-container .nav-logo .logo {
+  color: #e22a6f;
+  font-weight: bold;
+}
+
 .header .header-container .nav-left,
 .header .header-container .nav-right {
   position: relative;
